@@ -1,9 +1,24 @@
 ---
 import { SITE } from 'astrowind:config';
+// Still import the files
+import logoLight from '~/assets/images/logo-light.png';
+import logoDark from '~/assets/images/logo-dark.png';
 ---
 
-<span
-  class="self-center ml-2 rtl:ml-0 rtl:mr-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white"
->
-  🚀 {SITE?.name}
+<span class="self-center ml-2 rtl:ml-0 rtl:mr-2 flex items-center overflow-visible">
+  <div class="block dark:hidden">
+    <img 
+      src={logoDark.src} 
+      alt={SITE?.name || 'UXHM'} 
+      class="h-10 w-auto transform scale-[2.5] origin-left" 
+    />
+  </div>
+
+  <div class="hidden dark:block">
+    <img 
+      src={logoLight.src} 
+      alt={SITE?.name || 'UXHM'} 
+      class="h-10 w-auto transform scale-[2.5] origin-left" 
+    />
+  </div>
 </span>

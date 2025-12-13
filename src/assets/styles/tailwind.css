@@ -2,6 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* UXHM Brand Colours */
+  --aw-color-primary: #00A79D;     /* Electric Teal (Buttons) */
+  --aw-color-secondary: #212529;   /* Charcoal (Headings) */
+  
+  /* FIXED: Changed from "Mist" (#E6F7F6) to "Electric Teal" (#00A79D) so text is visible */
+  --aw-color-accent: #00A79D;      
+  
+  --aw-color-text-heading: #212529; 
+  --aw-color-text-default: #343A40; 
+  --aw-color-text-muted: #64748b;
+  
+  --aw-color-bg-page: #FFFFFF;
+  --aw-color-bg-page-dark: #212529; /* Brand Charcoal */
+}
+
+/* Dark Mode Overrides */
+.dark {
+  --aw-color-bg-page: var(--aw-color-bg-page-dark);
+  --aw-color-text-heading: #FFFFFF;
+  --aw-color-text-default: #D1D5DB;
+  --aw-color-text-muted: #9CA3AF;
+  
+  /* In dark mode, we keep the accent Teal, it pops nicely against Charcoal */
+  --aw-color-accent: #00A79D; 
+}
+
 @layer utilities {
   .bg-page {
     background-color: var(--aw-color-bg-page);
@@ -13,16 +40,20 @@
     background-color: var(--aw-color-bg-page);
   }
   .text-page {
-    color: var(--aw-color-text-page);
+    color: var(--aw-color-text-default);
   }
   .text-muted {
     color: var(--aw-color-text-muted);
+  }
+  /* This ensures .text-accent uses the new variable */
+  .text-accent {
+    color: var(--aw-color-accent);
   }
 }
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center rounded-full border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-blue-500 focus:ring-offset-blue-200 focus:ring-2 focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 cursor-pointer;
+    @apply inline-flex items-center justify-center rounded-full border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-[var(--aw-color-primary)] focus:ring-offset-gray-200 focus:ring-2 focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 cursor-pointer;
   }
 
   .btn-primary {
@@ -42,14 +73,12 @@
   @apply bg-page md:bg-white/90 md:backdrop-blur-md;
   box-shadow: 0 0.375rem 1.5rem 0 rgb(140 152 164 / 13%);
 }
+
 .dark #header.scroll > div:first-child,
 #header.scroll.dark > div:first-child {
-  @apply bg-page md:bg-[#030621e6] border-b border-gray-500/20;
+  @apply bg-page md:bg-[#212529]/90 border-b border-gray-500/20;
   box-shadow: none;
 }
-/* #header.scroll > div:last-child {
-  @apply py-3;
-} */
 
 #header.expanded nav {
   position: fixed;
@@ -84,8 +113,6 @@
 [data-aw-toggle-menu].expanded g > path:last-child {
   @apply rotate-45 translate-y-[-8px] translate-x-[14px];
 }
-
-/* To deprecated */
 
 .dd *:first-child {
   margin-top: 0;

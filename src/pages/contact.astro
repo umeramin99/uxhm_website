@@ -5,19 +5,16 @@ import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = {
-  title: 'Contact',
+  title: 'Contact UXHM | Start Your Project',
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- HeroText Widget ******************* -->
-
-  <HeroText tagline="Contact" title="Let's Connect!" />
+  <HeroText tagline="Contact" title="Let’s Build Your Vision." />
 
   <ContactUs
     id="form"
-    title="Drop us a message today!"
-    subtitle="For quicker answers, explore our FAQs section. You may find the solution you're looking  for right there! If not, our support team is delighted to help you."
+    title="Tell us about your project"
     inputs={[
       {
         type: 'text',
@@ -29,6 +26,12 @@ const metadata = {
         name: 'email',
         label: 'Email',
       },
+      {
+        type: 'text',
+        name: 'service',
+        label: 'What do you need?',
+        placeholder: 'e.g. New Website, Mobile App, Branding, Maintenance...',
+      },
     ]}
     textarea={{
       label: 'Message',
@@ -37,42 +40,21 @@ const metadata = {
       label:
         'By submitting this contact form, you acknowledge and agree to the collection of your personal information.',
     }}
-    description="Our support team typically responds within 24 business hours."
-  />
-
-  <!-- Features2 Widget ************** -->
+  >
+    <Fragment slot="subtitle">
+      Fill out the form below. We’ll reply within one business day to arrange a free, no-obligation chat.
+      <br /><br />
+      Prefer to email us directly? Reach us at <a href="mailto:hello@uxhm.co.uk" class="underline text-primary">hello@uxhm.co.uk</a>
+    </Fragment>
+  </ContactUs>
 
   <Features2
     title="We are here to help!"
     items={[
       {
-        title: 'General support',
-        description: `Chat with us for inquiries related to account management, website navigation, payment issues, accessing purchased templates or general questions about the website's functionality.`,
-      },
-      {
-        title: 'Contact sales',
-        description:
-          'Chat with us for questions about purchases, customization options, licensing for commercial use, inquiries about specific template, etc.',
-      },
-      {
-        title: 'Technical support',
-        description:
-          'Chat with us when facing issues like template installation, problems editing difficulties, compatibility issues with software or download errors, or other technical challenges related to using the templates.',
-      },
-      {
-        title: 'Phone',
-        description: '+1 (234) 567-890',
-        icon: 'tabler:headset',
-      },
-      {
         title: 'Email',
-        description: 'contact@support.com',
+        description: 'hello@uxhm.co.uk',
         icon: 'tabler:mail',
-      },
-      {
-        title: 'Location',
-        description: '1234 Lorem Ipsum St, 12345, Miami, EEUU',
-        icon: 'tabler:map-pin',
       },
     ]}
   />

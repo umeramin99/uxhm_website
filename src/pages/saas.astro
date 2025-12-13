@@ -1,0 +1,92 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import Content from '~/components/widgets/Content.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Our Work | UXHM Portfolio',
+};
+---
+
+<Layout metadata={metadata}>
+  <HeroText
+    tagline="Portfolio"
+    title="Quality Work That Drives Results."
+    subtitle="We’re new, but our standards are high. See the level of care we put into every project."
+  />
+
+  <Content
+    isReversed
+    title="Nottingham Elite Plumbing"
+    subtitle="Trustworthy Trades."
+    items={[
+      {
+        title: 'The Challenge',
+        description:
+          'A local plumber needed to generate emergency call-out leads but had an outdated site that didn’t work on mobile phones.',
+      },
+      {
+        title: 'The Solution',
+        description:
+          'We designed a mobile-first website with a prominent "Call Now" button stuck to the top of the screen. We added a simple contact form for non-urgent quotes.',
+      },
+      {
+        title: 'The Result',
+        description:
+          'A clean, professional look that builds instant trust and has increased local inquiries.',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+      alt: 'Nottingham Elite Plumbing Website Mockup',
+    }}
+  >
+  </Content>
+
+  <Content
+    isAfterContent
+    title="HM Financial Coaching"
+    subtitle="Professional & Personal."
+    items={[
+      {
+        title: 'The Challenge',
+        description:
+          'A professional consultant needed to build a personal brand and establish expertise to attract high-value clients.',
+      },
+      {
+        title: 'The Solution',
+        description:
+          'We created a stylish, engaging site focused on personal branding. We integrated a blog for content marketing and a seamless "Book a Consultation" calendar system.',
+      },
+      {
+        title: 'The Result',
+        description:
+          'A sophisticated platform that positions the founder as an industry expert.',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2015&q=80',
+      alt: 'HM Financial Coaching Website Mockup',
+    }}
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Start Your Project',
+        href: '/contact',
+      },
+    ]}
+  >
+    <Fragment slot="title">Like what you see?</Fragment>
+    <Fragment slot="subtitle">
+      Let’s build yours next.
+    </Fragment>
+  </CallToAction>
+</Layout>

@@ -1,0 +1,119 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import Pricing from '~/components/widgets/Pricing.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+
+const metadata = {
+  title: 'Maintenance & Support Plans | UXHM',
+};
+---
+
+<Layout metadata={metadata}>
+  <HeroText
+    tagline="Monthly Care Plans"
+    title="Peace of Mind for Your Business."
+    subtitle="Websites need care, and growing businesses need support. Choose a plan and let us handle the daily grind."
+  />
+
+  <Pricing
+    title="Simple Monthly Plans"
+    prices={[
+      {
+        title: 'Safe Hands',
+        subtitle: 'For business owners who want their site to "just work".',
+        price: 50,
+        period: '/ Month',
+        items: [
+          { description: 'High-Speed Hosting' },
+          { description: 'Daily Security Backups' },
+          { description: 'Plugin & CMS Updates' },
+          { description: 'Uptime Monitoring' },
+          { description: '30 Mins Content Tweaks / Mo' },
+        ],
+        callToAction: {
+          target: '_blank',
+          text: 'Choose Safe Hands',
+          href: '/contact',
+          variant: 'primary',
+        },
+      },
+      {
+        title: 'Digital Presence',
+        subtitle: 'Maintain your site AND your social feed.',
+        price: 100,
+        period: '/ Month',
+        items: [
+          { description: 'Everything in Safe Hands' },
+          { description: 'Social Media Scheduling' },
+          { description: '2x Branded Posts / Week' },
+          { description: 'Monthly Performance Report' },
+          { description: 'Priority Email Support' },
+        ],
+        callToAction: {
+          target: '_blank',
+          text: 'Choose Digital Presence',
+          href: '/contact',
+          variant: 'primary',
+        },
+        hasRibbon: true,
+        ribbonTitle: 'Best Value',
+      },
+      {
+        title: 'Custom Operations',
+        subtitle: 'Full operational support for scaling businesses.',
+        price: 'Custom',
+        period: 'Quote',
+        items: [
+          { description: 'Inbound Call Handling' },
+          { description: 'E-commerce Order Support' },
+          { description: 'Live Chat & Email Management' },
+          { description: 'Dedicated Account Manager' },
+          { description: 'Tailored SLAs & Reporting' },
+        ],
+        callToAction: {
+          target: '_blank',
+          text: 'Contact for Quote',
+          href: '/contact',
+          variant: 'primary',
+        },
+      },
+    ]}
+  />
+
+  <FAQs
+    title="Common Questions"
+    subtitle="Everything you need to know about our support packages."
+    items={[
+      {
+        title: 'Is hosting included in the price?',
+        description:
+          'Yes. Both the "Safe Hands" and "Digital Presence" plans include high-speed, secure hosting. If you are already hosted elsewhere, we can manage that for you or migrate you to our servers for free.',
+      },
+      {
+        title: 'Am I tied into a long contract?',
+        description:
+          'No. All our maintenance plans are monthly rolling contracts. You can upgrade, downgrade, or cancel with just 30 days notice. We believe our service should be enough to keep you.',
+      },
+      {
+        title: 'What does "Custom Operations" actually cover?',
+        description:
+          'This is for businesses that need human help, not just software updates. We can act as your customer support team, answering emails, managing live chat, or even processing e-commerce orders. We tailor a package to your specific operational needs.',
+      },
+      {
+        title: 'What happens if my site gets hacked?',
+        description:
+          'If you are on any of our maintenance plans, we fix it for free. We take daily backups, so we can instantly restore your site to a safe version while we clean up the issue.',
+      },
+      {
+        title: 'Do you handle social media content?',
+        description:
+          'Yes, on the "Digital Presence" plan. We create and schedule 2 branded posts per week for platforms like Instagram, LinkedIn, or Facebook to keep your audience engaged.',
+      },
+    ]}
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </FAQs>
+</Layout>
