@@ -2,62 +2,62 @@
 import '@fontsource-variable/inter';
 
 // 'DM Sans'
-// Nunito
-// Dosis
-// Outfit
-// Roboto
-// Literata
+// 'Nunito'
+// 'Dosis'
+// 'Outfit'
+// 'Roboto'
+// 'Literata'
 // 'IBM Plex Sans'
-// Karla
-// Poppins
+// 'Karla'
+// 'Poppins'
 // 'Fira Sans'
 // 'Libre Franklin'
-// Inconsolata
-// Raleway
-// Oswald
-// 'Space Grotesk'
-// Urbanist
+// 'Inconsolata'
+// 'Raleway'
+// 'Telegram'
+// 'Merriweather'
 ---
 
 <style is:inline>
   :root {
-    --aw-font-sans: 'Inter Variable';
-    --aw-font-serif: 'Inter Variable';
-    --aw-font-heading: 'Inter Variable';
-
-    --aw-color-primary: rgb(1 97 239);
-    --aw-color-secondary: rgb(1 84 207);
-    --aw-color-accent: rgb(109 40 217);
+    /* Your TEAL Brand Color */
+    --aw-color-primary: #00A3A3; 
+    
+    /* Secondary Color (Darker Teal or Navy) */
+    --aw-color-secondary: #006060; 
+    
+    /* Accent Color (highlights) */
+    --aw-color-accent: #00D1D1;
 
     --aw-color-text-heading: rgb(0 0 0);
     --aw-color-text-default: rgb(16 16 16);
     --aw-color-text-muted: rgb(16 16 16 / 66%);
     --aw-color-bg-page: rgb(255 255 255);
 
-    --aw-color-bg-page-dark: rgb(3 6 32);
+    --aw-font-sans: 'Inter Variable';
+    --aw-font-serif: 'Inter Variable';
+    --aw-font-heading: 'Inter Variable';
 
-    ::selection {
-      background-color: lavender;
-    }
+    --aw-origin-font-sans: '';
+    --aw-origin-font-serif: '';
+    --aw-origin-font-heading: '';
+
+    --aw-spacing-4xl: 10rem;
   }
 
+  /* DARK MODE COLORS */
   .dark {
     --aw-font-sans: 'Inter Variable';
     --aw-font-serif: 'Inter Variable';
     --aw-font-heading: 'Inter Variable';
 
-    --aw-color-primary: rgb(1 97 239);
-    --aw-color-secondary: rgb(1 84 207);
-    --aw-color-accent: rgb(109 40 217);
+    --aw-color-primary: #00D1D1; /* Lighter Teal for Dark Mode */
+    --aw-color-secondary: #00A3A3;
+    --aw-color-accent: #00FFFF;
 
     --aw-color-text-heading: rgb(247, 248, 248);
     --aw-color-text-default: rgb(229 236 246);
     --aw-color-text-muted: rgb(229 236 246 / 66%);
     --aw-color-bg-page: rgb(3 6 32);
-
-    ::selection {
-      background-color: black;
-      color: snow;
-    }
   }
 </style>
