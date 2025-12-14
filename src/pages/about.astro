@@ -12,31 +12,48 @@ const metadata = {
 
 <Layout metadata={metadata}>
   <HeroText
-    tagline="About Us"
-    title="We’re Here to Help Small Businesses Thrive."
-    subtitle="Too many fantastic plumbers, consultants, and trainers are left behind because their websites are outdated. UXHM was founded to fix that."
+    tagline="Global Standards. Local Focus."
+    title="We’re Here to Help UK Small Businesses Thrive."
+    subtitle="We bring international development experience to local business owners who have been left behind by the digital age."
   />
 
   <Content
-    isReversed
-    title="Meet the Founder"
+    title="From Global Tech to the Local High Street"
     image={{
-      src: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1632&q=80',
-      alt: 'UXHM Founder',
+      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      alt: 'Global Tech Team',
     }}
   >
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        My mission is simple: give you a powerful website without the jargon.
-      </h3>
       <p class="mb-4 text-muted">
-        My name is <strong>[Your Name Here]</strong>, and I started this company because I saw too many business owners struggling with "tech headaches" instead of running their business.
+        <strong>UXHM</strong> was born from a realisation. After years of developing complex software and digital solutions for businesses around the world, our focus shifted when we established our base in the UK.
       </p>
       <p class="mb-4 text-muted">
-        I handle every project personally. I don’t just see a "web design project"; I see a business owner trusting me to help them grow their livelihood.
+        Upon arriving, we noticed a glaring gap in the market. While UK small business owners the plumbers, the consultants, the drivers are incredible at their craft, their online presence was often non-existent.
       </p>
       <p class="text-muted">
-        Whether you need a simple brochure site or a complex app, I'm here to guide you through it—in plain English, with clear pricing and no surprises.
+        We saw individual owners struggling to get noticed because big agencies ignored them, and DIY tools were too complicated. We realized that local UK businesses didn't need just another website; they needed the same professional standard of technology used by global companies, but simplified and priced for the sole trader.
+      </p>
+    </Fragment>
+  </Content>
+
+  <Content
+    isReversed
+    title="Bridging the Digital Gap"
+    image={{
+      src: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      alt: 'Local Business Success',
+    }}
+  >
+    <Fragment slot="content">
+      <p class="mb-4 text-muted">
+        Our mission is to bring that global expertise to the local level. We believe that a local taxi firm or a freelance architect deserves the same quality of digital infrastructure as a multinational corporation.
+      </p>
+      <p class="mb-4 text-muted">
+        At UXHM, we strip away the complexity. We take the skills honed from working internationally and apply them to solve local problems: getting your phone to ring, getting your appointments booked, and getting your brand seen.
+      </p>
+      <p class="text-muted">
+        We don't just build websites; we build the digital foundation that allows individual business owners to compete, grow, and succeed in a modern economy.
       </p>
     </Fragment>
 
@@ -46,23 +63,23 @@ const metadata = {
   </Content>
 
   <Features3
-    title="Our Core Values"
-    subtitle="How we work differently."
+    title="Why Choose UXHM?"
+    subtitle="Big-business capability with small-business care."
     columns={3}
     items={[
       {
-        title: 'Expert & Capable',
-        description: 'We know the tech inside out, so you don’t have to.',
-        icon: 'tabler:certificate',
+        title: 'World-Class Experience',
+        description: 'We apply international development standards to every project, ensuring your site is faster, safer, and better built than the competition.',
+        icon: 'tabler:world',
       },
       {
-        title: 'Clear & Direct',
-        description: 'No jargon. No hidden fees. Radical transparency.',
-        icon: 'tabler:message-circle',
+        title: 'Local Understanding',
+        description: 'We understand the specific needs of UK trades and service providers. We know what works in this market.',
+        icon: 'tabler:map-pin',
       },
       {
         title: 'A True Partner',
-        description: 'We are here for the long haul, not just a quick launch.',
+        description: 'We are here for the long haul. With our monthly maintenance plans, we ensure your business stays online and secure while you focus on your customers.',
         icon: 'tabler:heart-handshake',
       },
     ]}
@@ -72,14 +89,14 @@ const metadata = {
     actions={[
       {
         variant: 'primary',
-        text: 'Let’s Chat',
+        text: 'Get Your Free Quote',
         href: '/contact',
       },
     ]}
   >
-    <Fragment slot="title">Ready to work with us?</Fragment>
+    <Fragment slot="title">Ready to upgrade your business?</Fragment>
     <Fragment slot="subtitle">
-      Let's discuss your project. Your quote is free, and there’s no obligation.
+      Let’s have a chat. Your quote is free, and there’s no obligation.
     </Fragment>
   </CallToAction>
 </Layout>
