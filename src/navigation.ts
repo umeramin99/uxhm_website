@@ -58,6 +58,7 @@ export const footerData = {
       links: [
         { text: 'Privacy Policy', href: getPermalink('/privacy') },
         { text: 'Terms & Conditions', href: getPermalink('/terms') },
+        { text: 'Cookies Policy', href: getPermalink('/cookies') },
       ],
     },
   ],
@@ -66,6 +67,6 @@ export const footerData = {
     { ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: '#' },
   ],
   footNote: `
-    <span class="font-bold text-gray-800 dark:text-gray-200">UXHM.co.uk</span> · The A-Z Digital Partner for UK Small Businesses.
+    <span class="font-bold text-gray-800 dark:text-gray-200">uxhm.co.uk</span> · © 2025 UXHM.&nbsp; All rights reserved.&nbsp; <span class="font-bold text-gray-800 dark:text-gray-200">UXHM</span> is a trading name of <span class="font-bold text-gray-800 dark:text-gray-200">Hira Saeed</span> .
   `,
 };

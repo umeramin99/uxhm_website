@@ -1,120 +1,126 @@
 ---
-title: 'Terms and Conditions'
+title: 'TERMS AND CONDITIONS OF BUSINESS'
 layout: '~/layouts/MarkdownLayout.astro'
 ---
 
-_Last updated_: January 06, 2023
+**Last Updated:** October 2025
 
-Please read these terms and conditions carefully before using Our Service.
+---
 
-## Interpretation and Definitions
+## 1. Introduction & Definitions
 
-### Interpretation
+These Terms and Conditions ("Terms") govern the provision of web design, development, app development, marketing, and maintenance services by **Hira Saeed** trading as **UXHM** ("we," "us," or "our") to you ("the Client").
 
-The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.
+* **"The Client"** means the person or entity requesting the Services.
+* **"Services"** means the specific work to be performed (e.g., Website Build, App Development, SEO, Monthly Maintenance) as described in the Invoice or Proposal.
+* **"The Project"** means the body of work being undertaken.
+* **"Sole Trader"** refers to the legal status of the business. UXHM is a trading name of Hira Saeed, based in Nottingham, United Kingdom.
 
-### Definitions
+By accepting a quote, making a payment, or using our services, you acknowledge that you have read, understood, and agreed to be bound by these Terms.
 
-For the purposes of these Terms and Conditions:
+## 2. Project Acceptance & Quotes
 
-- **Affiliate** means an entity that controls, is controlled by or is under common control with a party, where "control" means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.
+### 2.1. Quotes
+All quotes provided by UXHM are valid for **30 days** from the date of issue.
 
-- **Country** refers to: California, United States
+### 2.2. Acceptance
+A project is deemed accepted when the Client pays the required Deposit or confirms acceptance in writing (via email).
 
-- **Company** (referred to as either "the Company", "We", "Us" or "Our" in this Agreement) refers to AstroWind LLC, 1 Cupertino, CA 95014.
+### 2.3. Scope
+The scope of the Project is strictly limited to what is set out in the accepted Quote. Any additional features, pages, or design changes requested after acceptance will be treated as a "Variation" and may incur additional fees.
 
-- **Device** means any device that can access the Service such as a computer, a cellphone or a digital tablet.
+## 3. Payment Terms (Design & Build Projects)
 
-- **Service** refers to the Website.
+### 3.1. Deposits
+* **Small Projects (< £1,000):** A **50% deposit** is required before work commences.
+* **Large Projects (> £1,000):** A **40% deposit** is required to start, **30%** upon design approval, and **30%** before launch.
 
-- **Terms and Conditions** (also referred as "Terms") mean these Terms and Conditions that form the entire agreement between You and the Company regarding the use of the Service. This Terms and Conditions agreement is a Demo.
+### 3.2. Final Payment
+The remaining balance must be paid in full **before** the website or app is made live on the Client’s domain or handed over.
 
-- **Third-party Social Media Service** means any services or content (including data, information, products or services) provided by a third-party that may be displayed, included or made available by the Service.
+### 3.3. Late Payment
+We reserve the right to charge interest on overdue invoices at a rate of **8% plus the Bank of England base rate**, pursuant to the *Late Payment of Commercial Debts (Interest) Act 1998*.
 
-- **Website** refers to AstroWind, accessible from [https://astrowind.vercel.app](https://astrowind.vercel.app)
+## 4. Client Obligations
 
-- **You** means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.
+### 4.1. Content Supply
+Unless you have hired us for copywriting, you are responsible for supplying all text, images, and media. We are not responsible for delays caused by your failure to supply content.
 
-## Acknowledgment
+### 4.2. Permissions
+You warrant that you own or have permission to use all text, images, and media you provide. You agree to indemnify UXHM against any claims of copyright infringement arising from materials you supply.
 
-These are the Terms and Conditions governing the use of this Service and the agreement that operates between You and the Company. These Terms and Conditions set out the rights and obligations of all users regarding the use of the Service.
+### 4.3. Approval
+You agree to review work within a reasonable timeframe (5 business days). If no feedback is received, work may be deemed accepted.
 
-Your access to and use of the Service is conditioned on Your acceptance of and compliance with these Terms and Conditions. These Terms and Conditions apply to all visitors, users and others who access or use the Service.
+## 5. Design & Development Process
 
-By accessing or using the Service You agree to be bound by these Terms and Conditions. If You disagree with any part of these Terms and Conditions then You may not access the Service.
+### 5.1. Revisions
+Our standard pricing includes **two (2) rounds of revisions** during the design phase. Additional revisions or significant design changes after the design has been signed off will be charged at our standard hourly rate.
 
-You represent that you are over the age of 18\. The Company does not permit those under 18 to use the Service.
+### 5.2. Browsers & Devices
+We test our work on current versions of major browsers (Chrome, Safari, Firefox, Edge). We do not guarantee backward compatibility with obsolete browsers (e.g., Internet Explorer).
 
-Your access to and use of the Service is also conditioned on Your acceptance of and compliance with the Privacy Policy of the Company. Our Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your personal information when You use the Application or the Website and tells You about Your privacy rights and how the law protects You. Please read Our Privacy Policy carefully before using Our Service.
+### 5.3. Mobile Apps
+For mobile apps, we cannot guarantee approval by the Apple App Store or Google Play Store, as their policies are subject to change. We will, however, follow all standard guidelines during development.
 
-## Links to Other Websites
+## 6. Intellectual Property (IP)
 
-Our Service may contain links to third-party web sites or services that are not owned or controlled by the Company.
+### 6.1. Transfer of Rights
+Upon **full payment** of all fees, UXHM grants the Client full ownership of the finished website design and visual assets.
 
-The Company has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party web sites or services. You further acknowledge and agree that the Company shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with the use of or reliance on any such content, goods or services available on or through any such web sites or services.
+### 6.2. Our Rights
+UXHM retains the right to use the finished work in our portfolio and for marketing purposes.
 
-We strongly advise You to read the terms and conditions and privacy policies of any third-party web sites or services that You visit.
+### 6.3. Code Libraries
+Any third-party software, plugins, or open-source code used in the project remain the property of their respective creators and are used under license.
 
-## Termination
+## 7. Monthly Maintenance & Management (Schedule A)
 
-We may terminate or suspend Your access immediately, without prior notice or liability, for any reason whatsoever, including without limitation if You breach these Terms and Conditions.
+*The following terms apply specifically to clients on the **"Safe Hands" (£50/mo)** and **"Digital Presence" (£100/mo)** plans.*
 
-Upon termination, Your right to use the Service will cease immediately.
+### 7.1. Scope of Plans
+* **"Safe Hands" (£50/mo):** Includes hosting, SSL renewal, daily backups, monthly plugin/theme updates, and uptime monitoring. Includes up to **30 mins** of minor text/image changes per month.
+* **"Digital Presence" (£100/mo):** Includes all of the above plus **2x weekly social media posts** (static images & scheduling).
+* **Exclusions:** Does not include functionality upgrades, malware removal (unless restored via backup), or fixing errors caused by Client interference.
 
-## Limitation of Liability
+### 7.2. Payment & Suspension
+* Fees are due on the **1st of every month** via Standing Order or Direct Debit.
+* **Failure to Pay:** If payment fails, you have a **7-day grace period**. If unpaid after 7 days, services (including hosting) will be **suspended immediately**.
+* **Re-activation Fee:** A £50 administrative fee applies to re-activate a suspended account.
 
-Notwithstanding any damages that You might incur, the entire liability of the Company and any of its suppliers under any provision of this Terms and Your exclusive remedy for all of the foregoing shall be limited to the amount actually paid by You through the Service or 100 USD if You haven't purchased anything through the Service.
+### 7.3. Security & Hacking (Limitation of Liability)
+* **No Guarantee:** While we use industry-standard security, the internet is not 100% secure. UXHM **does not guarantee** that your site will be immune to hacking, viruses, or malware.
+* **Breach Response:** In the event of a hack, we will attempt to restore the site from the latest clean backup. If the backup is compromised or manual cleaning is required, this is **billable work** outside the monthly fee.
+* **Data Loss:** UXHM is not liable for any data loss (orders, emails, content) resulting from server failure or security breaches. The Client is advised to keep offline records of critical business data.
 
-To the maximum extent permitted by applicable law, in no event shall the Company or its suppliers be liable for any special, incidental, indirect, or consequential damages whatsoever (including, but not limited to, damages for loss of profits, loss of data or other information, for business interruption, for personal injury, loss of privacy arising out of or in any way related to the use of or inability to use the Service, third-party software and/or third-party hardware used with the Service, or otherwise in connection with any provision of this Terms), even if the Company or any supplier has been advised of the possibility of such damages and even if the remedy fails of its essential purpose.
+### 7.4. Cancellation
+* You may cancel your plan with **30 days' written notice**.
+* Upon cancellation, we will provide you with your website files (if requested) but will cease all hosting and backups.
 
-Some states do not allow the exclusion of implied warranties or limitation of liability for incidental or consequential damages, which means that some of the above limitations may not apply. In these states, each party's liability will be limited to the greatest extent permitted by law.
+## 8. Limitation of Liability
 
-## "AS IS" and "AS AVAILABLE" Disclaimer
+### 8.1. General
+UXHM is a Sole Trader business. To the maximum extent permitted by law, our liability for any claim arising out of this agreement shall be limited to the **total amount paid by the Client** for the specific project or service in the preceding 3 months.
 
-The Service is provided to You "AS IS" and "AS AVAILABLE" and with all faults and defects without warranty of any kind. To the maximum extent permitted under applicable law, the Company, on its own behalf and on behalf of its Affiliates and its and their respective licensors and service providers, expressly disclaims all warranties, whether express, implied, statutory or otherwise, with respect to the Service, including all implied warranties of merchantability, fitness for a particular purpose, title and non-infringement, and warranties that may arise out of course of dealing, course of performance, usage or trade practice. Without limitation to the foregoing, the Company provides no warranty or undertaking, and makes no representation of any kind that the Service will meet Your requirements, achieve any intended results, be compatible or work with any other software, applications, systems or services, operate without interruption, meet any performance or reliability standards or be error free or that any errors or defects can or will be corrected.
+### 8.2. Consequential Loss
+Under no circumstances shall UXHM be liable for any indirect or consequential loss, including but not limited to loss of profit, loss of business, loss of revenue, or loss of data, even if advised of the possibility of such damages.
 
-Without limiting the foregoing, neither the Company nor any of the company's provider makes any representation or warranty of any kind, express or implied: (i) as to the operation or availability of the Service, or the information, content, and materials or products included thereon; (ii) that the Service will be uninterrupted or error-free; (iii) as to the accuracy, reliability, or currency of any information or content provided through the Service; or (iv) that the Service, its servers, the content, or e-mails sent from or on behalf of the Company are free of viruses, scripts, trojan horses, worms, malware, timebombs or other harmful components.
+### 8.3. Third-Party Failures
+We are not responsible for downtime or interruptions caused by third-party providers (e.g., Hosting companies, ISP failures, Google API changes).
 
-Some jurisdictions do not allow the exclusion of certain types of warranties or limitations on applicable statutory rights of a consumer, so some or all of the above exclusions and limitations may not apply to You. But in such a case the exclusions and limitations set forth in this section shall be applied to the greatest extent enforceable under applicable law.
+## 9. Termination
 
-## Governing Law
+* Either party may terminate this agreement immediately if the other party commits a material breach of these Terms (e.g., failure to pay).
+* In the event of termination by the Client during a project, the Client will be invoiced for all work completed up to that date. Deposits are non-refundable.
 
-The laws of the Country, excluding its conflicts of law rules, shall govern this Terms and Your use of the Service. Your use of the Application may also be subject to other local, state, national, or international laws.
+## 10. Governing Law
 
-## Disputes Resolution
+These Terms and Conditions shall be governed by and construed in accordance with the laws of **England and Wales**. Any disputes arising under these Terms shall be subject to the exclusive jurisdiction of the courts of England and Wales.
 
-If You have any concern or dispute about the Service, You agree to first try to resolve the dispute informally by contacting the Company.
+---
 
-## For European Union (EU) Users
+### Contact Us
+If you have any questions regarding these Terms, please contact us:
 
-If You are a European Union consumer, you will benefit from any mandatory provisions of the law of the country in which you are resident in.
-
-## United States Legal Compliance
-
-You represent and warrant that (i) You are not located in a country that is subject to the United States government embargo, or that has been designated by the United States government as a "terrorist supporting" country, and (ii) You are not listed on any United States government list of prohibited or restricted parties.
-
-## Severability and Waiver
-
-### Severability
-
-If any provision of these Terms is held to be unenforceable or invalid, such provision will be changed and interpreted to accomplish the objectives of such provision to the greatest extent possible under applicable law and the remaining provisions will continue in full force and effect.
-
-### Waiver
-
-Except as provided herein, the failure to exercise a right or to require performance of an obligation under these Terms shall not effect a party's ability to exercise such right or require such performance at any time thereafter nor shall the waiver of a breach constitute a waiver of any subsequent breach.
-
-## Translation Interpretation
-
-These Terms and Conditions may have been translated if We have made them available to You on our Service. You agree that the original English text shall prevail in the case of a dispute.
-
-## Changes to These Terms and Conditions
-
-We reserve the right, at Our sole discretion, to modify or replace these Terms at any time. If a revision is material We will make reasonable efforts to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at Our sole discretion.
-
-By continuing to access or use Our Service after those revisions become effective, You agree to be bound by the revised terms. If You do not agree to the new terms, in whole or in part, please stop using the website and the Service.
-
-## Contact Us
-
-If you have any questions about these Terms and Conditions, You can contact us:
-
-- By email: somecoolemail@domain.com
+* **Email:** hello@uxhm.co.uk
+* **Location:** Nottingham, UK
