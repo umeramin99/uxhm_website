@@ -64,11 +64,25 @@
   }
 
   .btn-primary {
-    @apply btn font-semibold bg-primary text-white border-primary hover:bg-secondary hover:border-secondary hover:text-white dark:text-white dark:bg-primary dark:border-primary dark:hover:border-secondary dark:hover:bg-secondary;
+    /* Base Button */
+    @apply btn font-semibold bg-primary text-white border-primary;
+    
+    /* HOVER & PRESS STATES (Light & Dark) */
+    /* Instead of turning Charcoal, we turn to a Darker Teal (#008f87) so it stands out */
+    @apply hover:bg-[#008f87] hover:border-[#008f87] hover:text-white;
+    
+    /* DARK MODE SPECIFIC */
+    /* Ensure text stays white and background behaves the same */
+    @apply dark:text-white dark:bg-primary dark:border-primary dark:hover:bg-[#008f87] dark:hover:border-[#008f87];
   }
 
-  .btn-secondary {
+.btn-secondary {
     @apply btn;
+    /* LIGHT MODE HOVER: Teal Text, Teal Border, Transparent BG */
+    @apply hover:text-primary hover:border-primary hover:bg-transparent;
+    
+    /* DARK MODE HOVER: Teal Text, Teal Border, Transparent BG */
+    @apply dark:hover:text-primary dark:hover:border-primary dark:hover:bg-transparent;
   }
 
   .btn-tertiary {
