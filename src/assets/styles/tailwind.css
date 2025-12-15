@@ -2,23 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-<<<<<<< HEAD
-:root {
-  /* UXHM Brand Colours  */
-  --aw-color-primary: #00A79D;    /* Electric Teal */
-  --aw-color-secondary: #212529;  /* Charcoal */
-  --aw-color-accent: #E6F7F6;     /* Teal Mist */
-
-  --aw-color-text-heading: #212529; /* Charcoal */
-  --aw-color-text-default: #343A40; /* Dark Grey */
-  --aw-color-text-muted: #64748b;   /* Muted Grey */
-  
-  --aw-color-bg-page: #FFFFFF;      /* White */
-  --aw-color-bg-page-dark: #212529; /* Charcoal (Dark Mode) */
-
-  --aw-color-bg-selection: #00A79D; /* Highlight color */
-}
-
 =======
 :root {
   /* UXHM Brand Colours */
