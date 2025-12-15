@@ -2,14 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-=======
 :root {
   /* UXHM Brand Colours */
-  --aw-color-primary: #00A79D;     /* Electric Teal (Buttons) */
-  --aw-color-secondary: #212529;   /* Charcoal (Headings) */
-  
-  /* Accent: Electric Teal */
-  --aw-color-accent: #00A79D;      
+  --aw-color-primary: #00A79D;     /* Electric Teal */
+  --aw-color-secondary: #212529;   /* Charcoal */
+  --aw-color-accent: #00A79D;      /* Electric Teal */
   
   --aw-color-text-heading: #212529; 
   --aw-color-text-default: #343A40; 
@@ -21,33 +18,35 @@
 
 /* Dark Mode Overrides */
 .dark {
-  /* FIX: Use !important to force the Charcoal immediately and stop the Blue Flash */
+  /* Strict: Use strictly #212529 for background */
   --aw-color-bg-page: #212529 !important;
   
+  /* Strict: Use strictly #00A79D for Primary/Accent */
+  --aw-color-primary: #00A79D; 
+  --aw-color-accent: #00A79D;
+  
+  /* Strict: Use strictly #212529 for Secondary */
+  --aw-color-secondary: #212529; 
+  
+  /* Text Colors */
   --aw-color-text-heading: #FFFFFF;
   --aw-color-text-default: #D1D5DB;
   --aw-color-text-muted: #9CA3AF;
-  
-  --aw-color-accent: #00A79D; 
 }
 
-/* VITAL FIX: Force the browser to paint the root background Charcoal in dark mode */
+/* Force Browser Paint to Charcoal in Dark Mode (Stops the Blue Flash) */
 @layer base {
   html.dark {
     background-color: #212529;
   }
 }
 
->>>>>>> 352f346fb0cd6a375bf5e0685359313f9401ef07
 @layer utilities {
   .bg-page {
     background-color: var(--aw-color-bg-page);
   }
   .bg-dark {
-    background-color: #212529; /* Hardcoded for safety */
-  }
-  .bg-light {
-    background-color: var(--aw-color-bg-page);
+    background-color: #212529;
   }
   .text-page {
     color: var(--aw-color-text-default);
@@ -62,33 +61,20 @@
 
 @layer components {
   .btn {
-<<<<<<< HEAD
-    /* Updated: rounded-lg (8px) per guidelines, changed focus ring to Primary Teal */
-    @apply inline-flex items-center justify-center rounded-lg border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-[var(--aw-color-primary)] focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 cursor-pointer;
-=======
     @apply inline-flex items-center justify-center rounded-full border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-[var(--aw-color-primary)] focus:ring-offset-gray-200 focus:ring-2 focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 cursor-pointer;
->>>>>>> 352f346fb0cd6a375bf5e0685359313f9401ef07
   }
 
+  /* FIXED PRIMARY BUTTON: Darker Teal on Hover */
   .btn-primary {
-    /* Base Button */
-    @apply btn font-semibold bg-primary text-white border-primary;
-    
-    /* HOVER & PRESS STATES (Light & Dark) */
-    /* Instead of turning Charcoal, we turn to a Darker Teal (#008f87) so it stands out */
+    @apply btn font-semibold bg-primary text-white border-primary; 
     @apply hover:bg-[#008f87] hover:border-[#008f87] hover:text-white;
-    
-    /* DARK MODE SPECIFIC */
-    /* Ensure text stays white and background behaves the same */
     @apply dark:text-white dark:bg-primary dark:border-primary dark:hover:bg-[#008f87] dark:hover:border-[#008f87];
   }
 
-.btn-secondary {
+  /* FIXED SECONDARY BUTTON: Teal Text & Border on Hover */
+  .btn-secondary {
     @apply btn;
-    /* LIGHT MODE HOVER: Teal Text, Teal Border, Transparent BG */
     @apply hover:text-primary hover:border-primary hover:bg-transparent;
-    
-    /* DARK MODE HOVER: Teal Text, Teal Border, Transparent BG */
     @apply dark:hover:text-primary dark:hover:border-primary dark:hover:bg-transparent;
   }
 
@@ -97,7 +83,7 @@
   }
 }
 
-/* Header Fixes to match the Charcoal Theme */
+/* Header Fixes */
 #header.scroll > div:first-child {
   @apply bg-page md:bg-white/90 md:backdrop-blur-md;
   box-shadow: 0 0.375rem 1.5rem 0 rgb(140 152 164 / 13%);
@@ -105,12 +91,7 @@
 
 .dark #header.scroll > div:first-child,
 #header.scroll.dark > div:first-child {
-<<<<<<< HEAD
-  @apply bg-page md:bg-[#212529]/90 border-b border-gray-500/20;
-=======
-  /* Explicitly use #212529 to match the page background */
   @apply bg-[#212529] md:bg-[#212529]/90 border-b border-gray-500/20;
->>>>>>> 352f346fb0cd6a375bf5e0685359313f9401ef07
   box-shadow: none;
 }
 
@@ -148,10 +129,6 @@
   @apply rotate-45 translate-y-[-8px] translate-x-[14px];
 }
 
-<<<<<<< HEAD
-/* To deprecated */
-=======
->>>>>>> 352f346fb0cd6a375bf5e0685359313f9401ef07
 .dd *:first-child {
   margin-top: 0;
 }
