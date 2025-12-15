@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+<<<<<<< HEAD
+:root {
+  /* UXHM Brand Colours  */
+  --aw-color-primary: #00A79D;    /* Electric Teal */
+  --aw-color-secondary: #212529;  /* Charcoal */
+  --aw-color-accent: #E6F7F6;     /* Teal Mist */
+
+  --aw-color-text-heading: #212529; /* Charcoal */
+  --aw-color-text-default: #343A40; /* Dark Grey */
+  --aw-color-text-muted: #64748b;   /* Muted Grey */
+  
+  --aw-color-bg-page: #FFFFFF;      /* White */
+  --aw-color-bg-page-dark: #212529; /* Charcoal (Dark Mode) */
+
+  --aw-color-bg-selection: #00A79D; /* Highlight color */
+}
+
+=======
 :root {
   /* UXHM Brand Colours */
   --aw-color-primary: #00A79D;     /* Electric Teal (Buttons) */
@@ -37,6 +55,7 @@
   }
 }
 
+>>>>>>> 352f346fb0cd6a375bf5e0685359313f9401ef07
 @layer utilities {
   .bg-page {
     background-color: var(--aw-color-bg-page);
@@ -60,7 +79,12 @@
 
 @layer components {
   .btn {
+<<<<<<< HEAD
+    /* Updated: rounded-lg (8px) per guidelines, changed focus ring to Primary Teal */
+    @apply inline-flex items-center justify-center rounded-lg border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-[var(--aw-color-primary)] focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 cursor-pointer;
+=======
     @apply inline-flex items-center justify-center rounded-full border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-[var(--aw-color-primary)] focus:ring-offset-gray-200 focus:ring-2 focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 cursor-pointer;
+>>>>>>> 352f346fb0cd6a375bf5e0685359313f9401ef07
   }
 
   .btn-primary {
@@ -98,8 +122,12 @@
 
 .dark #header.scroll > div:first-child,
 #header.scroll.dark > div:first-child {
+<<<<<<< HEAD
+  @apply bg-page md:bg-[#212529]/90 border-b border-gray-500/20;
+=======
   /* Explicitly use #212529 to match the page background */
   @apply bg-[#212529] md:bg-[#212529]/90 border-b border-gray-500/20;
+>>>>>>> 352f346fb0cd6a375bf5e0685359313f9401ef07
   box-shadow: none;
 }
 
@@ -137,6 +165,10 @@
   @apply rotate-45 translate-y-[-8px] translate-x-[14px];
 }
 
+<<<<<<< HEAD
+/* To deprecated */
+=======
+>>>>>>> 352f346fb0cd6a375bf5e0685359313f9401ef07
 .dd *:first-child {
   margin-top: 0;
 }
