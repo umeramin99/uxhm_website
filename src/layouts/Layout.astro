@@ -15,6 +15,7 @@ import '@fontsource/poppins/700.css';
 import '@fontsource/poppins/600.css';
 import '@fontsource/lato/400.css';
 import '@fontsource/lato/700.css';
+import CookieConsent from '~/components/common/CookieConsent.astro';
 
 // Comment the line below to disable View Transitions
 import { ClientRouter } from 'astro:transitions';
@@ -40,16 +41,6 @@ const { language, textDirection } = I18N;
     <SiteVerification />
     <Analytics />
 
-    <!-- google analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4RZ1V007T3"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-4RZ1V007T3');
-    </script>
-
     <!-- Comment the line below to disable View Transitions -->
     <ClientRouter fallback="swap" />
   </head>
@@ -58,5 +49,7 @@ const { language, textDirection } = I18N;
     <slot />
 
     <BasicScripts />
+    <CookieConsent />
+</body>
   </body>
 </html>
