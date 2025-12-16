@@ -50,6 +50,8 @@ export const footerData = {
       links: [
         { text: 'Services', href: getPermalink('/services') },
         { text: 'Maintenance Plans', href: getPermalink('/maintenance') },
+        { text: 'Our Work', href: getPermalink('/work') },
+        { text: 'About Us', href: getPermalink('/about') },
         { text: 'Contact Us', href: getPermalink('/contact') },
       ],
     },
@@ -63,8 +65,17 @@ export const footerData = {
     },
   ],
   socialLinks: [
-    { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: '#' },
+    { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: 'https://www.linkedin.com/company/uxhm/' },
+    { ariaLabel: 'LinkedIn', icon: 'tabler:brand-whatsapp', href: '#' },
+    { ariaLabel: 'Facebook', icon: 'tabler:brand-facebook', href: '#' },
     { ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: '#' },
+    { ariaLabel: 'TikTok', icon: 'tabler:brand-tiktok', href: '#' },
+    { ariaLabel: 'TikTok', icon: 'tabler:brand-x', href: '#' },
+    { ariaLabel: 'Google', icon: 'tabler:brand-google-maps', href: '#' },
+    { ariaLabel: 'Behance', icon: 'tabler:brand-behance', href: '#' },
+
+
+
   ],
   footNote: `
     <span class="font-bold text-gray-800 dark:text-gray-200">uxhm.co.uk</span> · © 2025 UXHM.&nbsp; All rights reserved.&nbsp; <span class="font-bold text-gray-800 dark:text-gray-200">UXHM</span> is a trading name of <span class="font-bold text-gray-800 dark:text-gray-200">Hira Saeed</span> .
