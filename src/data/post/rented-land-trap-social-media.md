@@ -1,6 +1,6 @@
 ---
 publishDate: 2026-01-15T00:00:00Z
-title: 'The "Rented Land" Trap: Why Social Media Alone Won't Cut It in 2026'
+title: 'The "Rented Land" Trap: Why Social Media Alone Won''t Cut It in 2026'
 excerpt: You built your audience on Instagram or Facebook. But what happens when the algorithm changes tomorrow? Here is why smart sole traders are moving back to websites.
 image: https://images.unsplash.com/photo-1637144113536-9c6e917be447?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1674&q=80
 category: Business Strategy
