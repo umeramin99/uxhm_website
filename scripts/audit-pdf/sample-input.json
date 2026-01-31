@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "generatedAt": "2026-01-31",
+    "auditor": "UXHM",
+    "contactEmail": "nottingham@uxhm.co.uk"
+  },
+  "lead": {
+    "business": "Example Plumbing",
+    "website": "https://example.com",
+    "area": "Nottingham"
+  },
+  "score": {
+    "overall": 62,
+    "notes": "Strong fundamentals, but the mobile call-to-action and local trust signals are costing enquiries."
+  },
+  "topFixes": [
+    {
+      "title": "Add click-to-call above the fold + sticky call button on mobile",
+      "why": "Most visitors are on phones. Make calling the default action.",
+      "effort": "1–2 hours"
+    },
+    {
+      "title": "Reduce quote form to 3 fields",
+      "why": "Fewer fields = more quote requests.",
+      "effort": "30–60 mins"
+    },
+    {
+      "title": "Add trust signals near the top",
+      "why": "Reviews, insurance, and (if relevant) Gas Safe reduce hesitation.",
+      "effort": "1 hour"
+    },
+    {
+      "title": "Create a dedicated Emergency Plumber section",
+      "why": "Urgent intent needs an obvious fast path.",
+      "effort": "1–2 hours"
+    },
+    {
+      "title": "Add an Areas We Cover list",
+      "why": "Helps conversions and Nottingham local SEO.",
+      "effort": "30 mins"
+    }
+  ],
+  "offer": {
+    "free": "Free 1-page PDF audit (this report)",
+    "paidOptions": [
+      "One-page static plumber landing site: from £199 (no monthly hosting cost — Cloudflare)",
+      "7-day plumber website: £399"
+    ]
+  }
+}
