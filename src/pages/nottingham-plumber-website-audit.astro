@@ -136,7 +136,7 @@ const metadata = {
 
   <script>
     const form = document.getElementById('auditForm');
-    form?.addEventListener('submit', (e) => {
+    form?.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const business = document.getElementById('business')?.value?.trim();
@@ -146,23 +146,47 @@ const metadata = {
       const areas = document.getElementById('areas')?.value?.trim();
       const notes = document.getElementById('notes')?.value?.trim();
 
-      const subject = `Free audit request — ${business || 'Nottingham plumber'}`;
-      const lines = [
-        'Free audit request (Nottingham plumber)',
-        '',
-        `Business: ${business || ''}`,
-        `Website: ${website || ''}`,
-        `Email: ${email || ''}`,
-        `Phone: ${phone || ''}`,
-        `Areas served: ${areas || ''}`,
-        '',
-        'Notes:',
-        notes || '',
-      ];
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            source: 'plumber_audit',
+            page: window.location.pathname,
+            business,
+            website,
+            email,
+            phone,
+            areas,
+            notes,
+          }),
+        });
 
-      const body = encodeURIComponent(lines.join('\n'));
-      const mailto = `mailto:nottingham@uxhm.co.uk?subject=${encodeURIComponent(subject)}&body=${body}`;
-      window.location.href = mailto;
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) throw new Error(data?.message || 'Failed');
+
+        alert('Thanks — your audit request was received. We’ll email you within 24–48 hours.');
+        form.reset();
+      } catch (err) {
+        // fallback: open mailto if API submission fails
+        const subject = `Free audit request — ${business || 'Nottingham plumber'}`;
+        const lines = [
+          'Free audit request (Nottingham plumber)',
+          '',
+          `Business: ${business || ''}`,
+          `Website: ${website || ''}`,
+          `Email: ${email || ''}`,
+          `Phone: ${phone || ''}`,
+          `Areas served: ${areas || ''}`,
+          '',
+          'Notes:',
+          notes || '',
+        ];
+
+        const body = encodeURIComponent(lines.join('\n'));
+        const mailto = `mailto:nottingham@uxhm.co.uk?subject=${encodeURIComponent(subject)}&body=${body}`;
+        window.location.href = mailto;
+      }
     });
   </script>
 </Layout>
