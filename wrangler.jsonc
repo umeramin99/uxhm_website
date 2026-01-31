@@ -1,5 +1,11 @@
 {
-  "name": "uxhm",
+  // IMPORTANT:
+  // - Production deploys should use worker name: uxhmwebsite (custom domain uxhm.co.uk)
+  // - Preview deploys should use worker name: uxhmwebsite-preview (no custom domain)
+  //
+  // The Cloudflare dashboard build config can call: `node scripts/cf-deploy.mjs`
+  // which will deploy prod only on main, and preview on other branches.
+  "name": "uxhmwebsite",
   "compatibility_date": "2024-12-13",
   "assets": {
     "directory": "./dist"
