@@ -5,7 +5,7 @@ import Button from '~/components/ui/Button.astro';
 const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } = Astro.props;
 ---
 
-<form>
+<form method="post" action="/api/contact" id="contactForm">
   {
     inputs &&
       inputs.map(
@@ -76,6 +76,43 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } 
       </div>
     )
   }
+
+  <p id="formStatus" class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400" style="display:none"></p>
+
+  <script>
+    const form = document.currentScript?.closest('form');
+    const statusEl = form?.querySelector('#formStatus');
+
+    form?.addEventListener('submit', async (e) => {
+      // Progressive enhancement: try AJAX first, fall back to normal POST if something fails.
+      e.preventDefault();
+
+      try {
+        const fd = new FormData(form);
+        fd.set('source', 'website');
+        fd.set('page', window.location.pathname);
+
+        const res = await fetch(form.getAttribute('action') || '/api/contact', {
+          method: 'POST',
+          body: fd,
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) {
+          throw new Error(data?.message || 'Failed to submit');
+        }
+
+        if (statusEl) {
+          statusEl.style.display = 'block';
+          statusEl.textContent = 'Thanks — we received your message. We’ll reply within one business day.';
+        }
+        form.reset();
+      } catch (err) {
+        // fallback to normal submit (some environments block fetch)
+        form.submit();
+      }
+    });
+  </script>
 
   {
     description && (
