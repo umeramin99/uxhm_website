@@ -1,23 +1,40 @@
 ---
 import Layout from '~/layouts/Layout.astro';
-import { getHomePermalink } from '~/utils/permalinks';
+import { getHomePermalink, getPermalink } from '~/utils/permalinks';
 
-const title = `Error 404`;
+const title = `Page not found (404)`;
 ---
 
 <Layout metadata={{ title }}>
-  <section class="flex items-center h-full p-16">
-    <div class="container flex flex-col items-center justify-center px-5 mx-auto my-8">
-      <div class="max-w-md text-center">
-        <h2 class="mb-8 font-bold text-9xl">
-          <span class="sr-only">Error</span>
-          <span class="text-primary">404</span>
-        </h2>
-        <p class="text-3xl font-semibold md:text-3xl">Sorry, we couldn't find this page.</p>
-        <p class="mt-4 mb-8 text-lg text-muted dark:text-slate-400">
-          But dont worry, you can find plenty of other things on our homepage.
-        </p>
-        <a rel="noopener noreferrer" href={getHomePermalink()} class="btn ml-4">Back to homepage</a>
+  <section class="mx-auto max-w-5xl px-4 py-16">
+    <div class="rounded-3xl border border-gray-200 bg-white p-10 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+      <div class="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+        <div>
+          <div class="text-sm font-semibold text-muted">UXHM</div>
+          <h1 class="mt-2 font-heading text-4xl font-bold text-gray-900 dark:text-white">
+            That page doesn’t exist.
+          </h1>
+          <p class="mt-3 text-lg text-muted dark:text-slate-400">
+            The link may be broken, or the page may have been moved.
+          </p>
+
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href={getHomePermalink()} class="btn btn-primary">Back to homepage</a>
+            <a href={getPermalink('/services')} class="btn btn-secondary">View services</a>
+            <a href={getPermalink('/contact')} class="btn btn-secondary">Contact us</a>
+          </div>
+
+          <div class="mt-6 text-sm text-muted dark:text-slate-400">
+            Tip: if you were looking for a specific article, try the <a class="text-accent underline" href={getPermalink('/blog')}>blog</a>.
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center">
+          <div class="select-none rounded-3xl bg-page p-8 text-center dark:bg-[#212529]">
+            <div class="font-heading text-8xl font-extrabold leading-none text-primary">404</div>
+            <div class="mt-2 text-sm font-semibold text-muted">Not found</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
