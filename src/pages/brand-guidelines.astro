@@ -2,10 +2,11 @@
 import Layout from '~/layouts/PageLayout.astro';
 import HeroText from '~/components/widgets/HeroText.astro';
 
-import logoDarkPng from '~/assets/images/logo-dark.png';
-import logoLightPng from '~/assets/images/logo-light.png';
-import logoDarkSvg from '~/assets/images/logo-dark.svg';
-import logoLightSvg from '~/assets/images/logo-light.svg';
+// Use stable public URLs (avoid hashed /_astro asset URLs changing between builds)
+const logoDarkPng = '/brand/logo-dark.png';
+const logoLightPng = '/brand/logo-light.png';
+const logoDarkSvg = '/brand/logo-dark.svg';
+const logoLightSvg = '/brand/logo-light.svg';
 
 const metadata = {
   title: 'Brand Guidelines | UXHM',
@@ -13,11 +14,16 @@ const metadata = {
 };
 
 const colors = [
-  { name: 'Primary (Electric Teal)', hex: '#00A79D', token: '--aw-color-primary' },
-  { name: 'Secondary (Charcoal)', hex: '#212529', token: '--aw-color-secondary' },
-  { name: 'Text (Default)', hex: '#343A40', token: '--aw-color-text-default' },
-  { name: 'Text (Muted)', hex: '#64748B', token: '--aw-color-text-muted' },
-  { name: 'Background (Page)', hex: '#FFFFFF', token: '--aw-color-bg-page' },
+  { group: 'Brand', name: 'Primary (Electric Teal)', hex: '#00A79D', token: '--aw-color-primary' },
+  { group: 'Brand', name: 'Secondary (Charcoal)', hex: '#212529', token: '--aw-color-secondary' },
+  { group: 'Brand', name: 'Text (Default)', hex: '#343A40', token: '--aw-color-text-default' },
+  { group: 'Brand', name: 'Text (Muted)', hex: '#64748B', token: '--aw-color-text-muted' },
+  { group: 'Brand', name: 'Background (Page)', hex: '#FFFFFF', token: '--aw-color-bg-page' },
+
+  { group: 'Functional', name: 'Success Green', hex: '#28c76f' },
+  { group: 'Functional', name: 'Warning Amber', hex: '#ff9f43' },
+  { group: 'Functional', name: 'Error Red', hex: '#ea5455' },
+  { group: 'Functional', name: 'Info Blue', hex: '#4834d4' }
 ];
 ---
 
@@ -78,20 +84,31 @@ const colors = [
     <div class="mt-14">
       <div class="prose prose-slate max-w-none dark:prose-invert">
         <h2>Colours</h2>
-        <p>These are the brand tokens currently used by the site (CSS variables in <code>src/assets/styles/tailwind.css</code>).</p>
+        <p>Click any colour to copy the hex code. Brand tokens are defined in <code>src/assets/styles/tailwind.css</code>.</p>
       </div>
 
       <div class="mt-6 grid gap-4 md:grid-cols-2">
         {colors.map((c) => (
-          <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <button
+            type="button"
+            class="group w-full text-left rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md dark:border-slate-700 dark:bg-slate-900"
+            data-copy-hex={c.hex}
+          >
             <div class="flex items-center gap-4">
               <div class="h-12 w-12 rounded-xl border border-gray-200 dark:border-slate-700" style={`background:${c.hex}`}></div>
-              <div>
-                <div class="font-semibold text-gray-900 dark:text-slate-100">{c.name}</div>
-                <div class="text-sm text-muted">{c.hex} <span class="opacity-60">({c.token})</span></div>
+              <div class="min-w-0">
+                <div class="flex items-center justify-between gap-3">
+                  <div class="font-semibold text-gray-900 dark:text-slate-100 truncate">{c.name}</div>
+                  <span class="text-xs rounded-full border border-gray-200 px-2 py-1 text-muted dark:border-slate-700">{c.group}</span>
+                </div>
+                <div class="mt-1 text-sm text-muted">
+                  <span class="font-mono">{c.hex}</span>
+                  {c.token && <span class="opacity-60"> · {c.token}</span>}
+                  <span class="ml-2 opacity-0 group-hover:opacity-100 transition">(click to copy)</span>
+                </div>
               </div>
             </div>
-          </div>
+          </button>
         ))}
       </div>
 
@@ -147,5 +164,48 @@ const colors = [
         </ul>
       </div>
     </div>
+
+  <script>
+    // Click-to-copy for colour swatches
+    (function () {
+      function copy(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          return navigator.clipboard.writeText(text);
+        }
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try {
+          document.execCommand('copy');
+          return Promise.resolve();
+        } finally {
+          document.body.removeChild(ta);
+        }
+      }
+
+      document.addEventListener('click', async (e) => {
+        const btn = e.target && e.target.closest ? e.target.closest('[data-copy-hex]') : null;
+        if (!btn) return;
+        const hex = btn.getAttribute('data-copy-hex');
+        if (!hex) return;
+        try {
+          await copy(hex);
+          const prev = btn.getAttribute('data-copied-prev') || '';
+          btn.setAttribute('data-copied-prev', btn.innerText);
+          // Small, non-intrusive feedback
+          btn.querySelectorAll('.font-mono').forEach((el) => (el.textContent = `${hex} ✓ copied`));
+          setTimeout(() => {
+            btn.querySelectorAll('.font-mono').forEach((el) => (el.textContent = hex));
+          }, 900);
+        } catch {
+          // no-op
+        }
+      });
+    })();
+  </script>
   </section>
 </Layout>
