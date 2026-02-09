@@ -42,12 +42,19 @@
     console.log('UXHM: Analytics Loaded');
   }
 
+  // If Cloudflare Zaraz consent is present, do not show this legacy banner.
+  // (Zaraz will manage consent UI and scripts.)
+  const hasZarazConsent = typeof window !== 'undefined' && (window.zaraz && typeof window.zaraz.showConsent === 'function');
+
   // Check LocalStorage on page load
   const consent = localStorage.getItem('uxhm-cookie-consent');
   const banner = document.getElementById('cookie-banner');
   const acceptBtn = document.getElementById('cookie-accept');
 
-  if (consent === 'true') {
+  if (hasZarazConsent) {
+    // Keep hidden and exit; the footer link will open Zaraz consent.
+    if (banner) banner.classList.add('hidden');
+  } else if (consent === 'true') {
     // If they already said yes, load GA immediately
     loadGoogleAnalytics();
   } else {
