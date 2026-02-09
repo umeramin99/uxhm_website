@@ -28,7 +28,11 @@ These allow us to recognize and count the number of visitors and see how visitor
 You can control and manage cookies in various ways. Please keep in mind that removing or blocking cookies can impact your user experience and parts of this website may no longer be fully accessible.
 
 * **Browser Controls:** Most browsers allow you to view, manage, delete, and block cookies for a website. Be aware that if you delete all cookies then any preferences you have set will be lost.
-* **Cookie Banner:** You can change your preferences at any time by clicking the "Cookie Settings" link in our footer.
+* **Cookie Banner:** You can change your preferences at any time by clicking **Update Cookie Preferences** in our footer.
+
+Or use this link:
+
+<a href="#" onclick="if (window.zaraz && typeof window.zaraz.showConsent === 'function') { window.zaraz.showConsent(); } return false;">Update Cookie Preferences</a>
 
 ## 4. Contact Us
 
