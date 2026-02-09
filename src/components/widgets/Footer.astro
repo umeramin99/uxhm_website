@@ -62,7 +62,7 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
            Crafting Your Digital Success
         </div>
 
-        <div class="text-sm text-muted flex gap-1">
+        <div class="text-sm text-muted flex flex-wrap gap-1">
           {
             secondaryLinks.map(({ text, href }, index) => (
               <>
@@ -75,6 +75,14 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
               </>
             ))
           }
+          {secondaryLinks?.length ? ' · ' : ''}
+          <a
+            class="text-muted hover:text-gray-700 dark:text-gray-400 hover:underline transition duration-150 ease-in-out"
+            href="#"
+            onclick="if (window.zaraz && typeof window.zaraz.showConsent === 'function') { window.zaraz.showConsent(); } return false;"
+          >
+            Update Cookie Preferences
+          </a>
         </div>
       </div>
 
