@@ -39,7 +39,12 @@ const metadata = {
         </div>
       </div>
 
-      <div class="grid gap-6 md:grid-cols-3">
+      <div class="grid gap-6 md:grid-cols-4">
+        <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <div class="text-sm text-muted">Overall score</div>
+          <div id="overallScore" class="mt-2 font-heading text-4xl font-extrabold">—</div>
+          <div class="mt-2 text-sm text-muted">Snapshot (0–100)</div>
+        </div>
         <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
           <div class="text-sm text-muted">Performance</div>
           <div id="perfScore" class="mt-2 font-heading text-4xl font-extrabold">—</div>
@@ -57,11 +62,25 @@ const metadata = {
         </div>
       </div>
 
-      <div class="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-900">
-        <div class="prose prose-slate max-w-none dark:prose-invert">
-          <h2>Quick wins</h2>
-          <ul id="quickWins"></ul>
+      <div class="grid gap-6 md:grid-cols-2">
+        <div class="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <div class="prose prose-slate max-w-none dark:prose-invert">
+            <h2>Issues found</h2>
+            <ul id="issues"></ul>
+          </div>
         </div>
+
+        <div class="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <div class="prose prose-slate max-w-none dark:prose-invert">
+            <h2>Quick wins</h2>
+            <ul id="quickWins"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <button id="downloadPdf" class="btn btn-primary">Download PDF report</button>
+        <a class="btn btn-secondary" href="/contact">Talk to UXHM</a>
       </div>
 
       <details class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
@@ -94,9 +113,25 @@ const metadata = {
         el.classList.toggle('text-emerald-500', s !== null && s >= 80);
       };
 
+      const setIntScore = (id, s) => {
+        const el = document.getElementById(id);
+        el.textContent = typeof s === 'number' ? String(s) : '—';
+        el.classList.toggle('text-red-500', typeof s === 'number' && s < 50);
+        el.classList.toggle('text-amber-500', typeof s === 'number' && s >= 50 && s < 80);
+        el.classList.toggle('text-emerald-500', typeof s === 'number' && s >= 80);
+      };
+
+      setIntScore('overallScore', j.score);
       setScore('perfScore', j.pagespeed?.lighthouse?.categories?.performance);
       setScore('bpScore', j.pagespeed?.lighthouse?.categories?.bestPractices);
       setScore('seoScore', j.pagespeed?.lighthouse?.categories?.seo);
+
+      const issuesEl = document.getElementById('issues');
+      (j.issues || []).forEach((it) => {
+        const li = document.createElement('li');
+        li.textContent = it;
+        issuesEl.appendChild(li);
+      });
 
       const wins = document.getElementById('quickWins');
       (j.quickWins || []).forEach((w) => {
@@ -104,6 +139,61 @@ const metadata = {
         li.textContent = w;
         wins.appendChild(li);
       });
+
+      // PDF generation (client-side)
+      async function generatePdf() {
+        const { jsPDF } = await import('jspdf');
+        const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+
+        const margin = 48;
+        let y = 64;
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(18);
+        doc.text('UXHM — Website Audit', margin, y);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(11);
+        y += 22;
+        doc.text(`Audit for: ${j.input?.url || '—'}`, margin, y);
+        y += 16;
+        doc.text(`Date: ${new Date().toISOString().slice(0, 10)}`, margin, y);
+        y += 22;
+
+        doc.setFont('helvetica', 'bold');
+        doc.text(`Overall score: ${typeof j.score === 'number' ? j.score : '—'}/100`, margin, y);
+        y += 22;
+
+        doc.setFont('helvetica', 'bold');
+        doc.text('Top issues', margin, y);
+        y += 14;
+        doc.setFont('helvetica', 'normal');
+        (j.issues || []).slice(0, 8).forEach((it) => {
+          doc.text(`• ${it}`, margin, y);
+          y += 14;
+        });
+
+        y += 10;
+        doc.setFont('helvetica', 'bold');
+        doc.text('Quick wins', margin, y);
+        y += 14;
+        doc.setFont('helvetica', 'normal');
+        (j.quickWins || []).slice(0, 8).forEach((it) => {
+          doc.text(`• ${it}`, margin, y);
+          y += 14;
+        });
+
+        y = Math.max(y + 20, 740);
+        doc.setFontSize(10);
+        doc.setTextColor(80);
+        doc.text('UXHM • uxhm.co.uk • hello@uxhm.co.uk', margin, y);
+        doc.setTextColor(0);
+
+        doc.save('uxhm-website-audit.pdf');
+      }
+
+      const pdfBtn = document.getElementById('downloadPdf');
+      if (pdfBtn) pdfBtn.addEventListener('click', () => generatePdf());
 
       document.getElementById('raw').textContent = JSON.stringify(j, null, 2);
     }

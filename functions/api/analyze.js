@@ -42,30 +42,85 @@ async function fetchJson(url, init) {
   return { ok: r.ok, status: r.status, text, json: j };
 }
 
-function computeQuickWins(pagespeed) {
+function computeIssuesAndQuickWins(pagespeed, ssl, meta) {
+  const issues = [];
   const wins = [];
+
   const lh = pagespeed?.lighthouse;
-  const perf = lh?.categories?.performance;
-  const seo = lh?.categories?.seo;
+  const cats = lh?.categories || {};
+  const audits = lh?.audits || {};
+
+  const perf = cats?.performance;
+  const seo = cats?.seo;
+  const bp = cats?.bestPractices;
 
   if (typeof perf === 'number' && perf < 0.5) {
+    issues.push('Slow mobile performance');
     wins.push('Improve mobile performance (compress images, remove heavy scripts, reduce layout shifts).');
   }
   if (typeof seo === 'number' && seo < 0.8) {
+    issues.push('Weak on-page SEO basics');
     wins.push('Improve on-page SEO basics (titles, meta description, headings, internal links).');
   }
+  if (typeof bp === 'number' && bp < 0.8) {
+    issues.push('Best-practices issues');
+    wins.push('Fix best-practices issues (HTTPS, console errors, modern image formats).');
+  }
 
-  const audits = lh?.audits || {};
   const tbt = audits['total-blocking-time']?.numericValue;
-  if (typeof tbt === 'number' && tbt > 300) wins.push('Reduce JavaScript blocking time (defer/async third-party scripts).');
+  if (typeof tbt === 'number' && tbt > 300) {
+    issues.push('JavaScript blocking time is high');
+    wins.push('Reduce JavaScript blocking time (defer/async third-party scripts).');
+  }
 
   const lcp = audits['largest-contentful-paint']?.numericValue;
-  if (typeof lcp === 'number' && lcp > 4000) wins.push('Reduce LCP (optimize hero image, preload key assets).');
+  if (typeof lcp === 'number' && lcp > 4000) {
+    issues.push('Largest Contentful Paint is slow');
+    wins.push('Reduce LCP (optimize hero image, preload key assets).');
+  }
 
   const cls = audits['cumulative-layout-shift']?.numericValue;
-  if (typeof cls === 'number' && cls > 0.15) wins.push('Fix layout shift (set image dimensions, avoid late-loading banners).');
+  if (typeof cls === 'number' && cls > 0.15) {
+    issues.push('Layout shift issues');
+    wins.push('Fix layout shift (set image dimensions, avoid late-loading banners).');
+  }
 
-  return wins.slice(0, 8);
+  // SSL Labs (best-effort)
+  const sslStatus = ssl?.json?.status;
+  if (sslStatus && sslStatus !== 'READY') {
+    // Not necessarily an issue; it can be IN_PROGRESS.
+  }
+  const endpoints = ssl?.json?.endpoints;
+  const grade = Array.isArray(endpoints) && endpoints[0]?.grade ? endpoints[0].grade : null;
+  if (grade && grade !== 'A+' && grade !== 'A') {
+    issues.push(`SSL grade: ${grade}`);
+    wins.push('Improve TLS/SSL configuration (aim for A grade).');
+  }
+
+  if (meta) {
+    if (!meta.title) issues.push('Missing <title> tag');
+    if (!meta.description) issues.push('Missing meta description');
+    if (!meta.ogTitle) issues.push('Missing og:title');
+    if (!meta.ogDescription) issues.push('Missing og:description');
+    if (!meta.title) wins.push('Add a clear page title (<title>) targeting your main service + area.');
+    if (!meta.description) wins.push('Add a compelling meta description (benefit + trust + CTA).');
+  }
+
+  return {
+    issues: Array.from(new Set(issues)).slice(0, 12),
+    quickWins: Array.from(new Set(wins)).slice(0, 10)
+  };
+}
+
+function overallScore(pagespeed) {
+  const c = pagespeed?.lighthouse?.categories;
+  const vals = [];
+  for (const k of ['performance', 'bestPractices', 'seo', 'accessibility']) {
+    const v = c?.[k];
+    if (typeof v === 'number') vals.push(v);
+  }
+  if (!vals.length) return null;
+  return Math.round((vals.reduce((a, b) => a + b, 0) / vals.length) * 100);
 }
 
 export async function onRequestPost(context) {
@@ -129,20 +184,35 @@ export async function onRequestPost(context) {
       : null
   };
 
+  const issuesAndWins = computeIssuesAndQuickWins(pagespeed, ssl, meta);
+  const score = overallScore(pagespeed);
+
   const results = {
     ok: true,
     input: { url, email },
+    score,
+    issues: issuesAndWins.issues,
     pagespeed,
     ssl: ssl.json || { ok: ssl.ok, status: ssl.status },
     meta,
-    quickWins: computeQuickWins(pagespeed)
+    quickWins: issuesAndWins.quickWins
   };
 
   // Store lead (best-effort). Prefer KV binding named LEADS.
   try {
     if (env?.LEADS && typeof env.LEADS.put === 'function') {
       const key = `lead:${Date.now()}:${email.toLowerCase()}`;
-      await env.LEADS.put(key, JSON.stringify({ url, email, createdAt: new Date().toISOString(), results }), {
+      const lead = {
+        email,
+        url,
+        issues: results.issues || [],
+        score: results.score,
+        date: new Date().toISOString().slice(0, 10),
+        followedUp: false,
+        results
+      };
+
+      await env.LEADS.put(key, JSON.stringify(lead), {
         expirationTtl: 60 * 60 * 24 * 180 // 180 days
       });
     }
