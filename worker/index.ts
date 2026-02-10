@@ -50,6 +50,9 @@ async function verifyTurnstile(token: string, ip: string, secretKey: string): Pr
   const outcome = await result.json() as { success: boolean, 'error-codes'?: string[] };
   if (!outcome.success) {
     console.error('Turnstile API Error:', JSON.stringify(outcome));
+    // Also append the error code to the specific debug msg if possible, 
+    // but the caller function handles the logging. 
+    // We'll rely on the console.error here.
   }
   return outcome.success;
 }
