@@ -45,3 +45,13 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     });
   }
 };
+
+export const onRequestGet: PagesFunction = async () => {
+  return new Response(JSON.stringify({ 
+    ok: false, 
+    message: "Method Not Allowed. This endpoint only accepts POST requests from the contact form." 
+  }), {
+    status: 405,
+    headers: { "Content-Type": "application/json" },
+  });
+};
