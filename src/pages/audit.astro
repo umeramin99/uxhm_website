@@ -1,0 +1,102 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+
+const metadata = {
+  title: 'Free Website Audit | UXHM',
+  description: 'Get a quick, free audit of your website speed, security, and on-page basics. We’ll send you a PDF-style summary.',
+};
+---
+
+<Layout metadata={metadata}>
+  <HeroText
+    tagline="Free audit"
+    title="Get a free website audit"
+    subtitle="Speed, security, and quick wins — in one simple report."
+  />
+
+  <section class="mx-auto max-w-3xl px-4 pb-16">
+    <div class="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+      <div class="prose prose-slate max-w-none dark:prose-invert">
+        <p>
+          Enter your website and email. We’ll generate a quick report and show the results instantly.
+        </p>
+      </div>
+
+      <form id="auditForm" class="mt-6 grid gap-4">
+        <div>
+          <label class="mb-2 block text-sm font-semibold text-gray-900 dark:text-slate-100">Website URL</label>
+          <input
+            class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--aw-color-primary)] dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+            type="url"
+            name="url"
+            placeholder="https://example.com"
+            required
+          />
+          <div class="mt-2 text-xs text-muted">Tip: include https://</div>
+        </div>
+
+        <div>
+          <label class="mb-2 block text-sm font-semibold text-gray-900 dark:text-slate-100">Email (to send PDF report)</label>
+          <input
+            class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--aw-color-primary)] dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+            type="email"
+            name="email"
+            placeholder="you@business.co.uk"
+            required
+          />
+          <div class="mt-2 text-xs text-muted">We only use this to send the report. No spam.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full">Get Free Audit</button>
+
+        <div id="auditError" class="hidden rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800 dark:border-red-900/40 dark:bg-red-950/40 dark:text-red-200"></div>
+        <div id="auditLoading" class="hidden text-sm text-muted">Running checks… (takes ~10–30 seconds)</div>
+      </form>
+    </div>
+
+    <div class="mt-8 text-center text-sm text-muted">
+      By submitting, you agree to our <a class="text-accent underline" href="/privacy">Privacy Policy</a>.
+    </div>
+  </section>
+
+  <script is:inline>
+    const form = document.getElementById('auditForm');
+    const err = document.getElementById('auditError');
+    const loading = document.getElementById('auditLoading');
+
+    function showError(msg) {
+      err.textContent = msg;
+      err.classList.remove('hidden');
+    }
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.classList.add('hidden');
+      loading.classList.remove('hidden');
+
+      const fd = new FormData(form);
+      const url = String(fd.get('url') || '').trim();
+      const email = String(fd.get('email') || '').trim();
+
+      try {
+        const r = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url, email })
+        });
+
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok || !j.ok) throw new Error(j.error || 'Audit failed. Please try again.');
+
+        // Store results for the report page.
+        sessionStorage.setItem('uxhm_audit_last', JSON.stringify(j));
+        window.location.href = '/audit/report';
+      } catch (e2) {
+        showError(e2?.message || 'Audit failed.');
+      } finally {
+        loading.classList.add('hidden');
+      }
+    });
+  </script>
+</Layout>

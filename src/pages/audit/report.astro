@@ -1,0 +1,111 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+
+const metadata = {
+  title: 'Audit Report | UXHM',
+  description: 'Website audit results — speed, security, and quick wins.',
+};
+---
+
+<Layout metadata={metadata}>
+  <HeroText
+    tagline="Report"
+    title="Your audit results"
+    subtitle="A quick snapshot of speed, security, and SEO basics."
+  />
+
+  <section class="mx-auto max-w-5xl px-4 pb-16">
+    <div id="noData" class="hidden rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+      <div class="prose prose-slate max-w-none dark:prose-invert">
+        <h2>No report found</h2>
+        <p>
+          Please run a new audit first.
+        </p>
+        <p>
+          <a class="btn btn-primary" href="/audit">Go to audit</a>
+        </p>
+      </div>
+    </div>
+
+    <div id="report" class="hidden grid gap-6">
+      <div class="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+        <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <div>
+            <div class="text-sm text-muted">Website</div>
+            <div id="siteUrl" class="font-heading text-xl font-bold text-gray-900 dark:text-white">—</div>
+          </div>
+          <a class="btn btn-secondary" href="/audit">Run another audit</a>
+        </div>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <div class="text-sm text-muted">Performance</div>
+          <div id="perfScore" class="mt-2 font-heading text-4xl font-extrabold">—</div>
+          <div class="mt-2 text-sm text-muted">Google PageSpeed (mobile)</div>
+        </div>
+        <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <div class="text-sm text-muted">Best Practices</div>
+          <div id="bpScore" class="mt-2 font-heading text-4xl font-extrabold">—</div>
+          <div class="mt-2 text-sm text-muted">Google Lighthouse</div>
+        </div>
+        <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <div class="text-sm text-muted">SEO</div>
+          <div id="seoScore" class="mt-2 font-heading text-4xl font-extrabold">—</div>
+          <div class="mt-2 text-sm text-muted">Google Lighthouse</div>
+        </div>
+      </div>
+
+      <div class="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+        <div class="prose prose-slate max-w-none dark:prose-invert">
+          <h2>Quick wins</h2>
+          <ul id="quickWins"></ul>
+        </div>
+      </div>
+
+      <details class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+        <summary class="cursor-pointer font-semibold text-gray-900 dark:text-white">Raw results (debug)</summary>
+        <pre id="raw" class="mt-4 overflow-auto rounded-2xl bg-slate-950 p-4 text-xs text-slate-100"></pre>
+      </details>
+    </div>
+  </section>
+
+  <script is:inline>
+    const raw = sessionStorage.getItem('uxhm_audit_last');
+    const noData = document.getElementById('noData');
+    const report = document.getElementById('report');
+
+    if (!raw) {
+      noData.classList.remove('hidden');
+    } else {
+      const j = JSON.parse(raw);
+      report.classList.remove('hidden');
+
+      document.getElementById('siteUrl').textContent = j.input?.url || '—';
+
+      const score = (v) => (typeof v === 'number' ? Math.round(v * 100) : null);
+      const setScore = (id, v) => {
+        const el = document.getElementById(id);
+        const s = score(v);
+        el.textContent = s === null ? '—' : String(s);
+        el.classList.toggle('text-red-500', s !== null && s < 50);
+        el.classList.toggle('text-amber-500', s !== null && s >= 50 && s < 80);
+        el.classList.toggle('text-emerald-500', s !== null && s >= 80);
+      };
+
+      setScore('perfScore', j.pagespeed?.lighthouse?.categories?.performance);
+      setScore('bpScore', j.pagespeed?.lighthouse?.categories?.bestPractices);
+      setScore('seoScore', j.pagespeed?.lighthouse?.categories?.seo);
+
+      const wins = document.getElementById('quickWins');
+      (j.quickWins || []).forEach((w) => {
+        const li = document.createElement('li');
+        li.textContent = w;
+        wins.appendChild(li);
+      });
+
+      document.getElementById('raw').textContent = JSON.stringify(j, null, 2);
+    }
+  </script>
+</Layout>
