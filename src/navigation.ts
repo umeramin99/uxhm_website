@@ -11,15 +11,15 @@ export const headerData = {
       links: [
         {
           text: 'Websites & Apps',
-          href: getPermalink('/services#web-app'),
+          href: '/services#web-app',
         },
         {
           text: 'Branding & Graphics',
-          href: getPermalink('/services#branding'),
+          href: '/services#branding',
         },
         {
           text: 'Growth & SEO',
-          href: getPermalink('/services#growth'),
+          href: '/services#growth',
         },
       ],
     },
