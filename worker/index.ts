@@ -3,22 +3,29 @@ interface Env {
   DB: D1Database;
 }
 
+const JSON_HEADERS = { 'Content-Type': 'application/json' };
+
+function methodNotAllowed(endpoint: string) {
+  return new Response(
+    JSON.stringify({ ok: false, message: `Method Not Allowed. ${endpoint} only accepts POST requests.` }),
+    { status: 405, headers: JSON_HEADERS }
+  );
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
-    // Handle API routes
+    // --- /api/submit-application (portfolio launch leads) ---
     if (url.pathname === '/api/submit-application') {
-      if (request.method === 'POST') {
-        return handleSubmitApplication(request, env);
-      }
-      return new Response(
-        JSON.stringify({
-          ok: false,
-          message: 'Method Not Allowed. This endpoint only accepts POST requests from the contact form.',
-        }),
-        { status: 405, headers: { 'Content-Type': 'application/json' } }
-      );
+      if (request.method === 'POST') return handleSubmitApplication(request, env);
+      return methodNotAllowed('/api/submit-application');
+    }
+
+    // --- /api/contact (general contact form) ---
+    if (url.pathname === '/api/contact') {
+      if (request.method === 'POST') return handleContact(request, env);
+      return methodNotAllowed('/api/contact');
     }
 
     // Serve static assets for everything else
@@ -26,45 +33,67 @@ export default {
   },
 } satisfies ExportedHandler<Env>;
 
+// ── Portfolio launch leads ──────────────────────────────────
 async function handleSubmitApplication(request: Request, env: Env): Promise<Response> {
   try {
-    const formData = await request.formData();
-    const name = formData.get('name') as string;
-    const email = formData.get('email') as string;
-    const businessName = formData.get('business_name') as string;
-    const industry = formData.get('industry') as string;
-    const domainPreference = formData.get('domain_preference') as string;
-    const message = formData.get('message') as string;
-    const source = formData.get('source') as string;
+    const fd = await request.formData();
+    const name = fd.get('name') as string;
+    const email = fd.get('email') as string;
+    const businessName = fd.get('business_name') as string;
+    const industry = fd.get('industry') as string;
+    const domainPreference = fd.get('domain_preference') as string;
+    const message = fd.get('message') as string;
+    const source = fd.get('source') as string;
 
-    // Basic validation
     if (!name || !email) {
       return new Response(JSON.stringify({ ok: false, message: 'Name and Email are required' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
+        status: 400, headers: JSON_HEADERS,
       });
     }
 
     const result = await env.DB.prepare(
       `INSERT INTO leads (name, email, business_name, industry, domain_preference, message, source, created_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`
-    )
-      .bind(name, email, businessName, industry, domainPreference, message, source)
-      .run();
+    ).bind(name, email, businessName, industry, domainPreference, message, source).run();
 
-    if (result.success) {
-      return new Response(JSON.stringify({ ok: true }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    } else {
-      throw new Error('Database insert failed');
-    }
+    if (!result.success) throw new Error('Database insert failed');
+    return new Response(JSON.stringify({ ok: true }), { status: 200, headers: JSON_HEADERS });
   } catch (err) {
     console.error(err);
     return new Response(JSON.stringify({ ok: false, message: 'Internal Server Error' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
+      status: 500, headers: JSON_HEADERS,
+    });
+  }
+}
+
+// ── General contact form ────────────────────────────────────
+async function handleContact(request: Request, env: Env): Promise<Response> {
+  try {
+    const fd = await request.formData();
+    const name = fd.get('name') as string;
+    const email = fd.get('email') as string;
+    const service = fd.get('service') as string;
+    const message = fd.get('message') as string;
+    const source = fd.get('source') as string;
+    const page = fd.get('page') as string;
+
+    if (!name || !email) {
+      return new Response(JSON.stringify({ ok: false, message: 'Name and Email are required' }), {
+        status: 400, headers: JSON_HEADERS,
+      });
+    }
+
+    const result = await env.DB.prepare(
+      `INSERT INTO contacts (name, email, service, message, source, page, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`
+    ).bind(name, email, service, message, source, page).run();
+
+    if (!result.success) throw new Error('Database insert failed');
+    return new Response(JSON.stringify({ ok: true }), { status: 200, headers: JSON_HEADERS });
+  } catch (err) {
+    console.error(err);
+    return new Response(JSON.stringify({ ok: false, message: 'Internal Server Error' }), {
+      status: 500, headers: JSON_HEADERS,
     });
   }
 }

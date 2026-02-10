@@ -10,7 +10,7 @@ site:
 metadata:
   title:
     default: UXHM
-    template: '%s — AstroWind'
+    template: '%s — UXHM'
   description: "Stop Losing Customers. Start Winning Online."
   robots:
     index: true

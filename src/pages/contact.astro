@@ -6,45 +6,59 @@ import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = {
   title: 'Contact UXHM | Start Your Project',
+  description: 'Get a free, no-obligation quote for your website, branding, or app. We reply within one business day.',
 };
 ---
 
 <Layout metadata={metadata}>
-  <HeroText tagline="Contact" title="Let’s Build Your Vision." />
+  <HeroText tagline="Contact" title="Let's Build Your Vision." />
 
   <ContactUs
     id="form"
-    title="Tell us about your project"
+    title="Get in Touch"
+    action="/api/contact"
     inputs={[
       {
         type: 'text',
         name: 'name',
-        label: 'Name',
+        label: 'Full Name',
+        required: true,
       },
       {
         type: 'email',
         name: 'email',
-        label: 'Email',
+        label: 'Email Address',
+        required: true,
       },
       {
-        type: 'text',
+        type: 'select',
         name: 'service',
-        label: 'What do you need?',
-        placeholder: 'e.g. New Website, Mobile App, Branding, Maintenance...',
+        label: 'Service of Interest',
+        placeholder: 'Select a service',
+        options: [
+          { value: 'Website Design & Development', label: 'Website Design & Development' },
+          { value: 'Mobile App Development', label: 'Mobile App Development' },
+          { value: 'Branding & Logo Design', label: 'Branding & Logo Design' },
+          { value: 'SEO & Growth Marketing', label: 'SEO & Growth Marketing' },
+          { value: 'Monthly Maintenance Plan', label: 'Monthly Maintenance Plan' },
+          { value: 'Social Media Management', label: 'Social Media Management' },
+          { value: 'Other', label: 'Other' },
+        ],
       },
     ]}
     textarea={{
-      label: 'Message',
+      label: 'Tell Us More',
     }}
     disclaimer={{
       label:
-        'By submitting this contact form, you acknowledge and agree to the collection of your personal information.',
+        'By submitting this form, you agree to the collection of your personal information in accordance with our Privacy Policy.',
     }}
+    description="We respect your privacy. See our <a href='/privacy'>Privacy Policy</a>."
   >
     <Fragment slot="subtitle">
-      Fill out the form below. We’ll reply within one business day to arrange a free, no-obligation chat.
+      Share a few details below and we'll be in touch within one business day to arrange a free, no-obligation consultation.
       <br /><br />
-      Prefer to email us directly? Reach us at <a href="mailto:hello@uxhm.co.uk" class="underline text-primary">hello@uxhm.co.uk</a>
+      Prefer email? Reach us directly at <a href="mailto:hello@uxhm.co.uk" class="underline text-primary">hello@uxhm.co.uk</a>
     </Fragment>
   </ContactUs>
 

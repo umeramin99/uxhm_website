@@ -11,6 +11,8 @@ export interface Props {
 }
 
 const { metadata } = Astro.props;
+const currentPath = Astro.url.pathname;
+const isContactPage = currentPath === '/contact' || currentPath === '/contact/';
 ---
 
 <Layout metadata={metadata}>
@@ -23,4 +25,71 @@ const { metadata } = Astro.props;
   <slot name="footer">
     <Footer {...footerData} />
   </slot>
+
+  {/* Floating CTA — hidden on contact page */}
+  {!isContactPage && (
+    <a
+      id="floating-cta"
+      href="/contact"
+      class="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-5 py-3 rounded-full
+             bg-primary text-white font-semibold text-sm shadow-lg
+             hover:shadow-xl hover:scale-105
+             transition-all duration-300 ease-in-out
+             opacity-0 translate-y-4"
+      aria-label="Get a free quote"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+      Get a Quote
+      <span class="absolute inset-0 rounded-full animate-ping bg-primary opacity-20 pointer-events-none"></span>
+    </a>
+  )}
+
+  <style>
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(1rem); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    #floating-cta.visible {
+      animation: fadeInUp 0.4s ease-out forwards;
+    }
+    #floating-cta.hidden-by-footer {
+      opacity: 0 !important;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    /* Pulse ring fires 3 times then stops */
+    #floating-cta span {
+      animation-duration: 2.5s;
+      animation-iteration-count: 3;
+    }
+  </style>
+
+  <script is:inline>
+    (function() {
+      var btn = document.getElementById('floating-cta');
+      if (!btn) return;
+
+      // Show after user scrolls 400px
+      function toggleBtn() {
+        if (window.scrollY > 400) {
+          btn.classList.add('visible');
+        }
+      }
+
+      // Hide when footer comes into view
+      var footer = document.querySelector('footer');
+      if (footer) {
+        var observer = new IntersectionObserver(function(entries) {
+          btn.classList.toggle('hidden-by-footer', entries[0].isIntersecting);
+        }, { threshold: 0.1 });
+        observer.observe(footer);
+      }
+
+      window.addEventListener('scroll', toggleBtn, { passive: true });
+      toggleBtn();
+    })();
+  </script>
 </Layout>
