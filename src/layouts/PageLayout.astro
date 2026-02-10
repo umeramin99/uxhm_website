@@ -89,15 +89,26 @@ const isContactPage = currentPath === '/contact' || currentPath === '/contact/';
         scrollHandler();
       }
 
-      // Hash scroll for services page
-      if (window.location.hash) {
-        setTimeout(function() {
-          var el = document.getElementById(window.location.hash.substring(1));
+      // Robust Hash scroll for services page
+      function handleHashScroll() {
+        if (window.location.hash) {
+          var id = window.location.hash.substring(1);
+          var el = document.getElementById(id);
           if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Remove smooth scrolling temporarily to prevent fighting with browser
+            document.documentElement.style.scrollBehavior = 'auto';
+            el.scrollIntoView({ behavior: 'auto', block: 'start' });
+            setTimeout(function() {
+               document.documentElement.style.scrollBehavior = '';
+            }, 100);
           }
-        }, 300);
+        }
       }
+
+      window.addEventListener('load', handleHashScroll);
+      // Retry a few times in case of slow rendering
+      setTimeout(handleHashScroll, 500);
+      setTimeout(handleHashScroll, 1000);
     });
   </script>
 </Layout>
