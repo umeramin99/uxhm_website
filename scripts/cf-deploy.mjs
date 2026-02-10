@@ -27,10 +27,10 @@ if (!branch) {
 }
 
 if (isMain) {
-  console.log(`[cf-deploy] Deploying PRODUCTION Pages project: ${PROD_NAME} (branch=${branch || 'unknown'})`);
-  run(`npx wrangler pages deploy ./dist --project-name ${PROD_NAME} --branch ${branch || 'main'}`);
+  console.log(`[cf-deploy] Deploying PRODUCTION worker: ${PROD_NAME} (branch=${branch || 'unknown'})`);
+  run(`npx wrangler deploy --name ${PROD_NAME}`);
 } else {
-  console.log(`[cf-deploy] Deploying PREVIEW Pages project: ${PREVIEW_NAME} (branch=${branch || 'unknown'})`);
-  // Preview deploys
-  run(`npx wrangler pages deploy ./dist --project-name ${PROD_NAME} --branch ${branch}`);
+  console.log(`[cf-deploy] Deploying PREVIEW worker: ${PREVIEW_NAME} (branch=${branch || 'unknown'})`);
+  // Preview deploys should never touch the production custom domain.
+  run(`npx wrangler deploy --name ${PREVIEW_NAME}`);
 }

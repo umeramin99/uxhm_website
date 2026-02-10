@@ -7,8 +7,10 @@
   // which will deploy prod only on main, and preview on other branches.
   "name": "uxhmwebsite",
   "compatibility_date": "2024-12-13",
+  "main": "worker/index.ts",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "binding": "ASSETS"
   },
   "d1_databases": [
     {
