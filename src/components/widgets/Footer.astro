@@ -138,7 +138,7 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
         </span>
       </div>
       <script is:inline>
-        (function() {
+        document.addEventListener('DOMContentLoaded', function() {
           var btn = document.getElementById('cookie-settings-btn');
           if (!btn) return;
           btn.addEventListener('click', function(e) {
@@ -151,7 +151,7 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
               }
             } catch (err) { /* ignore */ }
           });
-        })();
+        });
       </script>
     </div>
   </div>

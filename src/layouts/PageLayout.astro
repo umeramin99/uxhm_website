@@ -30,11 +30,6 @@ const isContactPage = currentPath === '/contact' || currentPath === '/contact/';
     <a
       id="floating-cta"
       href="/contact"
-      class="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 px-5 py-3 rounded-full
-             bg-primary text-white font-semibold text-sm
-             shadow-lg hover:shadow-xl
-             transition-all duration-300 ease-in-out"
-      style="opacity:0; transform:translateY(1rem); -webkit-transform:translateY(1rem);"
       aria-label="Get a free quote"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -45,55 +40,64 @@ const isContactPage = currentPath === '/contact' || currentPath === '/contact/';
     </a>
   )}
 
+  <style is:global>
+    #floating-cta {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 50;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: 9999px;
+      background-color: var(--aw-color-primary, #3b82f6);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-decoration: none;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+      opacity: 0;
+      -webkit-transform: translateY(1rem);
+      transform: translateY(1rem);
+      -webkit-transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.3s ease;
+      transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.3s ease;
+    }
+    #floating-cta.show {
+      opacity: 1;
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+    #floating-cta:hover {
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+      -webkit-transform: translateY(0) scale(1.05);
+      transform: translateY(0) scale(1.05);
+    }
+  </style>
+
   <script is:inline>
-    (function() {
-      var btn = document.getElementById('floating-cta');
-      if (!btn) return;
-
-      var shown = false;
-      var hiddenByFooter = false;
-
-      function show() {
-        if (shown) return;
-        shown = true;
-        btn.style.opacity = '1';
-        btn.style.transform = 'translateY(0)';
-        btn.style.webkitTransform = 'translateY(0)';
-      }
-
-      function onScroll() {
-        if (window.pageYOffset > 400) show();
-      }
-
-      // Hide when footer is in view
-      var footer = document.querySelector('footer');
-      if (footer && window.IntersectionObserver) {
-        var obs = new IntersectionObserver(function(entries) {
-          if (entries[0].isIntersecting) {
-            btn.style.opacity = '0';
-            btn.style.pointerEvents = 'none';
-            hiddenByFooter = true;
-          } else if (shown) {
-            btn.style.opacity = '1';
-            btn.style.pointerEvents = 'auto';
-            hiddenByFooter = false;
+    document.addEventListener('DOMContentLoaded', function() {
+      var cta = document.getElementById('floating-cta');
+      if (cta) {
+        var scrollHandler = function() {
+          if ((window.pageYOffset || document.documentElement.scrollTop) > 400) {
+            cta.className = cta.className.indexOf('show') === -1 ? cta.className + ' show' : cta.className;
+            window.removeEventListener('scroll', scrollHandler);
           }
-        }, { threshold: 0.1 });
-        obs.observe(footer);
+        };
+        window.addEventListener('scroll', scrollHandler);
+        scrollHandler();
       }
 
-      // Hover scale
-      btn.addEventListener('mouseenter', function() {
-        btn.style.transform = 'translateY(0) scale(1.05)';
-        btn.style.webkitTransform = 'translateY(0) scale(1.05)';
-      });
-      btn.addEventListener('mouseleave', function() {
-        btn.style.transform = 'translateY(0) scale(1)';
-        btn.style.webkitTransform = 'translateY(0) scale(1)';
-      });
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-    })();
+      // Hash scroll for services page
+      if (window.location.hash) {
+        setTimeout(function() {
+          var el = document.getElementById(window.location.hash.substring(1));
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 300);
+      }
+    });
   </script>
 </Layout>
