@@ -5,16 +5,17 @@ import Button from '~/components/ui/Button.astro';
 const { inputs, textarea, disclaimer, button = 'Contact us', description = '', action = '/api/contact' } = Astro.props;
 ---
 
-<form method="post" action={action} id="contactForm">
+<form method="post" action={action} id="contactForm" novalidate>
   {
     inputs &&
       inputs.map(
-        ({ type = 'text', name, label = '', autocomplete = 'on', placeholder = '' }) =>
+        ({ type = 'text', name, label = '', autocomplete = 'on', placeholder = '', required = false }) =>
           name && (
             <div class="mb-6">
               {label && (
                 <label for={name} class="block text-sm font-medium">
                   {label}
+                  {required && <span class="text-red-500 ml-0.5">*</span>}
                 </label>
               )}
               <input
@@ -23,8 +24,14 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '', a
                 id={name}
                 autocomplete={autocomplete}
                 placeholder={placeholder}
-                class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+                required={required}
+                class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
               />
+              {required && (
+                <p class="validation-msg mt-1 text-xs text-red-500" style="display:none">
+                  {type === 'email' ? 'Please enter a valid email address' : `${label || name} is required`}
+                </p>
+              )}
             </div>
           )
       )
@@ -41,7 +48,7 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '', a
           name={textarea.name ? textarea.name : 'message'}
           rows={textarea.rows ? textarea.rows : 4}
           placeholder={textarea.placeholder}
-          class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+          class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
         />
       </div>
     )
@@ -62,6 +69,7 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '', a
         <div class="ml-3">
           <label for="disclaimer" class="cursor-pointer select-none text-sm text-gray-600 dark:text-gray-400">
             {disclaimer.label}
+            <span class="text-red-500 ml-0.5">*</span>
           </label>
         </div>
       </div>
@@ -71,22 +79,72 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '', a
   {
     button && (
       <div class="mt-10 grid">
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" id="submitBtn">
           {button}
         </Button>
       </div>
     )
   }
 
-  <p id="formStatus" class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400" style="display:none"></p>
+  <div id="formStatus" class="mt-4 text-center" style="display:none">
+    <div id="statusContent" class="inline-flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium"></div>
+  </div>
 
   <script is:inline>
     const form = document.currentScript?.closest('form');
     const statusEl = form?.querySelector('#formStatus');
+    const statusContent = form?.querySelector('#statusContent');
+    const submitBtn = form?.querySelector('#submitBtn');
+    const originalBtnText = submitBtn?.textContent;
+
+    function showValidation() {
+      let isValid = true;
+      const requiredInputs = form?.querySelectorAll('input[required], textarea[required]');
+      requiredInputs?.forEach((input) => {
+        const msg = input.closest('.mb-6')?.querySelector('.validation-msg');
+        if (input.type === 'checkbox') {
+          if (!input.checked) {
+            isValid = false;
+            input.classList.add('border-red-500');
+          } else {
+            input.classList.remove('border-red-500');
+          }
+        } else if (!input.value.trim()) {
+          isValid = false;
+          input.classList.add('border-red-500');
+          if (msg) msg.style.display = 'block';
+        } else if (input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())) {
+          isValid = false;
+          input.classList.add('border-red-500');
+          if (msg) msg.style.display = 'block';
+        } else {
+          input.classList.remove('border-red-500');
+          if (msg) msg.style.display = 'none';
+        }
+      });
+      return isValid;
+    }
+
+    // Clear validation errors on input
+    form?.querySelectorAll('input[required]').forEach((input) => {
+      input.addEventListener('input', () => {
+        input.classList.remove('border-red-500');
+        const msg = input.closest('.mb-6')?.querySelector('.validation-msg');
+        if (msg) msg.style.display = 'none';
+      });
+    });
 
     form?.addEventListener('submit', async (e) => {
-      // Progressive enhancement: try AJAX first, fall back to normal POST if something fails.
       e.preventDefault();
+
+      if (!showValidation()) return;
+
+      // Show loading state
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+        submitBtn.style.opacity = '0.7';
+      }
 
       try {
         const fd = new FormData(form);
@@ -103,14 +161,41 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '', a
           throw new Error(data?.message || 'Failed to submit');
         }
 
-        if (statusEl) {
+        // Success
+        if (statusEl && statusContent) {
+          statusContent.className = 'inline-flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium bg-green-50 text-green-800 dark:bg-green-900/30 dark:text-green-300';
+          statusContent.innerHTML = '✅ <span>Thanks for your application! We\'ll be in touch within 1 business day.</span>';
           statusEl.style.display = 'block';
-          statusEl.textContent = 'Thanks — we received your message. We’ll reply within one business day.';
+          statusEl.style.opacity = '0';
+          statusEl.style.transform = 'translateY(10px)';
+          requestAnimationFrame(() => {
+            statusEl.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            statusEl.style.opacity = '1';
+            statusEl.style.transform = 'translateY(0)';
+          });
         }
         form.reset();
       } catch (err) {
-        // fallback to normal submit (some environments block fetch)
-        form.submit();
+        // Show error
+        if (statusEl && statusContent) {
+          statusContent.className = 'inline-flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium bg-red-50 text-red-800 dark:bg-red-900/30 dark:text-red-300';
+          statusContent.innerHTML = '❌ <span>Something went wrong. Please try again or contact us directly.</span>';
+          statusEl.style.display = 'block';
+          statusEl.style.opacity = '0';
+          statusEl.style.transform = 'translateY(10px)';
+          requestAnimationFrame(() => {
+            statusEl.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            statusEl.style.opacity = '1';
+            statusEl.style.transform = 'translateY(0)';
+          });
+        }
+      } finally {
+        // Restore button
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
+          submitBtn.style.opacity = '1';
+        }
       }
     });
   </script>
