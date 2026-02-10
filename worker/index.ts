@@ -33,10 +33,39 @@ export default {
   },
 } satisfies ExportedHandler<Env>;
 
+// ── Turnstile Verification ──────────────────────────────────
+async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
+  // TEST KEYS - User should replace these with env variables later
+  const SECRET_KEY = '0x4AAAAAACaS6id5isdx2V-SbMmImpnTQ_o';
+  
+  const formData = new FormData();
+  formData.append('secret', SECRET_KEY);
+  formData.append('response', token);
+  formData.append('remoteip', ip);
+
+  const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+  const result = await fetch(url, {
+    body: formData,
+    method: 'POST',
+  });
+
+  const outcome = await result.json() as { success: boolean };
+  return outcome.success;
+}
+
 // ── Portfolio launch leads ──────────────────────────────────
 async function handleSubmitApplication(request: Request, env: Env): Promise<Response> {
   try {
     const fd = await request.formData();
+    // Turnstile check
+    const token = fd.get('cf-turnstile-response') as string;
+    const ip = request.headers.get('CF-Connecting-IP') as string;
+    if (!await verifyTurnstile(token, ip)) {
+       return new Response(JSON.stringify({ ok: false, message: 'Turnstile verification failed' }), {
+         status: 403, headers: JSON_HEADERS,
+       });
+    }
+
     const name = fd.get('name') as string;
     const email = fd.get('email') as string;
     const businessName = fd.get('business_name') as string;
@@ -70,6 +99,15 @@ async function handleSubmitApplication(request: Request, env: Env): Promise<Resp
 async function handleContact(request: Request, env: Env): Promise<Response> {
   try {
     const fd = await request.formData();
+    // Turnstile check
+    const token = fd.get('cf-turnstile-response') as string;
+    const ip = request.headers.get('CF-Connecting-IP') as string;
+    if (!await verifyTurnstile(token, ip)) {
+       return new Response(JSON.stringify({ ok: false, message: 'Turnstile verification failed' }), {
+         status: 403, headers: JSON_HEADERS,
+       });
+    }
+
     const name = fd.get('name') as string;
     const email = fd.get('email') as string;
     const service = fd.get('service') as string;

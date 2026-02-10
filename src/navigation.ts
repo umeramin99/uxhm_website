@@ -12,14 +12,17 @@ export const headerData = {
         {
           text: 'Websites & Apps',
           href: '/services#web-app',
+          reload: true,
         },
         {
           text: 'Branding & Graphics',
           href: '/services#branding',
+          reload: true,
         },
         {
           text: 'Growth & SEO',
           href: '/services#growth',
+          reload: true,
         },
       ],
     },

@@ -93,6 +93,7 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '', a
   {
     button && (
       <div class="mt-10 grid">
+        <div class="cf-turnstile mb-4" data-sitekey="1x00000000000000000000AA" data-theme="light"></div>
         <Button variant="primary" type="submit" id="submitBtn">
           {button}
         </Button>
@@ -103,6 +104,8 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '', a
   <div id="formStatus" class="mt-4 text-center" style="display:none">
     <div id="statusContent" class="inline-flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium"></div>
   </div>
+
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <script is:inline>
     const form = document.currentScript?.closest('form');
