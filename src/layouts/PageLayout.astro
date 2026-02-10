@@ -89,26 +89,57 @@ const isContactPage = currentPath === '/contact' || currentPath === '/contact/';
         scrollHandler();
       }
 
-      // Robust Hash scroll for services page
+      // Nuclear option for hash scrolling
       function handleHashScroll() {
         if (window.location.hash) {
           var id = window.location.hash.substring(1);
           var el = document.getElementById(id);
           if (el) {
-            // Remove smooth scrolling temporarily to prevent fighting with browser
+            // console.log('Scrolling to:', id);
+            // 1. Force auto scroll behavior on everything
             document.documentElement.style.scrollBehavior = 'auto';
+            document.body.style.scrollBehavior = 'auto';
+            
+            // 2. Try scrollIntoView
             el.scrollIntoView({ behavior: 'auto', block: 'start' });
+            
+            // 3. Try window.scrollTo as backup
+            var rect = el.getBoundingClientRect();
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            window.scrollTo({
+              top: rect.top + scrollTop - 70, // Adjust for header approx
+              behavior: 'auto'
+            });
+
+            // 4. Restore smooth scroll after a delay
             setTimeout(function() {
                document.documentElement.style.scrollBehavior = '';
-            }, 100);
+               document.body.style.scrollBehavior = '';
+            }, 500);
+          } else {
+            // console.warn('Element not found:', id);
           }
         }
       }
 
+      // Run on every possible event
       window.addEventListener('load', handleHashScroll);
-      // Retry a few times in case of slow rendering
-      setTimeout(handleHashScroll, 500);
-      setTimeout(handleHashScroll, 1000);
+      window.addEventListener('pageshow', handleHashScroll);
+      window.addEventListener('hashchange', handleHashScroll);
+      document.addEventListener('astro:page-load', handleHashScroll);
+      document.addEventListener('astro:after-swap', handleHashScroll);
+      
+      // And polling for safety
+      var attempts = 0;
+      var interval = setInterval(function() {
+        if (window.location.hash) {
+          handleHashScroll();
+          attempts++;
+          if (attempts > 20) clearInterval(interval); // Stop after 2 seconds
+        }
+      }, 100);
+      
+      handleHashScroll(); // Run immediately
     });
   </script>
 </Layout>

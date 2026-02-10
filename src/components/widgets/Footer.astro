@@ -127,34 +127,11 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
       <div class="text-sm mr-4 dark:text-muted">
         <span class="inline-flex flex-wrap items-center gap-1">
           <Fragment set:html={footNote} />
-          <span class="mx-1">·</span>
-          <button
-            type="button"
-            class="text-muted hover:text-gray-700 dark:text-gray-400 hover:underline transition duration-150 ease-in-out cursor-pointer bg-transparent border-none p-0 inline-flex"
-            id="cookie-settings-btn"
-          >
-            Cookie Settings
-          </button>
         </span>
       </div>
-      <script is:inline>
-        document.addEventListener('DOMContentLoaded', function() {
-          var btn = document.getElementById('cookie-settings-btn');
-          if (!btn) return;
-          btn.addEventListener('click', function(e) {
-            e.preventDefault(); // Just in case
-            try {
-              if (window.zaraz && typeof window.zaraz.showConsentModal === 'function') {
-                window.zaraz.showConsentModal();
-              } else if (window.zaraz && window.zaraz.consent) {
-                window.zaraz.consent.modal = true;
-              } else {
-                console.warn('Zaraz not loaded');
-              }
-            } catch (err) { console.error('Cookie settings error:', err); }
-          });
-        });
-      </script>
+    </div>
+  </div>
+</footer>
     </div>
   </div>
 </footer>
