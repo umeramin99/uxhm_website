@@ -43,8 +43,8 @@ const metadata = {
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Portfolio Launch',
+      src: '~/assets/images/localbusiness-imagejpg.jpg',
+      alt: 'Local business website design',
     }}
   >
     <Fragment slot="content">
@@ -87,10 +87,15 @@ const metadata = {
         label: 'Industry / Trade',
       },
       {
-        type: 'text',
+        type: 'select',
         name: 'domain_preference',
         label: 'Domain Preference',
-        placeholder: 'I have one / I will buy one / Use free subdomain',
+        placeholder: 'Choose your preference',
+        options: [
+          { value: 'I have one', label: 'I already have a domain' },
+          { value: 'I will buy one', label: 'I will buy a domain (~£10/yr)' },
+          { value: 'Use free subdomain', label: 'Use a free subdomain' },
+        ],
       },
     ]}
     textarea={{

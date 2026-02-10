@@ -9,7 +9,7 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '', a
   {
     inputs &&
       inputs.map(
-        ({ type = 'text', name, label = '', autocomplete = 'on', placeholder = '', required = false }) =>
+        ({ type = 'text', name, label = '', autocomplete = 'on', placeholder = '', required = false, options }) =>
           name && (
             <div class="mb-6">
               {label && (
@@ -18,15 +18,29 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '', a
                   {required && <span class="text-red-500 ml-0.5">*</span>}
                 </label>
               )}
-              <input
-                type={type}
-                name={name}
-                id={name}
-                autocomplete={autocomplete}
-                placeholder={placeholder}
-                required={required}
-                class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-              />
+              {options ? (
+                <select
+                  name={name}
+                  id={name}
+                  required={required}
+                  class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                >
+                  <option value="" disabled selected>{placeholder || 'Select an option'}</option>
+                  {options.map((opt) => (
+                    <option value={opt.value}>{opt.label}</option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type={type}
+                  name={name}
+                  id={name}
+                  autocomplete={autocomplete}
+                  placeholder={placeholder}
+                  required={required}
+                  class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                />
+              )}
               {required && (
                 <p class="validation-msg mt-1 text-xs text-red-500" style="display:none">
                   {type === 'email' ? 'Please enter a valid email address' : `${label || name} is required`}
