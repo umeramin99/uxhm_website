@@ -196,7 +196,7 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '', a
         // Show error
         if (statusEl && statusContent) {
           statusContent.className = 'inline-flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium bg-red-50 text-red-800 dark:bg-red-900/30 dark:text-red-300';
-          statusContent.innerHTML = '❌ <span>Something went wrong. Please try again or contact us directly.</span>';
+          statusContent.innerHTML = `❌ <span>${err.message || 'Something went wrong. Please try again or contact us directly.'}</span>`;
           statusEl.style.display = 'block';
           statusEl.style.opacity = '0';
           statusEl.style.transform = 'translateY(10px)';
