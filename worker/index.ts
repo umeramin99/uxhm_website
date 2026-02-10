@@ -1,6 +1,7 @@
 interface Env {
   ASSETS: Fetcher;
   DB: D1Database;
+  TURNSTILE_SECRET_KEY: string;
 }
 
 const JSON_HEADERS = { 'Content-Type': 'application/json' };
@@ -34,12 +35,9 @@ export default {
 } satisfies ExportedHandler<Env>;
 
 // ── Turnstile Verification ──────────────────────────────────
-async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
-  // TEST KEYS - User should replace these with env variables later
-  const SECRET_KEY = '0x4AAAAAACaS6id5isdx2V-SbMmImpnTQ_o';
-  
+async function verifyTurnstile(token: string, ip: string, secretKey: string): Promise<boolean> {
   const formData = new FormData();
-  formData.append('secret', SECRET_KEY);
+  formData.append('secret', secretKey);
   formData.append('response', token);
   formData.append('remoteip', ip);
 
@@ -60,7 +58,7 @@ async function handleSubmitApplication(request: Request, env: Env): Promise<Resp
     // Turnstile check
     const token = fd.get('cf-turnstile-response') as string;
     const ip = request.headers.get('CF-Connecting-IP') as string;
-    if (!await verifyTurnstile(token, ip)) {
+    if (!await verifyTurnstile(token, ip, env.TURNSTILE_SECRET_KEY)) {
        return new Response(JSON.stringify({ ok: false, message: 'Turnstile verification failed' }), {
          status: 403, headers: JSON_HEADERS,
        });
@@ -102,7 +100,7 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
     // Turnstile check
     const token = fd.get('cf-turnstile-response') as string;
     const ip = request.headers.get('CF-Connecting-IP') as string;
-    if (!await verifyTurnstile(token, ip)) {
+    if (!await verifyTurnstile(token, ip, env.TURNSTILE_SECRET_KEY)) {
        return new Response(JSON.stringify({ ok: false, message: 'Turnstile verification failed' }), {
          status: 403, headers: JSON_HEADERS,
        });
