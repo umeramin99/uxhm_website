@@ -59,7 +59,9 @@ async function handleSubmitApplication(request: Request, env: Env): Promise<Resp
     const token = fd.get('cf-turnstile-response') as string;
     const ip = request.headers.get('CF-Connecting-IP') as string;
     if (!await verifyTurnstile(token, ip, env.TURNSTILE_SECRET_KEY)) {
-       return new Response(JSON.stringify({ ok: false, message: 'Turnstile verification failed' }), {
+       const debugMsg = `Turnstile failed. Token: ${token ? 'OK' : 'MISSING'}, Secret: ${env.TURNSTILE_SECRET_KEY ? 'OK' : 'MISSING'}, IP: ${ip}`;
+       console.error(debugMsg);
+       return new Response(JSON.stringify({ ok: false, message: debugMsg }), {
          status: 403, headers: JSON_HEADERS,
        });
     }
@@ -101,7 +103,9 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
     const token = fd.get('cf-turnstile-response') as string;
     const ip = request.headers.get('CF-Connecting-IP') as string;
     if (!await verifyTurnstile(token, ip, env.TURNSTILE_SECRET_KEY)) {
-       return new Response(JSON.stringify({ ok: false, message: 'Turnstile verification failed' }), {
+       const debugMsg = `Turnstile failed. Token: ${token ? 'OK' : 'MISSING'}, Secret: ${env.TURNSTILE_SECRET_KEY ? 'OK' : 'MISSING'}, IP: ${ip}`;
+       console.error(debugMsg);
+       return new Response(JSON.stringify({ ok: false, message: debugMsg }), {
          status: 403, headers: JSON_HEADERS,
        });
     }
