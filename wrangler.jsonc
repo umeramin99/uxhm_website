@@ -9,5 +9,12 @@
   "compatibility_date": "2024-12-13",
   "assets": {
     "directory": "./dist"
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "uxhm-leads",
+      "database_id": "617ca0e2-1633-422f-8c8c-a62a2bdd5107"
+    }
+  ]
 }

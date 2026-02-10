@@ -1,0 +1,103 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import ContactUs from '~/components/widgets/Contact.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import Content from '~/components/widgets/Content.astro';
+
+const metadata = {
+  title: 'Portfolio Launch | Free Professional Website',
+};
+---
+
+<Layout metadata={metadata}>
+  <HeroText
+    tagline="Portfolio Launch Offer"
+    title="Get a Professional Website Built for Free"
+    subtitle="I'm looking for 5 Local Businesses to help me launch my new web design portfolio. No catch, no monthly hosting fees. You only pay for your domain."
+  />
+
+  <Content
+    title="Who is this for?"
+    subtitle="Perfect for tradespeople, consultants, or service businesses who want a 'set and forget' website."
+    isReversed
+    items={[
+      {
+        title: 'Zero Design & Build Cost',
+        description:
+          'I design and build a standard 3-5 page site completely free of charge to build my portfolio.',
+      },
+      {
+        title: 'Enterprise-Grade Hosting Included',
+        description:
+          'Your site will be hosted on fast, secure, enterprise-grade infrastructure. No monthly hosting fees.',
+      },
+      {
+        title: 'Secure & fast',
+        description: 'Static sites are faster and more secure than standard WordPress sites.',
+      },
+      {
+        title: '30 Days Free Support',
+        description:
+          'We include 30 days of support to handle any minor tweaks after launch.',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+      alt: 'Portfolio Launch',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">The Terms</h3>
+      <ul class="list-disc ml-4 space-y-2">
+        <li>You must purchase your own domain name (e.g., yourbusiness.co.uk) which costs about £10 per year.</li>
+        <li>Alternatively, we can provide a free generic subdomain.</li>
+        <li>We keep the site on our hosting (for free).</li>
+        <li>No changes after launch (unless agreed otherwise).</li>
+      </ul>
+    </Fragment>
+  </Content>
+
+  <ContactUs
+    id="form"
+    title="Claim Your Spot"
+    subtitle="I have only 5 spots available for this portfolio launch. Comment 'Zero Cost' or fill out the form below."
+    action="/api/submit-application"
+    inputs={[
+      {
+        type: 'text',
+        name: 'name',
+        label: 'Your Name',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'Email Address',
+      },
+      {
+        type: 'text',
+        name: 'business_name',
+        label: 'Business Name',
+      },
+      {
+        type: 'text',
+        name: 'industry',
+        label: 'Industry / Trade',
+      },
+      {
+        type: 'text',
+        name: 'domain_preference',
+        label: 'Domain Preference',
+        placeholder: 'I have one / I will buy one / Use free subdomain',
+      },
+    ]}
+    textarea={{
+      label: 'Message / Details',
+    }}
+    disclaimer={{
+      label:
+        'By submitting this form, you agree to our privacy policy and the terms of this portfolio launch offer.',
+    }}
+    description="We respect your privacy. See our [Privacy Policy](/privacy)."
+  />
+</Layout>
