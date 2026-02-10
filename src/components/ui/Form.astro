@@ -80,7 +80,7 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '', a
 
   <p id="formStatus" class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400" style="display:none"></p>
 
-  <script>
+  <script is:inline>
     const form = document.currentScript?.closest('form');
     const statusEl = form?.querySelector('#formStatus');
 
