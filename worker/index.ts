@@ -47,7 +47,10 @@ async function verifyTurnstile(token: string, ip: string, secretKey: string): Pr
     method: 'POST',
   });
 
-  const outcome = await result.json() as { success: boolean };
+  const outcome = await result.json() as { success: boolean, 'error-codes'?: string[] };
+  if (!outcome.success) {
+    console.error('Turnstile API Error:', JSON.stringify(outcome));
+  }
   return outcome.success;
 }
 
