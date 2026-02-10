@@ -124,17 +124,35 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
         )
       }
 
-      <div class="text-sm mr-4 dark:text-muted flex flex-wrap items-center gap-1">
-        <Fragment set:html={footNote} />
-        {footNote ? ' · ' : ''}
-        <a
-          class="text-muted hover:text-gray-700 dark:text-gray-400 hover:underline transition duration-150 ease-in-out cursor-pointer"
-          href="#"
-          onclick="event.preventDefault(); if (window.zaraz && typeof window.zaraz.showConsentModal === 'function') { window.zaraz.showConsentModal(); } else if (window.zaraz && window.zaraz.consent) { window.zaraz.consent.modal = true; }"
-        >
-          Cookie Settings
-        </a>
+      <div class="text-sm mr-4 dark:text-muted">
+        <span class="inline-flex flex-wrap items-center gap-1">
+          <Fragment set:html={footNote} />
+          <span class="mx-1">·</span>
+          <a
+            class="text-muted hover:text-gray-700 dark:text-gray-400 hover:underline transition duration-150 ease-in-out cursor-pointer"
+            href="#"
+            id="cookie-settings-btn"
+          >
+            Cookie Settings
+          </a>
+        </span>
       </div>
+      <script is:inline>
+        (function() {
+          var btn = document.getElementById('cookie-settings-btn');
+          if (!btn) return;
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            try {
+              if (window.zaraz && typeof window.zaraz.showConsentModal === 'function') {
+                window.zaraz.showConsentModal();
+              } else if (window.zaraz && window.zaraz.consent) {
+                window.zaraz.consent.modal = true;
+              }
+            } catch (err) { /* ignore */ }
+          });
+        })();
+      </script>
     </div>
   </div>
 </footer>
