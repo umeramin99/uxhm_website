@@ -79,7 +79,7 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
           <a
             class="text-muted hover:text-gray-700 dark:text-gray-400 hover:underline transition duration-150 ease-in-out cursor-pointer"
             href="#"
-            onclick="event.preventDefault(); if (window.zaraz && window.zaraz.consent) { window.zaraz.consent.modal = true; }"
+            onclick="event.preventDefault(); if (window.zaraz && typeof window.zaraz.showConsentModal === 'function') { window.zaraz.showConsentModal(); } else if (window.zaraz && window.zaraz.consent) { window.zaraz.consent.modal = true; }"
           >
             Update Cookie Preferences
           </a>
