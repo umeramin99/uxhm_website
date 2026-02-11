@@ -73,18 +73,23 @@ export default {
 
 // ── Turnstile Verification ──────────────────────────────────
 async function verifyTurnstile(token: string, ip: string, secretKey: string): Promise<boolean> {
-  const formData = new FormData();
-  formData.append('secret', secretKey);
-  formData.append('response', token);
-  formData.append('remoteip', ip);
+  console.log('Turnstile debug - token first 20 chars:', token?.substring(0, 20), 'token length:', token?.length, 'secret first 10:', secretKey?.substring(0, 10));
+
+  const body = JSON.stringify({
+    secret: secretKey,
+    response: token,
+    remoteip: ip,
+  });
 
   const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
   const result = await fetch(url, {
-    body: formData,
+    body: body,
     method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
   });
 
   const outcome = (await result.json()) as { success: boolean; 'error-codes'?: string[] };
+  console.log('Turnstile response:', JSON.stringify(outcome));
 
   if (!outcome.success) {
     console.error('Turnstile verification failed:', outcome['error-codes']);
