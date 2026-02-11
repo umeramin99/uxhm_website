@@ -72,13 +72,10 @@ export default {
 } satisfies ExportedHandler<Env>;
 
 // ── Turnstile Verification ──────────────────────────────────
-async function verifyTurnstile(token: string, ip: string, secretKey: string): Promise<boolean> {
-  console.log('Turnstile debug - token first 20 chars:', token?.substring(0, 20), 'token length:', token?.length, 'secret first 10:', secretKey?.substring(0, 10));
-
+async function verifyTurnstile(token: string, secretKey: string): Promise<boolean> {
   const body = JSON.stringify({
     secret: secretKey,
     response: token,
-    remoteip: ip,
   });
 
   const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
@@ -89,10 +86,9 @@ async function verifyTurnstile(token: string, ip: string, secretKey: string): Pr
   });
 
   const outcome = (await result.json()) as { success: boolean; 'error-codes'?: string[] };
-  console.log('Turnstile response:', JSON.stringify(outcome));
 
   if (!outcome.success) {
-    console.error('Turnstile verification failed:', outcome['error-codes']);
+    console.error('Turnstile verification failed:', JSON.stringify(outcome));
   }
 
   return outcome.success;
@@ -120,7 +116,7 @@ async function handleSubmitApplication(request: Request, env: Env): Promise<Resp
     const fd = await request.formData();
 
     const token = fd.get('cf-turnstile-response') as string;
-    if (!token || !(await verifyTurnstile(token, ip, env.TURNSTILE_SECRET_KEY))) {
+    if (!token || !(await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY))) {
       return new Response(JSON.stringify({ ok: false, message: 'Verification failed. Please try again.' }), {
         status: 403,
         headers: JSON_HEADERS,
@@ -189,7 +185,7 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
     const fd = await request.formData();
 
     const token = fd.get('cf-turnstile-response') as string;
-    if (!token || !(await verifyTurnstile(token, ip, env.TURNSTILE_SECRET_KEY))) {
+    if (!token || !(await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY))) {
       return new Response(JSON.stringify({ ok: false, message: 'Verification failed. Please try again.' }), {
         status: 403,
         headers: JSON_HEADERS,
