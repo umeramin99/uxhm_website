@@ -208,8 +208,8 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '', a
         }
       } finally {
         // Reset Turnstile to prevent duplicate token errors on retry
-        if ((window as any).turnstile) {
-          (window as any).turnstile.reset();
+        if (window.turnstile) {
+          window.turnstile.reset();
         }
         
         // Restore button
