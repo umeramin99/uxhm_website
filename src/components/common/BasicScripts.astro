@@ -84,13 +84,13 @@ import { UI } from 'astrowind:config';
       let href;
       switch (network) {
         case 'facebook':
-          href = `https://www.facebook.com/sharer.php?u=${rawUrl}`;
+          href = `https://www.facebook.com/sharer.php?u=${url}`;
           break;
         case 'twitter':
           href = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
           break;
         case 'linkedin':
-          href = `https://www.linkedin.com/sharing/share-offsite/?url=${rawUrl}`;
+          href = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
           break;
         case 'whatsapp':
           href = `https://wa.me/?text=${text}%20${url}`;

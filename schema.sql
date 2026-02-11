@@ -9,3 +9,6 @@ CREATE TABLE IF NOT EXISTS leads (
   source TEXT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE INDEX IF NOT EXISTS idx_leads_email ON leads(email);
+CREATE INDEX IF NOT EXISTS idx_leads_created_at ON leads(created_at);

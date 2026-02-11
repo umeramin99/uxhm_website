@@ -6,7 +6,7 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '', a
 const uid = `form-${Math.random().toString(36).slice(2)}`;
 ---
 
-<form method="post" action={action} id={uid} novalidate>
+<form method="post" action={action} id={uid}>
   {
     inputs &&
       inputs.map(
@@ -182,7 +182,7 @@ const uid = `form-${Math.random().toString(36).slice(2)}`;
         // Success
         if (statusEl && statusContent) {
           statusContent.className = 'inline-flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium bg-green-50 text-green-800 dark:bg-green-900/30 dark:text-green-300';
-          statusContent.innerHTML = '✅ <span>Thanks for your application! We\'ll be in touch within 1 business day.</span>';
+          statusContent.textContent = '\u2705 Thanks for your application! We\'ll be in touch within 1 business day.';
           statusEl.style.display = 'block';
           statusEl.style.opacity = '0';
           statusEl.style.transform = 'translateY(10px)';
@@ -197,7 +197,7 @@ const uid = `form-${Math.random().toString(36).slice(2)}`;
         // Show error
         if (statusEl && statusContent) {
           statusContent.className = 'inline-flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium bg-red-50 text-red-800 dark:bg-red-900/30 dark:text-red-300';
-          statusContent.innerHTML = `❌ <span>${err.message || 'Something went wrong. Please try again or contact us directly.'}</span>`;
+          statusContent.textContent = '\u274C ' + (err.message || 'Something went wrong. Please try again or contact us directly.');
           statusEl.style.display = 'block';
           statusEl.style.opacity = '0';
           statusEl.style.transform = 'translateY(10px)';
@@ -226,7 +226,7 @@ const uid = `form-${Math.random().toString(36).slice(2)}`;
   {
     description && (
       <div class="mt-3 text-center">
-        <p class="text-sm text-gray-600 dark:text-gray-400" set:html={description} />
+        <p class="text-sm text-gray-600 dark:text-gray-400">{description}</p>
       </div>
     )
   }

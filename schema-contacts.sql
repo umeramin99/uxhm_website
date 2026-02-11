@@ -9,3 +9,6 @@ CREATE TABLE IF NOT EXISTS contacts (
   page TEXT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE INDEX IF NOT EXISTS idx_contacts_email ON contacts(email);
+CREATE INDEX IF NOT EXISTS idx_contacts_created_at ON contacts(created_at);
