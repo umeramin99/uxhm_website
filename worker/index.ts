@@ -73,6 +73,13 @@ export default {
 
 // ── Turnstile Verification ──────────────────────────────────
 async function verifyTurnstile(token: string, secretKey: string): Promise<boolean> {
+  // Diagnostic logging — remove after debugging
+  console.log('TURNSTILE DEBUG:', {
+    tokenLength: token ? token.length : 0,
+    tokenFirst20: token ? token.substring(0, 20) : 'EMPTY',
+    secretKeyPrefix: secretKey ? secretKey.substring(0, 8) + '...' : 'MISSING',
+  });
+
   const formData = new FormData();
   formData.append('secret', secretKey);
   formData.append('response', token);
