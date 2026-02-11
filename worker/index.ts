@@ -73,16 +73,14 @@ export default {
 
 // ── Turnstile Verification ──────────────────────────────────
 async function verifyTurnstile(token: string, secretKey: string): Promise<boolean> {
-  const body = JSON.stringify({
-    secret: secretKey,
-    response: token,
-  });
+  const formData = new FormData();
+  formData.append('secret', secretKey);
+  formData.append('response', token);
 
   const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
   const result = await fetch(url, {
-    body: body,
+    body: formData,
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
   });
 
   const outcome = (await result.json()) as { success: boolean; 'error-codes'?: string[] };
