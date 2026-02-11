@@ -72,7 +72,7 @@ export default {
 } satisfies ExportedHandler<Env>;
 
 // ── Turnstile Verification ──────────────────────────────────
-async function verifyTurnstile(token: string, secretKey: string): Promise<boolean> {
+async function verifyTurnstile(token: string, secretKey: string, remoteip?: string): Promise<boolean> {
   // Diagnostic logging — remove after debugging
   console.log('TURNSTILE DEBUG:', {
     tokenLength: token ? token.length : 0,
@@ -80,14 +80,16 @@ async function verifyTurnstile(token: string, secretKey: string): Promise<boolea
     secretKeyPrefix: secretKey ? secretKey.substring(0, 8) + '...' : 'MISSING',
   });
 
-  const formData = new FormData();
-  formData.append('secret', secretKey);
-  formData.append('response', token);
+  const body = new URLSearchParams();
+  body.append('secret', secretKey);
+  body.append('response', token);
+  if (remoteip) body.append('remoteip', remoteip);
 
   const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
   const result = await fetch(url, {
-    body: formData,
     method: 'POST',
+    body: body.toString(),
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   });
 
   const outcome = (await result.json()) as { success: boolean; 'error-codes'?: string[] };
@@ -121,7 +123,7 @@ async function handleSubmitApplication(request: Request, env: Env): Promise<Resp
     const fd = await request.formData();
 
     const token = fd.get('cf-turnstile-response') as string;
-    if (!token || !(await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY))) {
+    if (!token || !(await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY, ip))) {
       return new Response(JSON.stringify({ ok: false, message: 'Verification failed. Please try again.' }), {
         status: 403,
         headers: JSON_HEADERS,
@@ -190,7 +192,7 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
     const fd = await request.formData();
 
     const token = fd.get('cf-turnstile-response') as string;
-    if (!token || !(await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY))) {
+    if (!token || !(await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY, ip))) {
       return new Response(JSON.stringify({ ok: false, message: 'Verification failed. Please try again.' }), {
         status: 403,
         headers: JSON_HEADERS,
