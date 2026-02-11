@@ -106,14 +106,44 @@ const uid = `form-${Math.random().toString(36).slice(2)}`;
     <div id="statusContent" class="inline-flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium"></div>
   </div>
 
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-
   <script is:inline define:vars={{ uid }}>
+    // Load Turnstile API if not already loaded
+    if (!document.getElementById('turnstile-script')) {
+      const ts = document.createElement('script');
+      ts.id = 'turnstile-script';
+      ts.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      ts.async = true;
+      document.head.appendChild(ts);
+    }
+
     const form = document.getElementById(uid);
     const statusEl = form?.querySelector('#formStatus');
     const statusContent = form?.querySelector('#statusContent');
     const submitBtn = form?.querySelector('#submitBtn');
     const originalBtnText = submitBtn?.textContent;
+    let turnstileWidgetId = null;
+
+    // Render Turnstile widget explicitly once API is ready
+    function renderTurnstile() {
+      const container = form?.querySelector('.cf-turnstile');
+      if (!container || !window.turnstile) return;
+      // Clear any previous widget
+      container.innerHTML = '';
+      turnstileWidgetId = window.turnstile.render(container, {
+        sitekey: container.getAttribute('data-sitekey'),
+        theme: 'light',
+      });
+    }
+
+    // Wait for Turnstile API to load, then render
+    function waitForTurnstile() {
+      if (window.turnstile) {
+        renderTurnstile();
+      } else {
+        setTimeout(waitForTurnstile, 100);
+      }
+    }
+    waitForTurnstile();
 
     function showValidation() {
       let isValid = true;
@@ -157,6 +187,26 @@ const uid = `form-${Math.random().toString(36).slice(2)}`;
 
       if (!showValidation()) return;
 
+      // Get Turnstile token explicitly
+      let turnstileToken = '';
+      if (window.turnstile && turnstileWidgetId !== null) {
+        turnstileToken = window.turnstile.getResponse(turnstileWidgetId) || '';
+      }
+      if (!turnstileToken) {
+        // Fallback: check for hidden input
+        const hiddenInput = form.querySelector('[name="cf-turnstile-response"]');
+        if (hiddenInput) turnstileToken = hiddenInput.value;
+      }
+
+      if (!turnstileToken) {
+        if (statusEl && statusContent) {
+          statusContent.className = 'inline-flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium bg-red-50 text-red-800 dark:bg-red-900/30 dark:text-red-300';
+          statusContent.textContent = '\u274C Please complete the security check before submitting.';
+          statusEl.style.display = 'block';
+        }
+        return;
+      }
+
       // Show loading state
       if (submitBtn) {
         submitBtn.disabled = true;
@@ -166,6 +216,7 @@ const uid = `form-${Math.random().toString(36).slice(2)}`;
 
       try {
         const fd = new FormData(form);
+        fd.set('cf-turnstile-response', turnstileToken);
         fd.set('source', 'website');
         fd.set('page', window.location.pathname);
 
@@ -208,11 +259,11 @@ const uid = `form-${Math.random().toString(36).slice(2)}`;
           });
         }
       } finally {
-        // Reset Turnstile to prevent duplicate token errors on retry
-        if (window.turnstile) {
-          window.turnstile.reset();
+        // Reset Turnstile for retry
+        if (window.turnstile && turnstileWidgetId !== null) {
+          window.turnstile.reset(turnstileWidgetId);
         }
-        
+
         // Restore button
         if (submitBtn) {
           submitBtn.disabled = false;

@@ -86,9 +86,6 @@ async function verifyTurnstile(token: string, ip: string, secretKey: string): Pr
 
   const outcome = (await result.json()) as { success: boolean; 'error-codes'?: string[] };
 
-  console.log('Turnstile result:', JSON.stringify(outcome));
-  console.log('Secret key present:', !!secretKey, 'Token length:', token?.length, 'IP:', ip);
-
   if (!outcome.success) {
     console.error('Turnstile verification failed:', outcome['error-codes']);
   }
