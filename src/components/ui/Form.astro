@@ -107,13 +107,23 @@ const uid = `form-${Math.random().toString(36).slice(2)}`;
   </div>
 
   <script is:inline define:vars={{ uid }}>
-    // Load Turnstile API if not already loaded
+    // Load Turnstile API (implicit mode — auto-renders .cf-turnstile divs)
     if (!document.getElementById('turnstile-script')) {
       const ts = document.createElement('script');
       ts.id = 'turnstile-script';
-      ts.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      ts.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
       ts.async = true;
       document.head.appendChild(ts);
+    } else if (window.turnstile) {
+      // Script already loaded (e.g. View Transition) — re-render widgets
+      const container = document.getElementById(uid)?.querySelector('.cf-turnstile');
+      if (container) {
+        container.innerHTML = '';
+        window.turnstile.render(container, {
+          sitekey: container.getAttribute('data-sitekey'),
+          theme: 'light',
+        });
+      }
     }
 
     const form = document.getElementById(uid);
@@ -121,29 +131,6 @@ const uid = `form-${Math.random().toString(36).slice(2)}`;
     const statusContent = form?.querySelector('#statusContent');
     const submitBtn = form?.querySelector('#submitBtn');
     const originalBtnText = submitBtn?.textContent;
-    let turnstileWidgetId = null;
-
-    // Render Turnstile widget explicitly once API is ready
-    function renderTurnstile() {
-      const container = form?.querySelector('.cf-turnstile');
-      if (!container || !window.turnstile) return;
-      // Clear any previous widget
-      container.innerHTML = '';
-      turnstileWidgetId = window.turnstile.render(container, {
-        sitekey: container.getAttribute('data-sitekey'),
-        theme: 'light',
-      });
-    }
-
-    // Wait for Turnstile API to load, then render
-    function waitForTurnstile() {
-      if (window.turnstile) {
-        renderTurnstile();
-      } else {
-        setTimeout(waitForTurnstile, 100);
-      }
-    }
-    waitForTurnstile();
 
     function showValidation() {
       let isValid = true;
@@ -187,16 +174,9 @@ const uid = `form-${Math.random().toString(36).slice(2)}`;
 
       if (!showValidation()) return;
 
-      // Get Turnstile token explicitly
-      let turnstileToken = '';
-      if (window.turnstile && turnstileWidgetId !== null) {
-        turnstileToken = window.turnstile.getResponse(turnstileWidgetId) || '';
-      }
-      if (!turnstileToken) {
-        // Fallback: check for hidden input
-        const hiddenInput = form.querySelector('[name="cf-turnstile-response"]');
-        if (hiddenInput) turnstileToken = hiddenInput.value;
-      }
+      // Turnstile auto-injects a hidden input named cf-turnstile-response
+      const tokenInput = form.querySelector('[name="cf-turnstile-response"]');
+      const turnstileToken = tokenInput ? tokenInput.value : '';
 
       if (!turnstileToken) {
         if (statusEl && statusContent) {
@@ -216,7 +196,6 @@ const uid = `form-${Math.random().toString(36).slice(2)}`;
 
       try {
         const fd = new FormData(form);
-        fd.set('cf-turnstile-response', turnstileToken);
         fd.set('source', 'website');
         fd.set('page', window.location.pathname);
 
@@ -260,8 +239,8 @@ const uid = `form-${Math.random().toString(36).slice(2)}`;
         }
       } finally {
         // Reset Turnstile for retry
-        if (window.turnstile && turnstileWidgetId !== null) {
-          window.turnstile.reset(turnstileWidgetId);
+        if (window.turnstile) {
+          window.turnstile.reset();
         }
 
         // Restore button
