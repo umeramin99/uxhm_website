@@ -36,7 +36,9 @@ export default {
 
 // ── Turnstile Verification ──────────────────────────────────
 // ── Turnstile Verification ──────────────────────────────────
-async function verifyTurnstile(token: string, ip: string, secretKey: string): Promise<boolean> {
+// Return type changed to include error codes
+// Return type changed to include error codes
+async function verifyTurnstile(token: string, ip: string, secretKey: string): Promise<{ success: boolean, errorCodes?: string[] }> {
   const formData = new FormData();
   formData.append('secret', secretKey);
   formData.append('response', token);
@@ -48,8 +50,10 @@ async function verifyTurnstile(token: string, ip: string, secretKey: string): Pr
     method: 'POST',
   });
 
-  const outcome = await result.json() as { success: boolean };
-  return outcome.success;
+  const outcome = await result.json() as { success: boolean, 'error-codes'?: string[] };
+  // Log the raw outcome for maximum visibility
+  console.log('Turnstile Outcome:', JSON.stringify(outcome));
+  return { success: outcome.success, errorCodes: outcome['error-codes'] };
 }
 
 // ── Portfolio launch leads ──────────────────────────────────
