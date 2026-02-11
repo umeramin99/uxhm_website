@@ -207,6 +207,11 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '', a
           });
         }
       } finally {
+        // Reset Turnstile to prevent duplicate token errors on retry
+        if ((window as any).turnstile) {
+          (window as any).turnstile.reset();
+        }
+        
         // Restore button
         if (submitBtn) {
           submitBtn.disabled = false;
