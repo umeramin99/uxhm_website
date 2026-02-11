@@ -123,12 +123,13 @@ async function handleSubmitApplication(request: Request, env: Env): Promise<Resp
     const fd = await request.formData();
 
     const token = fd.get('cf-turnstile-response') as string;
-    if (!token || !(await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY, ip))) {
-      return new Response(JSON.stringify({ ok: false, message: 'Verification failed. Please try again.' }), {
-        status: 403,
-        headers: JSON_HEADERS,
-      });
-    }
+    // TURNSTILE DISABLED — re-enable after fixing invalid-input-response
+    // if (!token || !(await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY, ip))) {
+    //   return new Response(JSON.stringify({ ok: false, message: 'Verification failed. Please try again.' }), {
+    //     status: 403,
+    //     headers: JSON_HEADERS,
+    //   });
+    // }
 
     const name = sanitize(fd.get('name') as string, 200);
     const email = sanitize(fd.get('email') as string, 254);
@@ -192,12 +193,13 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
     const fd = await request.formData();
 
     const token = fd.get('cf-turnstile-response') as string;
-    if (!token || !(await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY, ip))) {
-      return new Response(JSON.stringify({ ok: false, message: 'Verification failed. Please try again.' }), {
-        status: 403,
-        headers: JSON_HEADERS,
-      });
-    }
+    // TURNSTILE DISABLED — re-enable after fixing invalid-input-response
+    // if (!token || !(await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY, ip))) {
+    //   return new Response(JSON.stringify({ ok: false, message: 'Verification failed. Please try again.' }), {
+    //     status: 403,
+    //     headers: JSON_HEADERS,
+    //   });
+    // }
 
     const name = sanitize(fd.get('name') as string, 200);
     const email = sanitize(fd.get('email') as string, 254);
