@@ -6,14 +6,14 @@ import Content from '~/components/widgets/Content.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
-  title: 'UXHM | UK Small Business Digital Specialists',
+  title: 'UXHM | Websites for Plumbers, Electricians & Builders',
   ignoreTitleTemplate: true,
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="UK Small Business Specialists"
+    tagline="websites for tradies"
     actions={[
       {
         variant: 'primary',
@@ -21,89 +21,116 @@ const metadata = {
         href: '/contact',
         icon: 'tabler:mail',
       },
-      { text: 'View Our Packages', href: '/services' },
+      { text: 'See Our Work', href: '#portfolio' },
     ]}
-    image={{ src: '~/assets/images/hero-image.jpg', alt: 'UXHM Digital Dashboard' }}
+    image={{ src: '~/assets/images/hero-image.jpg', alt: 'Professional tradesperson with tablet' }}
   >
     <Fragment slot="title">
-      Stop Losing Customers. <span class="text-accent highlight">Start Winning Online.</span>
+      Your Tools Get You to the Job. <span class="text-accent highlight">Your Website Gets You the Call.</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      We don't just build websites. From <span class="font-semibold">Logos</span> and <span class="font-semibold">Mobile Apps</span> to <span class="font-semibold">SEO</span> and <span class="font-semibold">Social Media</span>, UXHM is the only digital partner your business needs.
+      Professional websites for <span class="font-semibold">plumbers</span>, <span class="font-semibold">electricians</span>, <span class="font-semibold">builders</span> & heating engineers. We build them. You run your business. That's the deal.
     </Fragment>
   </Hero>
 
   <Features
     id="features"
-    tagline="The All-In-One Solution"
-    title="Why hire 5 freelancers when you can hire 1 partner?"
-    subtitle="Everything you need to launch and grow, all under one roof."
+    tagline="Why Tradies Choose Us"
+    title="You Already Work 60 Hours. We'll Handle the Website."
+    subtitle="No tech jargon. No timeline nightmares. Just a website that works as hard as you do."
     items={[
       {
-        title: 'Websites & Apps',
+        title: 'We Speak Your Language',
         description:
-          'Stunning, fast, mobile-first sites and bespoke apps that work perfectly on every device.',
-        icon: 'tabler:device-laptop',
+          'No "synergy" nonsense. We know what a boiler is, what a spark does, and why your van matters more than a server rack. You explain the job — we build what sells.',
+        icon: 'tabler:tool',
       },
       {
-        title: 'Branding & Graphics',
+        title: 'Fast Turnaround',
         description:
-           'Professional logos, flyers, and visual assets that establish credibility from day one.',
-        icon: 'tabler:palette',
+          'Live in days, not months. Your site goes live while you\'re still finishing the jobs you\'ve already booked. No endless revisions.',
+        icon: 'tabler:clock',
       },
       {
-        title: 'Growth & SEO',
+        title: 'Beat the Nephew-Sites',
         description:
-           'Rank higher on Google and turn visitors into paying customers.',
-        icon: 'tabler:chart-bar',
-      },
-      {
-        title: 'Monthly Care',
-        description:
-          'Maintenance and social media management, starting at just £50/mo.',
-        icon: 'tabler:refresh',
+          'Your competitor\'s nephew made their site. It looks like PowerPoint 2007. Your site will look premium — because you are.',
+        icon: 'tabler:trophy',
       },
     ]}
   />
 
   <Content
     isReversed
+    id="portfolio"
     items={[
       {
-        title: 'The Problem',
+        title: 'What We Build for Trades',
         description:
-           'You\'re an expert at what you do, but your website looks outdated and your social media is silent. You know you\'re losing business to competitors, but you don\'t have the time or know-how to change it.',
+          'We don\'t do generic "beautiful websites." We build lead-generating machines that make people trust you before they even call.',
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2344&q=80',
-      alt: 'Business Owner Struggling',
+      src: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=2344&q=80',
+      alt: 'Tradesperson at work',
     }}
   >
     <Fragment slot="content">
       <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        Is your online presence letting you down?
+        New Websites That Fill Your Diary
       </h3>
     </Fragment>
   </Content>
 
+  <Features
+    tagline="What You Get"
+    title="Everything You Need to Get More Customers"
+    subtitle="From domain to done. We handle it all."
+    items={[
+      {
+        title: 'New Websites',
+        description:
+          'Clean, fast, mobile-first sites that make people trust you. Built for leads, not vanity.',
+        icon: 'tabler:device-laptop',
+      },
+      {
+        title: 'Google Business Optimisation',
+        description:
+          'Show up when locals search. We claim, optimise, and connect it all so you get the calls that matter.',
+        icon: 'tabler:map-pin',
+      },
+      {
+        title: 'Lead Capture',
+        description:
+          'Contact forms, click-to-call, quote requests. Make it easy for customers to say yes.',
+        icon: 'tabler:phone-call',
+      },
+      {
+        title: 'Ongoing Care',
+        description:
+          'Hosting, updates, tweaks — covered. You don\'t touch a thing. Ever. From £50/mo.',
+        icon: 'tabler:refresh',
+      },
+    ]}
+  />
+
   <Content
     items={[
       {
-        title: 'The UXHM Solution',
+        title: 'No Hidden Costs',
         description:
-           'We specialise in one thing: helping UK small businesses succeed online. Whether you need a simple "Digital Foundation" site or a fully custom "Interactive MVP" app, we handle the technology so you can focus on running your business.',
+          'One price. No surprises. We tell you what it costs upfront and we stick to it. That\'s the deal.',
       },
     ]}
     image={{
-      src: '~/assets/images/brand-book.png',
-      alt: 'UXHM',
+      src: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=2344&q=80',
+      alt: 'Clear pricing',
     }}
   >
     <Fragment slot="content">
       <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        We turn your expertise into a digital engine.
+        Straight Talking. Straight Pricing.
       </h3>
     </Fragment>
   </Content>
@@ -118,10 +145,12 @@ const metadata = {
       },
     ]}
   >
-     <Fragment slot="title">Ready to take your business online?</Fragment>
+    <Fragment slot="title">
+      Ready to Stop Losing Jobs to <span class="text-accent">Worse Tradespeople with Better Websites?</span>
+    </Fragment>
 
     <Fragment slot="subtitle">
-       Your consultation is free, with no obligation. Let's discuss how we can help.
+      No call centre. Just a conversation. We'll get back to you in an hour. Probably less.
     </Fragment>
   </CallToAction>
 </Layout>
