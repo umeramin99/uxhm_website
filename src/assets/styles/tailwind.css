@@ -3,36 +3,35 @@
 @tailwind utilities;
 
 :root {
-  /* UXHM Brand Colours - Tradies Edition */
-  /* Industrial palette: Safety orange, slate grey, copper accent */
-  --aw-color-primary: #E85D04;     /* Burnt Orange - energy, action, safety */
-  --aw-color-secondary: #334155;   /* Slate Grey - solid, professional */
-  --aw-color-accent: #B45309;      /* Copper/Brass - craftsmanship */
+  /* UXHM Brand Colours */
+  --aw-color-primary: #00A79D;     /* Electric Teal */
+  --aw-color-secondary: #212529;   /* Charcoal */
+  --aw-color-accent: #00A79D;      /* Electric Teal */
   
-  --aw-color-text-heading: #1E293B; 
-  --aw-color-text-default: #334155; 
+  --aw-color-text-heading: #212529; 
+  --aw-color-text-default: #343A40; 
   --aw-color-text-muted: #64748b;
   
   --aw-color-bg-page: #FFFFFF;
-  --aw-color-bg-page-dark: #1E293B; /* Dark slate */
+  --aw-color-bg-page-dark: #212529; /* Brand Charcoal */
 }
 
 /* Dark Mode Overrides */
 .dark {
-  /* Strict: Use dark slate for background */
-  --aw-color-bg-page: #1E293B !important;
+  /* Strict: Use strictly #212529 for background */
+  --aw-color-bg-page: #212529 !important;
   
-  /* Burnt Orange for Primary/Accent in dark mode too */
-  --aw-color-primary: #E85D04; 
-  --aw-color-accent: #E85D04;
+  /* Strict: Use strictly #00A79D for Primary/Accent */
+  --aw-color-primary: #00A79D; 
+  --aw-color-accent: #00A79D;
   
-  /* Dark slate for Secondary */
-  --aw-color-secondary: #1E293B; 
+  /* Strict: Use strictly #212529 for Secondary */
+  --aw-color-secondary: #212529; 
   
   /* Text Colors */
-  --aw-color-text-heading: #F8FAFC;
-  --aw-color-text-default: #CBD5E1;
-  --aw-color-text-muted: #94A3B8;
+  --aw-color-text-heading: #FFFFFF;
+  --aw-color-text-default: #D1D5DB;
+  --aw-color-text-muted: #9CA3AF;
 }
 
 /* Force Browser Paint to Charcoal in Dark Mode (Stops the Blue Flash) */
