@@ -278,7 +278,7 @@ async function handleSubmitApplication(request: Request, env: Env): Promise<Resp
 
     return new Response(JSON.stringify({ ok: true }), { status: 200, headers: JSON_HEADERS });
   } catch (err) {
-    console.error('Submit application error:', err instanceof Error ? err.message : err);
+    console.error('Submit application error:', err instanceof Error ? err.stack || err.message : err);
     return new Response(JSON.stringify({ ok: false, message: 'Internal Server Error' }), {
       status: 500,
       headers: JSON_HEADERS,
@@ -360,7 +360,7 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
 
     return new Response(JSON.stringify({ ok: true }), { status: 200, headers: JSON_HEADERS });
   } catch (err) {
-    console.error('Contact form error:', err instanceof Error ? err.message : err);
+    console.error('Contact form error:', err instanceof Error ? err.stack || err.message : err);
     return new Response(JSON.stringify({ ok: false, message: 'Internal Server Error' }), {
       status: 500,
       headers: JSON_HEADERS,

@@ -22,9 +22,7 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
-  // --- ADD THIS LINE HERE ---
   site: 'https://uxhm.co.uk',
-  // --------------------------
 
   output: 'static',
 
@@ -64,10 +62,12 @@ export default defineConfig({
           removeAttributeQuotes: false,
         },
       },
-      Image: false,
+      // Image compression enabled — Astro's <Image> already handles WebP conversion,
+      // this adds a final compression pass to squeeze the last few KB.
+      Image: true,
       JavaScript: true,
       SVG: false,
-      Logger: 1,
+      Logger: 0,
     }),
 
     astrowind({
