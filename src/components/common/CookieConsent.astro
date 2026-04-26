@@ -1,19 +1,45 @@
 ---
-/* src/components/common/CookieConsent.astro */
+/* src/components/common/CookieConsent.astro
+ *
+ * Custom GDPR consent banner. This is the SOLE consent UI on uxhm.co.uk —
+ * we suppress Zaraz's built-in centered modal because its UI is poor on mobile
+ * and clashes with the brand.
+ *
+ * IMPORTANT — required Cloudflare dashboard config:
+ *   Zaraz → Consent → "Show consent modal" must be set to OFF.
+ *   That way Zaraz still respects this banner's choice (via the consent API
+ *   calls below) but never renders its own popup.
+ */
 ---
 
-<div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-[#212529] text-white p-4 z-[9999] hidden border-t border-gray-700 shadow-2xl">
+<div
+  id="cookie-banner"
+  role="dialog"
+  aria-labelledby="cookie-banner-title"
+  aria-describedby="cookie-banner-desc"
+  class="fixed bottom-0 left-0 right-0 w-full bg-[#212529] text-white p-4 z-[9999] hidden border-t border-gray-700 shadow-2xl translate-y-full transition-transform duration-300 ease-out"
+>
   <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
     <div class="text-sm text-gray-300">
-      <span class="font-bold text-white">We value your privacy.</span>
-      We use cookies to improve your experience and analyze website traffic.
-      You can accept or decline non-essential cookies.
+      <span id="cookie-banner-title" class="font-bold text-white block sm:inline">We value your privacy.</span>
+      <span id="cookie-banner-desc">
+        We use cookies to improve your experience and analyse traffic. You can accept or decline non-essential cookies.
+        <a href="/cookies" class="underline hover:text-white">Learn more</a>.
+      </span>
     </div>
-    <div class="flex gap-3">
-      <button id="cookie-reject" class="border border-gray-500 hover:border-gray-300 text-gray-300 hover:text-white font-bold py-2.5 px-6 rounded-full transition duration-200 cursor-pointer">
+    <div class="flex gap-3 shrink-0">
+      <button
+        id="cookie-reject"
+        type="button"
+        class="border border-gray-500 hover:border-gray-300 text-gray-300 hover:text-white font-bold py-2.5 px-6 rounded-full transition duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-300"
+      >
         Decline
       </button>
-      <button id="cookie-accept" class="bg-[#00A79D] hover:bg-[#008f87] text-white font-bold py-2.5 px-6 rounded-full transition duration-200 shadow-lg cursor-pointer">
+      <button
+        id="cookie-accept"
+        type="button"
+        class="bg-[#00A79D] hover:bg-[#008f87] text-white font-bold py-2.5 px-6 rounded-full transition duration-200 shadow-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#00A79D]"
+      >
         Accept
       </button>
     </div>
@@ -23,52 +49,97 @@
 <script is:inline>
   /* --- CONFIGURATION --- */
   const GA_MEASUREMENT_ID = 'G-4RZ1V007T3';
+  const STORAGE_KEY = 'uxhm-cookie-consent';
 
-  /* --- LOGIC --- */
+  /* --- GA loader --- */
   function loadGoogleAnalytics() {
     if (document.getElementById('ga-script')) return;
-
     const script = document.createElement('script');
     script.id = 'ga-script';
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
     document.head.appendChild(script);
-
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', GA_MEASUREMENT_ID);
+    gtag('config', GA_MEASUREMENT_ID, { anonymize_ip: true });
   }
 
-  const hasZarazConsent = typeof window !== 'undefined' && (window.zaraz && typeof window.zaraz.showConsent === 'function');
+  /* --- Zaraz consent API bridge ---
+   * Tells Zaraz about the user's choice so any Zaraz-managed tools also
+   * respect it. Safe to call before Zaraz finishes loading — we queue.
+   * The actual auto-popup is suppressed via the dashboard setting (see top
+   * of file).
+   */
+  function setZarazConsent(accepted) {
+    function apply() {
+      try {
+        if (window.zaraz && window.zaraz.consent && typeof window.zaraz.consent.setAll === 'function') {
+          window.zaraz.consent.setAll(accepted);
+          if (accepted && typeof window.zaraz.consent.sendQueuedEvents === 'function') {
+            window.zaraz.consent.sendQueuedEvents();
+          }
+        }
+      } catch (_) { /* never block UX on Zaraz errors */ }
+    }
+    if (window.zaraz && window.zaraz.consent) {
+      apply();
+    } else {
+      // Zaraz hasn't loaded yet — wait and retry once.
+      setTimeout(apply, 1500);
+    }
+  }
 
-  const consent = localStorage.getItem('uxhm-cookie-consent');
+  /* --- Banner show / hide --- */
   const banner = document.getElementById('cookie-banner');
   const acceptBtn = document.getElementById('cookie-accept');
   const rejectBtn = document.getElementById('cookie-reject');
 
-  if (hasZarazConsent) {
-    if (banner) banner.classList.add('hidden');
-  } else if (consent === 'true') {
-    loadGoogleAnalytics();
-  } else if (consent === 'false') {
-    // User already declined — stay hidden
-  } else {
+  function showBanner() {
+    if (!banner) return;
     banner.classList.remove('hidden');
+    // Slide up after layout settles, so the transition runs.
+    requestAnimationFrame(() => {
+      banner.classList.remove('translate-y-full');
+    });
   }
 
+  function hideBanner() {
+    if (!banner) return;
+    banner.classList.add('translate-y-full');
+    setTimeout(() => banner.classList.add('hidden'), 300);
+  }
+
+  /* --- Initial state --- */
+  let consent = null;
+  try { consent = localStorage.getItem(STORAGE_KEY); } catch (_) { /* SSR / private mode */ }
+
+  if (consent === 'true') {
+    loadGoogleAnalytics();
+    setZarazConsent(true);
+  } else if (consent === 'false') {
+    setZarazConsent(false);
+    /* stay hidden */
+  } else {
+    /* Brief delay so the banner doesn't flash on fast loads. */
+    setTimeout(showBanner, 200);
+  }
+
+  /* --- Button handlers --- */
   if (acceptBtn) {
     acceptBtn.addEventListener('click', () => {
-      localStorage.setItem('uxhm-cookie-consent', 'true');
-      banner.classList.add('hidden');
+      try { localStorage.setItem(STORAGE_KEY, 'true'); } catch (_) {}
+      hideBanner();
       loadGoogleAnalytics();
+      setZarazConsent(true);
     });
   }
 
   if (rejectBtn) {
     rejectBtn.addEventListener('click', () => {
-      localStorage.setItem('uxhm-cookie-consent', 'false');
-      banner.classList.add('hidden');
+      try { localStorage.setItem(STORAGE_KEY, 'false'); } catch (_) {}
+      hideBanner();
+      setZarazConsent(false);
     });
   }
 </script>
