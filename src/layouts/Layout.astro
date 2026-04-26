@@ -11,6 +11,7 @@ import Metadata from '~/components/common/Metadata.astro';
 import SiteVerification from '~/components/common/SiteVerification.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
 import CookieConsent from '~/components/common/CookieConsent.astro';
+import JsonLd from '~/components/common/JsonLd.astro';
 import '@fontsource/poppins/700.css';
 import '@fontsource/poppins/600.css';
 import '@fontsource/lato/400.css';
@@ -38,6 +39,7 @@ const { language, textDirection } = I18N;
     <ApplyColorMode />
     <Metadata {...metadata} />
     <SiteVerification />
+    <JsonLd />
     <!-- GA loaded via custom CookieConsent banner only after explicit consent. -->
     <!-- Zaraz still loads but its auto-consent modal is disabled in the dashboard. -->
 
