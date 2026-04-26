@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://uxhm.co.uk/sitemap-index.xml
