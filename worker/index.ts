@@ -1,11 +1,29 @@
 interface Env {
   ASSETS: Fetcher;
   DB: D1Database;
-  TURNSTILE_SECRET_KEY: string;
+  // Set in Cloudflare Pages → Settings → Environment Variables.
+  // Test/dummy keys (1x0000…, 2x0000…, 3x0000…) cause verification to be skipped
+  // so deploys don't break before real keys are configured.
+  TURNSTILE_SECRET_KEY?: string;
+  // Resend API key for lead-notification emails. Sign up free at resend.com,
+  // verify uxhm.co.uk, then set this in Pages env vars. If unset, leads still
+  // save to D1 but no email is sent (logged as a warning).
+  RESEND_API_KEY?: string;
+  // Where lead notification emails are sent. Defaults to hello@uxhm.co.uk.
+  LEAD_NOTIFICATION_EMAIL?: string;
+  // The from address for lead emails. Must be on a Resend-verified domain.
+  // Defaults to leads@uxhm.co.uk.
+  LEAD_NOTIFICATION_FROM?: string;
 }
 
 const JSON_HEADERS = { 'Content-Type': 'application/json' };
 const ALLOWED_ORIGINS = ['https://uxhm.co.uk', 'https://www.uxhm.co.uk'];
+
+// In-memory rate limit. Note: this is per-isolate and resets on cold start, so
+// it only catches trivial repeat hits within a single isolate. The real defence
+// is a Cloudflare Rate Limiting Rule on the dashboard:
+//   Pages → Settings → Functions → Rate Limiting → 10 req/min on /api/*
+// This map is kept as a cheap belt-and-braces layer; don't rely on it alone.
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 5;
 
@@ -20,8 +38,22 @@ function methodNotAllowed(endpoint: string) {
 
 function isOriginAllowed(request: Request): boolean {
   const origin = request.headers.get('Origin');
-  if (!origin) return true;
+  // Browsers always send Origin on cross-origin POSTs, so legitimate users
+  // always have one. Missing Origin = curl / scripts / bots → reject.
+  if (!origin) return false;
   return ALLOWED_ORIGINS.includes(origin);
+}
+
+// Cloudflare Turnstile dummy/test secret keys all start with these prefixes.
+// When the configured secret matches a test key (or is missing), we skip
+// verification so deploys don't break before real keys are configured.
+// Source: https://developers.cloudflare.com/turnstile/troubleshooting/testing/
+function shouldEnforceTurnstile(secretKey: string | undefined): boolean {
+  if (!secretKey) return false;
+  if (secretKey.startsWith('1x0000000000000000000000000000000')) return false;
+  if (secretKey.startsWith('2x0000000000000000000000000000000')) return false;
+  if (secretKey.startsWith('3x0000000000000000000000000000000')) return false;
+  return true;
 }
 
 function checkRateLimit(ip: string): boolean {
@@ -73,13 +105,6 @@ export default {
 
 // ── Turnstile Verification ──────────────────────────────────
 async function verifyTurnstile(token: string, secretKey: string, remoteip?: string): Promise<boolean> {
-  // Diagnostic logging — remove after debugging
-  console.log('TURNSTILE DEBUG:', {
-    tokenLength: token ? token.length : 0,
-    tokenFirst20: token ? token.substring(0, 20) : 'EMPTY',
-    secretKeyPrefix: secretKey ? secretKey.substring(0, 8) + '...' : 'MISSING',
-  });
-
   const body = new URLSearchParams();
   body.append('secret', secretKey);
   body.append('response', token);
@@ -95,10 +120,85 @@ async function verifyTurnstile(token: string, secretKey: string, remoteip?: stri
   const outcome = (await result.json()) as { success: boolean; 'error-codes'?: string[] };
 
   if (!outcome.success) {
-    console.error('Turnstile verification failed:', JSON.stringify(outcome));
+    // Log the error codes only — never log the secret or token contents.
+    console.error('Turnstile verification failed:', JSON.stringify(outcome['error-codes'] ?? []));
   }
 
   return outcome.success;
+}
+
+// ── Lead Notification Email (Resend) ───────────────────────
+type LeadKind = 'lead' | 'contact';
+
+async function sendLeadNotification(
+  env: Env,
+  kind: LeadKind,
+  data: Record<string, string>
+): Promise<void> {
+  if (!env.RESEND_API_KEY) {
+    console.warn('RESEND_API_KEY not set — lead saved to D1 but no email sent');
+    return;
+  }
+
+  const to = env.LEAD_NOTIFICATION_EMAIL || 'hello@uxhm.co.uk';
+  const fromAddr = env.LEAD_NOTIFICATION_FROM || 'leads@uxhm.co.uk';
+
+  const subject =
+    kind === 'lead'
+      ? `New launch lead: ${data.name || 'unknown'} (${data.business_name || 'no business'})`
+      : `New contact: ${data.name || 'unknown'} — ${data.service || 'general'}`;
+
+  const rows = Object.entries(data)
+    .filter(([, v]) => v != null && v !== '')
+    .map(
+      ([k, v]) =>
+        `<tr><td style="padding:6px 12px;color:#666;font-size:13px;text-align:right;vertical-align:top"><b>${escapeHtml(
+          k
+        )}</b></td><td style="padding:6px 12px;font-size:14px">${escapeHtml(String(v))}</td></tr>`
+    )
+    .join('');
+
+  const html = `
+    <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;padding:24px">
+      <h2 style="color:#00a79d;margin:0 0 16px;font-size:18px">New ${kind === 'lead' ? 'launch lead' : 'contact'} from uxhm.co.uk</h2>
+      <table style="border-collapse:collapse;width:100%;background:#f9fafb;border-radius:8px;overflow:hidden">${rows}</table>
+      <p style="color:#666;font-size:12px;margin-top:16px">
+        Reply directly to this email to respond to the lead — reply-to is set to their address.
+      </p>
+    </div>`;
+
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: `UXHM Leads <${fromAddr}>`,
+        to: [to],
+        reply_to: data.email || undefined,
+        subject,
+        html,
+      }),
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error('Resend send failed:', res.status, errText);
+    }
+  } catch (err) {
+    console.error('Resend exception:', err instanceof Error ? err.message : err);
+  }
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 // ── Portfolio launch leads ──────────────────────────────────
@@ -122,14 +222,16 @@ async function handleSubmitApplication(request: Request, env: Env): Promise<Resp
 
     const fd = await request.formData();
 
-    const token = fd.get('cf-turnstile-response') as string;
-    // TURNSTILE DISABLED — re-enable after fixing invalid-input-response
-    // if (!token || !(await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY, ip))) {
-    //   return new Response(JSON.stringify({ ok: false, message: 'Verification failed. Please try again.' }), {
-    //     status: 403,
-    //     headers: JSON_HEADERS,
-    //   });
-    // }
+    // Turnstile verification — enforced when a real (non-test) secret is configured.
+    if (shouldEnforceTurnstile(env.TURNSTILE_SECRET_KEY)) {
+      const token = fd.get('cf-turnstile-response') as string;
+      if (!token || !(await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY!, ip))) {
+        return new Response(
+          JSON.stringify({ ok: false, message: 'Verification failed. Please try again.' }),
+          { status: 403, headers: JSON_HEADERS }
+        );
+      }
+    }
 
     const name = sanitize(fd.get('name') as string, 200);
     const email = sanitize(fd.get('email') as string, 254);
@@ -161,6 +263,19 @@ async function handleSubmitApplication(request: Request, env: Env): Promise<Resp
       .run();
 
     if (!result.success) throw new Error('Database insert failed');
+
+    // Send notification email — runs in the background; never blocks the response
+    // and never causes the form to fail if Resend is down or unconfigured.
+    await sendLeadNotification(env, 'lead', {
+      name,
+      email,
+      business_name: businessName,
+      industry,
+      domain_preference: domainPreference,
+      message,
+      source,
+    });
+
     return new Response(JSON.stringify({ ok: true }), { status: 200, headers: JSON_HEADERS });
   } catch (err) {
     console.error('Submit application error:', err instanceof Error ? err.message : err);
@@ -192,14 +307,16 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
 
     const fd = await request.formData();
 
-    const token = fd.get('cf-turnstile-response') as string;
-    // TURNSTILE DISABLED — re-enable after fixing invalid-input-response
-    // if (!token || !(await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY, ip))) {
-    //   return new Response(JSON.stringify({ ok: false, message: 'Verification failed. Please try again.' }), {
-    //     status: 403,
-    //     headers: JSON_HEADERS,
-    //   });
-    // }
+    // Turnstile verification — enforced when a real (non-test) secret is configured.
+    if (shouldEnforceTurnstile(env.TURNSTILE_SECRET_KEY)) {
+      const token = fd.get('cf-turnstile-response') as string;
+      if (!token || !(await verifyTurnstile(token, env.TURNSTILE_SECRET_KEY!, ip))) {
+        return new Response(
+          JSON.stringify({ ok: false, message: 'Verification failed. Please try again.' }),
+          { status: 403, headers: JSON_HEADERS }
+        );
+      }
+    }
 
     const name = sanitize(fd.get('name') as string, 200);
     const email = sanitize(fd.get('email') as string, 254);
@@ -230,6 +347,17 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
       .run();
 
     if (!result.success) throw new Error('Database insert failed');
+
+    // Notify Hira so leads don't sit in D1 unnoticed.
+    await sendLeadNotification(env, 'contact', {
+      name,
+      email,
+      service,
+      message,
+      source,
+      page,
+    });
+
     return new Response(JSON.stringify({ ok: true }), { status: 200, headers: JSON_HEADERS });
   } catch (err) {
     console.error('Contact form error:', err instanceof Error ? err.message : err);
