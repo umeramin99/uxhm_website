@@ -1,0 +1,246 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import Content from '~/components/widgets/Content.astro';
+import Pricing from '~/components/widgets/Pricing.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Steps from '~/components/widgets/Steps.astro';
+
+const metadata = {
+  title: 'Websites for UK Plumbers, Electricians & Builders | UXHM',
+  description:
+    'Fixed-price websites for UK tradies. Live in 7 working days. Mobile-first, tap-to-call, ranked locally. From £249 launch.',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="websites for UK tradies"
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Get a Free Quote',
+        href: '/contact',
+        icon: 'tabler:mail',
+      },
+      { text: 'See How It Works', href: '#how' },
+    ]}
+    image={{
+      src: '~/assets/images/hero-image.jpg',
+      alt: 'UK plumber checking website on phone in van',
+    }}
+  >
+    <Fragment slot="title">
+      Your Tools Get You to the Job. <span class="text-accent highlight">Your Website Gets You the Call.</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Fixed-price, mobile-first websites for UK <strong>plumbers</strong>, <strong>electricians</strong>,
+      <strong>builders</strong> & heating engineers. Live in 7 working days. <strong>From £249.</strong>
+    </Fragment>
+  </Hero>
+
+  <Features
+    tagline="Why Tradies Choose Us"
+    title="Built To Book Jobs, Not Win Awards"
+    subtitle="Most tradie sites are made by someone's nephew. They look like PowerPoint 2007 and lose you work. Ours don't."
+    items={[
+      {
+        title: 'Tap-to-Call on Every Page',
+        description:
+          'Every customer who lands on your site can ring you with one tap. No copy-paste numbers. No missed calls.',
+        icon: 'tabler:phone-call',
+      },
+      {
+        title: 'Ranked for Your Town',
+        description:
+          'Local SEO baked in. We optimise for "[your trade] [your town]" so you show up before your competitors do.',
+        icon: 'tabler:map-pin',
+      },
+      {
+        title: 'Live in 7 Working Days',
+        description:
+          'Fixed price. Fixed timeline. Live while you\'re still finishing the jobs you\'ve already booked.',
+        icon: 'tabler:clock',
+      },
+      {
+        title: 'We Speak Your Language',
+        description:
+          'No "synergy" nonsense. We know what a boiler is and why your van matters more than a server rack.',
+        icon: 'tabler:tool',
+      },
+      {
+        title: 'Google Business Profile Setup',
+        description:
+          'We claim, optimise, and connect your GBP so the calls and quote requests actually come in.',
+        icon: 'tabler:brand-google',
+      },
+      {
+        title: 'Beat the Nephew-Sites',
+        description:
+          'Your competitors paid their nephew £50 and got a PowerPoint. You\'ll have a site that makes people trust you before they call.',
+        icon: 'tabler:trophy',
+      },
+    ]}
+  />
+
+  <Pricing
+    id="pricing"
+    title="One Price. No Surprises."
+    subtitle="Pick the package that fits. Both go live in 7 working days."
+    prices={[
+      {
+        title: 'Tradie Starter Site',
+        subtitle: 'Best for sole traders & 1-2 person crews',
+        price: '249',
+        period: 'one-off launch price',
+        items: [
+          { description: '5 pages: home, services, areas covered, gallery, contact' },
+          { description: 'Mobile-first design, tap-to-call number on every page' },
+          { description: 'Google Business Profile setup & optimisation' },
+          { description: 'Local SEO for "[your trade] [your town]"' },
+          { description: 'Live in 7 working days from sign-off' },
+          { description: 'Hosting, SSL & domain handled (first year included)' },
+        ],
+        callToAction: {
+          target: '_self',
+          text: 'Get a Free Quote',
+          href: '/contact',
+        },
+      },
+      {
+        title: 'Tradie Growth Site',
+        subtitle: 'For trades that take 2+ jobs a week',
+        price: '499',
+        period: 'one-off launch price',
+        items: [
+          { description: 'Everything in Starter, plus:' },
+          { description: 'Up to 8 pages with custom service breakdowns' },
+          { description: 'Quote-request form with email + WhatsApp routing' },
+          { description: 'Reviews widget (Google + Trustpilot) on homepage' },
+          { description: 'Before/after gallery built for big jobs' },
+          { description: 'Schema markup for local search visibility' },
+        ],
+        callToAction: {
+          target: '_self',
+          text: 'Get a Free Quote',
+          href: '/contact',
+        },
+        hasRibbon: true,
+        ribbonTitle: 'most picked',
+      },
+    ]}
+  />
+
+  <Content
+    items={[
+      {
+        title: 'Essential Care — £20/month',
+        description:
+          'Hosting, weekly backups, security updates, plus 30 minutes of tweaks each month. Cancel any time. <strong>First month free.</strong>',
+        icon: 'tabler:shield-check',
+      },
+      {
+        title: 'Pro Care — £50/month',
+        description:
+          'Everything in Essential, plus monthly content updates, GBP review monitoring, monthly performance report, and priority email response.',
+        icon: 'tabler:rocket',
+      },
+    ]}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Optional Care Plans (Most Tradies Take One)
+      </h3>
+      <p class="text-muted">
+        Sites need looking after. Update broken? Photo to swap? New service to add? You don't touch a thing — we
+        handle it.
+      </p>
+    </Fragment>
+  </Content>
+
+  <Steps
+    id="how"
+    title="How It Works"
+    tagline="7 working days, start to finish"
+    items={[
+      {
+        title: 'Day 1 — Free quote',
+        description:
+          'Reply to your quote, fill in 3 questions about your business, pay 50% deposit. We get to work the same day.',
+        icon: 'tabler:mail',
+      },
+      {
+        title: 'Day 2-4 — We build',
+        description:
+          'We design and build your site. You stay focused on jobs. We send a preview link by day 4.',
+        icon: 'tabler:tool',
+      },
+      {
+        title: 'Day 5-6 — One round of tweaks',
+        description:
+          'You tell us what to change in plain English. We change it. No endless revisions. No "version 17."',
+        icon: 'tabler:edit',
+      },
+      {
+        title: 'Day 7 — Live + Google Business set up',
+        description:
+          'Site goes live, GBP optimised, final 50% invoice sent. You start getting calls.',
+        icon: 'tabler:rocket',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=2344&q=80',
+      alt: 'Tradesperson at work on a building site',
+    }}
+  />
+
+  <Features
+    tagline="What You Get"
+    title="Everything Built In, No Add-Ons"
+    items={[
+      {
+        title: 'Mobile-first',
+        description: '85% of tradie leads come from a phone. Your site loads in under 2s on 4G.',
+        icon: 'tabler:device-mobile',
+      },
+      {
+        title: 'Click-to-call & WhatsApp',
+        description: 'Tap to ring. Tap to WhatsApp. Lead capture forms backed up by email.',
+        icon: 'tabler:message-circle',
+      },
+      {
+        title: 'Local SEO baked in',
+        description: 'Each town you cover gets its own page. Google can\'t miss you.',
+        icon: 'tabler:map-pin',
+      },
+      {
+        title: 'Reviews on the homepage',
+        description: 'Google + Trustpilot reviews pulled live. New customers see your reputation first.',
+        icon: 'tabler:star',
+      },
+    ]}
+  />
+
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Get a Free Quote',
+        href: '/contact',
+        icon: 'tabler:mail',
+      },
+    ]}
+  >
+    <Fragment slot="title">
+      Stop Losing Jobs to <span class="text-accent">Worse Tradespeople with Better Websites.</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Reply with your business name and we'll send you a fixed-price quote within 24 hours. No phone calls unless
+      you want one.
+    </Fragment>
+  </CallToAction>
+</Layout>
