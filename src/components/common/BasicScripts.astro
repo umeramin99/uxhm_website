@@ -68,9 +68,7 @@ import { UI } from 'astrowind:config';
       if (defaultTheme.endsWith(':only')) {
         return;
       }
-
       Observer.removeAnimationDelay();
-
       document.documentElement.classList.toggle('dark');
       localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
     });
@@ -183,7 +181,6 @@ import { UI } from 'astrowind:config';
         '[class^="intersect "]',
         '[class$=" intersect"]',
       ];
-
       this.elements = Array.from(document.querySelectorAll(selectors.join(',')));
 
       const getThreshold = (element) => {
@@ -204,7 +201,6 @@ import { UI } from 'astrowind:config';
             const target = entry.target;
             const intersectionRatio = entry.intersectionRatio;
             const threshold = target._intersectionThreshold;
-
             if (target.classList.contains('intersect-no-queue')) {
               if (entry.isIntersecting) {
                 target.removeAttribute('no-intersect');
@@ -216,7 +212,6 @@ import { UI } from 'astrowind:config';
               }
               return;
             }
-
             if (intersectionRatio >= threshold) {
               if (!target.hasAttribute('data-animated')) {
                 target.removeAttribute('no-intersect');
@@ -237,7 +232,6 @@ import { UI } from 'astrowind:config';
               target.removeAttribute('data-animated');
               target.style.transitionDelay = '';
               target.style.animationDelay = '';
-
               this.animationCounter = 0;
             }
           });
@@ -251,12 +245,8 @@ import { UI } from 'astrowind:config';
       });
     },
 
-    /* 
-      REF: #643;
-      We need to remove the delay to fix flickering/delay
-      when toggling the theme. Observer only removes them
-      after data-animated is gone (out of view).
-    */
+    /* REF: #643; We need to remove the delay to fix flickering/delay when toggling the theme.
+   Observer only removes them after data-animated is gone (out of view). */
     removeAnimationDelay() {
       this.elements.forEach((el) => {
         if (el.getAttribute('data-animated') === 'true') {
@@ -265,11 +255,33 @@ import { UI } from 'astrowind:config';
         }
       });
     },
+
+    /* SAFETY NET: if IntersectionObserver hasn't revealed in-viewport elements
+       within 700ms (background tab throttling, slow first paint, etc.), reveal
+       them anyway so users never see a blank above-the-fold. */
+    revealInViewportFallback() {
+      if (!this.elements) return;
+      const vh = window.innerHeight || 0;
+      this.elements.forEach((el) => {
+        if (!el.hasAttribute('no-intersect')) return;
+        const rect = el.getBoundingClientRect();
+        const inViewport = rect.top < vh && rect.bottom > 0;
+        if (inViewport) {
+          el.removeAttribute('no-intersect');
+          el.setAttribute('data-animated', 'true');
+          if (el.classList.contains('intersect-once') && this.observer) {
+            this.observer.unobserve(el);
+          }
+        }
+      });
+    },
   };
 
   Observer.start();
+  setTimeout(() => Observer.revealInViewportFallback(), 700);
 
   document.addEventListener('astro:after-swap', () => {
     Observer.start();
+    setTimeout(() => Observer.revealInViewportFallback(), 700);
   });
 </script>
