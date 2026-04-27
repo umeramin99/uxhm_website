@@ -256,7 +256,7 @@ import { UI } from 'astrowind:config';
       });
     },
 
-    /* SAFETY NET: if IntersectionObserver hasn't revealed in-viewport elements
+    /* SAFETY NET 1: if IntersectionObserver hasn't revealed in-viewport elements
        within 700ms (background tab throttling, slow first paint, etc.), reveal
        them anyway so users never see a blank above-the-fold. */
     revealInViewportFallback() {
@@ -275,13 +275,31 @@ import { UI } from 'astrowind:config';
         }
       });
     },
+
+    /* SAFETY NET 2: at 1.5s, reveal EVERY remaining stuck element regardless of
+       viewport position. Trades off the scroll-to-fade aesthetic for guaranteed
+       content visibility. Critical for users who think the page is broken when
+       below-the-fold sections don't appear. */
+    revealAllFallback() {
+      if (!this.elements) return;
+      this.elements.forEach((el) => {
+        if (!el.hasAttribute('no-intersect')) return;
+        el.removeAttribute('no-intersect');
+        el.setAttribute('data-animated', 'true');
+        if (el.classList.contains('intersect-once') && this.observer) {
+          this.observer.unobserve(el);
+        }
+      });
+    },
   };
 
   Observer.start();
   setTimeout(() => Observer.revealInViewportFallback(), 700);
+  setTimeout(() => Observer.revealAllFallback(), 1500);
 
   document.addEventListener('astro:after-swap', () => {
     Observer.start();
     setTimeout(() => Observer.revealInViewportFallback(), 700);
+    setTimeout(() => Observer.revealAllFallback(), 1500);
   });
 </script>
