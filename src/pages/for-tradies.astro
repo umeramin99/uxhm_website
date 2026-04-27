@@ -21,9 +21,9 @@ const metadata = {
     actions={[
       {
         variant: 'primary',
-        text: 'Get a Free Quote',
+        text: 'Book Your Build Slot',
         href: '/contact',
-        icon: 'tabler:mail',
+        icon: 'tabler:calendar-plus',
       },
       { text: 'See How It Works', href: '#how' },
     ]}
@@ -89,11 +89,11 @@ const metadata = {
   <Pricing
     id="pricing"
     title="One Price. No Surprises."
-    subtitle="Pick the package that fits. Both go live in 7 working days."
+    subtitle="Pick the package that fits. All three go live in 7 working days. Only 4 build slots a month."
     prices={[
       {
-        title: 'Tradie Starter Site',
-        subtitle: 'Best for sole traders & 1-2 person crews',
+        title: 'Tradie Starter',
+        subtitle: 'Sole traders & 1-2 person crews',
         price: '249',
         period: 'one-off launch price',
         items: [
@@ -106,13 +106,13 @@ const metadata = {
         ],
         callToAction: {
           target: '_self',
-          text: 'Get a Free Quote',
+          text: 'Book Your Slot',
           href: '/contact',
         },
       },
       {
-        title: 'Tradie Growth Site',
-        subtitle: 'For trades that take 2+ jobs a week',
+        title: 'Tradie Growth',
+        subtitle: 'Trades taking 2+ jobs a week',
         price: '499',
         period: 'one-off launch price',
         items: [
@@ -125,11 +125,30 @@ const metadata = {
         ],
         callToAction: {
           target: '_self',
-          text: 'Get a Free Quote',
+          text: 'Book Your Slot',
           href: '/contact',
         },
         hasRibbon: true,
         ribbonTitle: 'most picked',
+      },
+      {
+        title: 'Tradie Pro',
+        subtitle: 'Multi-van firms or trades hiring',
+        price: '899',
+        period: 'one-off launch price',
+        items: [
+          { description: 'Everything in Growth, plus:' },
+          { description: '10+ pages with deep service breakdowns' },
+          { description: 'Dedicated landing page for each town you cover (up to 5)' },
+          { description: 'Blog set up so you can post case studies' },
+          { description: 'Job-application form for hiring' },
+          { description: 'Priority slot — start within 7 days, not 14' },
+        ],
+        callToAction: {
+          target: '_self',
+          text: 'Book Your Slot',
+          href: '/contact',
+        },
       },
     ]}
   />
@@ -228,9 +247,9 @@ const metadata = {
     actions={[
       {
         variant: 'primary',
-        text: 'Get a Free Quote',
+        text: 'Book Your Build Slot',
         href: '/contact',
-        icon: 'tabler:mail',
+        icon: 'tabler:calendar-plus',
       },
     ]}
   >
@@ -239,8 +258,8 @@ const metadata = {
     </Fragment>
 
     <Fragment slot="subtitle">
-      Reply with your business name and we'll send you a fixed-price quote within 24 hours. No phone calls unless
-      you want one.
+      Only 4 build slots a month. Pick yours, send your business name, and we'll confirm within 24 hours. No
+      phone calls unless you want one.
     </Fragment>
   </CallToAction>
 </Layout>
