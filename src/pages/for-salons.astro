@@ -21,9 +21,9 @@ const metadata = {
     actions={[
       {
         variant: 'primary',
-        text: 'Get a Free Quote',
+        text: 'Reserve Yours',
         href: '/contact',
-        icon: 'tabler:mail',
+        icon: 'tabler:calendar-plus',
       },
       { text: 'See How It Works', href: '#how' },
     ]}
@@ -89,11 +89,11 @@ const metadata = {
   <Pricing
     id="pricing"
     title="One Price. No Surprises."
-    subtitle="Pick the package that fits. Both go live in 7 working days."
+    subtitle="Pick the package that fits. All three go live in 7 working days. Only 4 build slots a month."
     prices={[
       {
-        title: 'Salon Starter Site',
-        subtitle: 'Best for solo stylists & small salons',
+        title: 'Salon Starter',
+        subtitle: 'Solo stylists & small salons',
         price: '249',
         period: 'one-off launch price',
         items: [
@@ -106,13 +106,13 @@ const metadata = {
         ],
         callToAction: {
           target: '_self',
-          text: 'Get a Free Quote',
+          text: 'Reserve Yours',
           href: '/contact',
         },
       },
       {
-        title: 'Salon Growth Site',
-        subtitle: 'For salons with multiple stylists or services',
+        title: 'Salon Growth',
+        subtitle: 'Salons with multiple stylists or services',
         price: '499',
         period: 'one-off launch price',
         items: [
@@ -125,11 +125,30 @@ const metadata = {
         ],
         callToAction: {
           target: '_self',
-          text: 'Get a Free Quote',
+          text: 'Reserve Yours',
           href: '/contact',
         },
         hasRibbon: true,
         ribbonTitle: 'most picked',
+      },
+      {
+        title: 'Salon Pro',
+        subtitle: 'Multi-location salons or salon brands',
+        price: '899',
+        period: 'one-off launch price',
+        items: [
+          { description: 'Everything in Growth, plus:' },
+          { description: 'Per-location landing pages (up to 5)' },
+          { description: 'Online gift voucher store' },
+          { description: 'Loyalty / member area integration' },
+          { description: 'Branded blog (perfect for trend posts)' },
+          { description: 'Priority slot — start within 7 days, not 14' },
+        ],
+        callToAction: {
+          target: '_self',
+          text: 'Reserve Yours',
+          href: '/contact',
+        },
       },
     ]}
   />
@@ -200,9 +219,9 @@ const metadata = {
     actions={[
       {
         variant: 'primary',
-        text: 'Get a Free Quote',
+        text: 'Reserve Yours',
         href: '/contact',
-        icon: 'tabler:mail',
+        icon: 'tabler:calendar-plus',
       },
     ]}
   >
@@ -211,7 +230,7 @@ const metadata = {
     </Fragment>
 
     <Fragment slot="subtitle">
-      Reply with your salon name and Insta handle. We'll send you a fixed-price quote within 24 hours.
+      Only 4 build slots a month. Send your salon name and Insta handle, we'll confirm your slot within 24 hours.
     </Fragment>
   </CallToAction>
 </Layout>
