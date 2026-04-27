@@ -295,11 +295,11 @@ import { UI } from 'astrowind:config';
 
   Observer.start();
   setTimeout(() => Observer.revealInViewportFallback(), 700);
-  setTimeout(() => Observer.revealAllFallback(), 1500);
+  setTimeout(() => Observer.revealAllFallback(), 500);
 
   document.addEventListener('astro:after-swap', () => {
     Observer.start();
     setTimeout(() => Observer.revealInViewportFallback(), 700);
-    setTimeout(() => Observer.revealAllFallback(), 1500);
+    setTimeout(() => Observer.revealAllFallback(), 500);
   });
 </script>
