@@ -98,6 +98,12 @@ export default {
       return methodNotAllowed('/api/contact');
     }
 
+    // --- /api/analyze (free website audit lead magnet) ---
+    if (url.pathname === '/api/analyze') {
+      if (request.method === 'POST') return handleAnalyze(request, env);
+      return methodNotAllowed('/api/analyze');
+    }
+
     // Serve static assets for everything else
     return env.ASSETS.fetch(request);
   },
@@ -365,5 +371,85 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
       status: 500,
       headers: JSON_HEADERS,
     });
+  }
+}
+
+// ── Free website audit lead magnet ────────────────────────
+async function handleAnalyze(request: Request, env: Env): Promise<Response> {
+  try {
+    if (!isOriginAllowed(request)) {
+      return new Response(JSON.stringify({ ok: false, error: 'Forbidden' }), { status: 403, headers: JSON_HEADERS });
+    }
+    const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+    if (!checkRateLimit(ip)) {
+      return new Response(JSON.stringify({ ok: false, error: 'Too many requests. Try again in a minute.' }), { status: 429, headers: JSON_HEADERS });
+    }
+
+    let body: { url?: unknown; email?: unknown };
+    try { body = await request.json(); } catch { return new Response(JSON.stringify({ ok: false, error: 'Invalid JSON' }), { status: 400, headers: JSON_HEADERS }); }
+
+    let urlStr = String(body.url ?? '').trim();
+    if (!urlStr) return new Response(JSON.stringify({ ok: false, error: 'Please provide a website URL.' }), { status: 400, headers: JSON_HEADERS });
+    if (!/^https?:\/\//i.test(urlStr)) urlStr = 'https://' + urlStr;
+    let target: URL;
+    try { target = new URL(urlStr); } catch { return new Response(JSON.stringify({ ok: false, error: 'Invalid URL.' }), { status: 400, headers: JSON_HEADERS }); }
+    if (!['http:', 'https:'].includes(target.protocol)) return new Response(JSON.stringify({ ok: false, error: 'Invalid URL protocol.' }), { status: 400, headers: JSON_HEADERS });
+
+    const email = String(body.email ?? '').trim();
+    if (!isValidEmail(email)) return new Response(JSON.stringify({ ok: false, error: 'Please provide a valid email.' }), { status: 400, headers: JSON_HEADERS });
+
+    const url = target.toString();
+    const psiUrl = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=' + encodeURIComponent(url) + '&strategy=mobile&category=performance&category=best-practices&category=seo&category=accessibility';
+
+    let lhResult: { categories?: Record<string, { score?: number }>; audits?: Record<string, { numericValue?: number }> } | null = null;
+    try {
+      const psi = await fetch(psiUrl);
+      const psiJson = await psi.json() as { lighthouseResult?: typeof lhResult };
+      lhResult = psiJson?.lighthouseResult ?? null;
+    } catch (err) {
+      console.warn('PageSpeed fetch failed:', err instanceof Error ? err.message : err);
+    }
+
+    const cats = lhResult?.categories ?? {};
+    const perf = cats.performance?.score;
+    const bp = cats['best-practices']?.score;
+    const seo = cats.seo?.score;
+    const a11y = cats.accessibility?.score;
+
+    const issues: string[] = [];
+    const wins: string[] = [];
+    if (typeof perf === 'number' && perf < 0.5) { issues.push('Slow mobile performance'); wins.push('Compress images, defer heavy scripts, fix layout shifts.'); }
+    if (typeof seo === 'number' && seo < 0.8) { issues.push('Weak on-page SEO basics'); wins.push('Add titles, meta description, headings, and internal links.'); }
+    if (typeof bp === 'number' && bp < 0.8) { issues.push('Best-practices issues'); wins.push('Fix HTTPS, console errors, modern image formats.'); }
+    if (typeof a11y === 'number' && a11y < 0.8) { issues.push('Accessibility issues'); wins.push('Fix colour contrast, alt text, and ARIA labels.'); }
+    const audits = lhResult?.audits ?? {};
+    const lcp = audits['largest-contentful-paint']?.numericValue;
+    if (typeof lcp === 'number' && lcp > 4000) { issues.push('Slow largest contentful paint'); wins.push('Optimise hero image, preload key assets.'); }
+
+    const vals = [perf, bp, seo, a11y].filter((v): v is number => typeof v === 'number');
+    const score = vals.length ? Math.round((vals.reduce((a, b) => a + b, 0) / vals.length) * 100) : null;
+
+    const results = {
+      ok: true,
+      input: { url, email },
+      score,
+      issues: issues.slice(0, 12),
+      quickWins: wins.slice(0, 10),
+      pagespeed: { ok: !!lhResult, lighthouse: lhResult ? { categories: { performance: perf, bestPractices: bp, seo, accessibility: a11y }, audits } : null },
+    };
+
+    await sendLeadNotification(env, 'contact', {
+      name: 'Audit Tool Lead',
+      email,
+      service: 'Free Website Audit',
+      message: 'Audited ' + url + ' — overall score ' + (score ?? 'n/a') + '/100.\n\nTop issues:\n' + issues.slice(0, 5).map((i) => '- ' + i).join('\n'),
+      source: 'audit_tool',
+      page: '/audit',
+    });
+
+    return new Response(JSON.stringify(results), { status: 200, headers: JSON_HEADERS });
+  } catch (err) {
+    console.error('Analyze error:', err instanceof Error ? err.stack || err.message : err);
+    return new Response(JSON.stringify({ ok: false, error: 'Audit failed. Please try again.' }), { status: 500, headers: JSON_HEADERS });
   }
 }
