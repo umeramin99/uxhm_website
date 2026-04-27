@@ -6,82 +6,140 @@ import Content from '~/components/widgets/Content.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
-  title: 'UXHM | Websites for Plumbers, Electricians & Builders',
+  title: 'UXHM | Websites That Book the Job for UK Small Businesses',
   ignoreTitleTemplate: true,
 };
 ---
 
 <Layout metadata={metadata}>
   <Hero
-    tagline="websites for tradies"
+    tagline="websites for UK small businesses"
     actions={[
       {
         variant: 'primary',
-        text: 'Get Your Free Quote',
+        text: 'Get a Free Quote',
         href: '/contact',
         icon: 'tabler:mail',
       },
-      { text: 'See Our Work', href: '#portfolio' },
+      { text: 'See Our Packages', href: '#industries' },
     ]}
-    image={{ src: '~/assets/images/hero-image.jpg', alt: 'Professional tradesperson with tablet' }}
+    image={{
+      src: '~/assets/images/hero-image.jpg',
+      alt: 'UK small business owner reviewing their new website',
+    }}
   >
     <Fragment slot="title">
-      Your Tools Get You to the Job. <span class="text-accent highlight">Your Website Gets You the Call.</span>
+      A Website That <span class="text-accent highlight">Books the Job for You.</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      Professional websites for <span class="font-semibold">plumbers</span>, <span class="font-semibold">electricians</span>, <span class="font-semibold">builders</span> & heating engineers. We build them. You run your business. That's the deal.
+      Fast, fixed-price websites for UK small businesses. Live in 7 working days. <strong>From £249.</strong>
+      No tech jargon. No timeline nightmares.
     </Fragment>
   </Hero>
 
   <Features
-    id="features"
-    tagline="Why Tradies Choose Us"
-    title="You Already Work 60 Hours. We'll Handle the Website."
-    subtitle="No tech jargon. No timeline nightmares. Just a website that works as hard as you do."
+    id="industries"
+    tagline="Pick Your Industry"
+    title="Built For The Businesses We Serve Best"
+    subtitle="See exactly what you get and how much it costs. Every package goes live in 7 working days."
     items={[
       {
-        title: 'We Speak Your Language',
+        title: 'Tradies',
         description:
-          'No "synergy" nonsense. We know what a boiler is, what a spark does, and why your van matters more than a server rack. You explain the job — we build what sells.',
+          'Plumbers, electricians, builders & heating engineers. Mobile-first sites that fill your diary, not your inbox. From £249.',
         icon: 'tabler:tool',
       },
       {
-        title: 'Fast Turnaround',
+        title: 'Salons',
         description:
-          'Live in days, not months. Your site goes live while you\'re still finishing the jobs you\'ve already booked. No endless revisions.',
-        icon: 'tabler:clock',
+          'Hair, nail & beauty salons. Insta-grade design with Fresha/Treatwell booking front and centre. From £249.',
+        icon: 'tabler:scissors',
       },
       {
-        title: 'Beat the Nephew-Sites',
+        title: 'Everyone Else',
         description:
-          'Your competitor\'s nephew made their site. It looks like PowerPoint 2007. Your site will look premium — because you are.',
-        icon: 'tabler:trophy',
+          'Restaurants, tutors, consultants, retailers — same chat-first, fixed-price approach. Get in touch for a free quote.',
+        icon: 'tabler:building-store',
       },
     ]}
   />
 
   <Content
     isReversed
-    id="portfolio"
     items={[
       {
-        title: 'What We Build for Trades',
+        title: 'Mobile-First, Tap-to-Call',
         description:
-          'We don\'t do generic "beautiful websites." We build lead-generating machines that make people trust you before they even call.',
+          'Most of your customers find you on a phone. Every page on your site lets them tap once to ring you, book you, or message you.',
+      },
+      {
+        title: 'Local SEO Built In',
+        description:
+          'Ranked for "[your business] [your town]" so locals find you before your competitors.',
+      },
+      {
+        title: 'Live in 7 Working Days',
+        description:
+          'Fixed price. Fixed timeline. Live while you\'re still finishing the work you\'ve already booked.',
       },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=2344&q=80',
-      alt: 'Tradesperson at work',
+      alt: 'UK tradesperson with tablet checking website',
     }}
   >
     <Fragment slot="content">
       <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        New Websites That Fill Your Diary
+        For Plumbers, Sparks & Builders
       </h3>
+      <p class="text-muted">
+        Sites that fill your diary, not your inbox. Tradie Starter from <strong>£249</strong>, Growth from
+        <strong>£499</strong>, Pro for multi-van firms from <strong>£899</strong>.
+      </p>
     </Fragment>
   </Content>
+
+  <div class="text-center -mt-8 mb-12">
+    <a href="/for-tradies" class="btn btn-primary">See the Tradie Packages →</a>
+  </div>
+
+  <Content
+    items={[
+      {
+        title: 'Booking Front and Centre',
+        description:
+          'Direct integration with Fresha, Treatwell, Booksy or your booking system. One tap from homepage to booked.',
+      },
+      {
+        title: 'Built for Insta Scrollers',
+        description:
+          'Most of your customers find you on Insta. Your site needs to look as good as your work does on the grid.',
+      },
+      {
+        title: 'Live in 7 Working Days',
+        description: 'Fixed price. Fixed timeline. Live before your next quiet week.',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=2344&q=80',
+      alt: 'Modern UK hair salon interior',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        For Hair, Nail & Beauty Salons
+      </h3>
+      <p class="text-muted">
+        Sites that turn Insta scrollers into bookings. Salon Starter from <strong>£249</strong>, Growth from
+        <strong>£499</strong>, Pro for multi-location salons from <strong>£899</strong>.
+      </p>
+    </Fragment>
+  </Content>
+
+  <div class="text-center -mt-8 mb-12">
+    <a href="/for-salons" class="btn btn-primary">See the Salon Packages →</a>
+  </div>
 
   <Features
     tagline="What You Get"
@@ -109,48 +167,29 @@ const metadata = {
       {
         title: 'Ongoing Care',
         description:
-          'Hosting, updates, tweaks — covered. You don\'t touch a thing. Ever. From £50/mo.',
+          "Hosting, updates, tweaks — covered. You don't touch a thing. Ever. From £20/mo.",
         icon: 'tabler:refresh',
       },
     ]}
   />
 
-  <Content
-    items={[
-      {
-        title: 'No Hidden Costs',
-        description:
-          'One price. No surprises. We tell you what it costs upfront and we stick to it. That\'s the deal.',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=2344&q=80',
-      alt: 'Clear pricing',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        Straight Talking. Straight Pricing.
-      </h3>
-    </Fragment>
-  </Content>
-
   <CallToAction
     actions={[
       {
         variant: 'primary',
-        text: 'Get Your Free Quote',
+        text: 'Get a Free Quote',
         href: '/contact',
         icon: 'tabler:mail',
       },
     ]}
   >
     <Fragment slot="title">
-      Ready to Stop Losing Jobs to <span class="text-accent">Worse Tradespeople with Better Websites?</span>
+      Ready to Stop Losing Customers to <span class="text-accent">Worse Businesses with Better Websites?</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      No call centre. Just a conversation. We'll get back to you in an hour. Probably less.
+      Reply with your business name and we'll send you a fixed-price quote within 24 hours. No phone calls
+      unless you want one.
     </Fragment>
   </CallToAction>
 </Layout>
