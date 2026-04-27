@@ -1,0 +1,217 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import Content from '~/components/widgets/Content.astro';
+import Pricing from '~/components/widgets/Pricing.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Steps from '~/components/widgets/Steps.astro';
+
+const metadata = {
+  title: 'Websites for UK Hair, Nail & Beauty Salons | UXHM',
+  description:
+    'Fixed-price websites for UK salons. Booking front and centre. Built for Insta scrollers. Live in 7 working days. From £249.',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="websites for UK salons"
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Get a Free Quote',
+        href: '/contact',
+        icon: 'tabler:mail',
+      },
+      { text: 'See How It Works', href: '#how' },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=2344&q=80',
+      alt: 'Modern UK hair salon interior with stylist working',
+    }}
+  >
+    <Fragment slot="title">
+      Turn Insta Scrollers into <span class="text-accent highlight">Booked Appointments.</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Fixed-price websites for UK <strong>hair, nail & beauty salons</strong>. Booking link on every page,
+      direct integration with Fresha or Treatwell, Insta-grade design. Live in 7 working days. <strong>From £249.</strong>
+    </Fragment>
+  </Hero>
+
+  <Features
+    tagline="Why Salons Choose Us"
+    title="Most Salon Sites Are an Afterthought. Yours Won't Be."
+    subtitle="Your customers find you on Instagram. They want to book in 2 taps. If your site can't deliver that, they bounce."
+    items={[
+      {
+        title: 'Booking Front and Centre',
+        description:
+          'Direct integration with Fresha, Treatwell, Booksy, Square or your existing system. One tap from homepage to booked.',
+        icon: 'tabler:calendar-check',
+      },
+      {
+        title: 'Built for Insta Scrollers',
+        description:
+          'Your customers swipe between Insta and your site 6 times before booking. Yours needs to look as good as the grid.',
+        icon: 'tabler:brand-instagram',
+      },
+      {
+        title: 'Mobile-First Design',
+        description:
+          '95% of salon traffic is mobile. Buttery-smooth on a phone, with thumb-zone CTAs and fast image loads.',
+        icon: 'tabler:device-mobile',
+      },
+      {
+        title: 'Live in 7 Working Days',
+        description:
+          'Fixed price. Fixed timeline. Live before your next quiet week. No endless revisions.',
+        icon: 'tabler:clock',
+      },
+      {
+        title: 'Ranked for "Salon [Your Town]"',
+        description:
+          'Local SEO + Google Business Profile setup so new clients find you searching, not just on Insta.',
+        icon: 'tabler:map-pin',
+      },
+      {
+        title: 'Showcase Your Best Work',
+        description:
+          'Gallery built for hair colour, nail sets, brows, lash sets — the stuff that books the next client.',
+        icon: 'tabler:photo',
+      },
+    ]}
+  />
+
+  <Pricing
+    id="pricing"
+    title="One Price. No Surprises."
+    subtitle="Pick the package that fits. Both go live in 7 working days."
+    prices={[
+      {
+        title: 'Salon Starter Site',
+        subtitle: 'Best for solo stylists & small salons',
+        price: '249',
+        period: 'one-off launch price',
+        items: [
+          { description: '5 pages: home, services & prices, gallery, about, contact' },
+          { description: 'Booking link on every page (Fresha / Treatwell / Booksy)' },
+          { description: 'Mobile-first, Insta-aesthetic design' },
+          { description: 'Google Business Profile setup & optimisation' },
+          { description: 'Local SEO for "[salon type] [your town]"' },
+          { description: 'Live in 7 working days from sign-off' },
+        ],
+        callToAction: {
+          target: '_self',
+          text: 'Get a Free Quote',
+          href: '/contact',
+        },
+      },
+      {
+        title: 'Salon Growth Site',
+        subtitle: 'For salons with multiple stylists or services',
+        price: '499',
+        period: 'one-off launch price',
+        items: [
+          { description: 'Everything in Starter, plus:' },
+          { description: 'Up to 8 pages with treatment-specific landing pages' },
+          { description: 'Stylist/therapist team page with bios' },
+          { description: 'Insta feed embed pulling your latest posts' },
+          { description: 'Google + Treatwell reviews on homepage' },
+          { description: 'Schema markup for local search visibility' },
+        ],
+        callToAction: {
+          target: '_self',
+          text: 'Get a Free Quote',
+          href: '/contact',
+        },
+        hasRibbon: true,
+        ribbonTitle: 'most picked',
+      },
+    ]}
+  />
+
+  <Content
+    items={[
+      {
+        title: 'Essential Care — £20/month',
+        description:
+          'Hosting, weekly backups, security updates, plus 30 minutes of tweaks each month (price changes, new services, holiday hours). Cancel any time. <strong>First month free.</strong>',
+        icon: 'tabler:shield-check',
+      },
+      {
+        title: 'Pro Care — £50/month',
+        description:
+          'Everything in Essential, plus seasonal homepage refresh, review monitoring, monthly performance report, and priority email response.',
+        icon: 'tabler:rocket',
+      },
+    ]}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Optional Care Plans (Most Salons Take One)
+      </h3>
+      <p class="text-muted">
+        Prices change. Stylists join. Treatments get added. You don't touch the website — we update it for you.
+      </p>
+    </Fragment>
+  </Content>
+
+  <Steps
+    id="how"
+    title="How It Works"
+    tagline="7 working days, start to finish"
+    items={[
+      {
+        title: 'Day 1 — Free quote',
+        description:
+          'Reply to your quote, send us 3 things (services list, Insta handle, booking system). 50% deposit. We start the same day.',
+        icon: 'tabler:mail',
+      },
+      {
+        title: 'Day 2-4 — We design',
+        description:
+          'We build the site to match your salon\'s aesthetic. You keep cutting, colouring, glueing lashes. Preview by day 4.',
+        icon: 'tabler:brush',
+      },
+      {
+        title: 'Day 5-6 — One round of tweaks',
+        description:
+          'Tell us what to change in plain English. We change it. No endless revisions.',
+        icon: 'tabler:edit',
+      },
+      {
+        title: 'Day 7 — Live + booking integration tested',
+        description:
+          'Site goes live, booking link tested end-to-end, GBP optimised, final 50% invoice sent. You start getting bookings.',
+        icon: 'tabler:rocket',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2344&q=80',
+      alt: 'Hair stylist colouring a client\'s hair in salon',
+    }}
+  />
+
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Get a Free Quote',
+        href: '/contact',
+        icon: 'tabler:mail',
+      },
+    ]}
+  >
+    <Fragment slot="title">
+      Stop Losing Bookings to <span class="text-accent">Salons with Better Sites.</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Reply with your salon name and Insta handle. We'll send you a fixed-price quote within 24 hours.
+    </Fragment>
+  </CallToAction>
+</Layout>
