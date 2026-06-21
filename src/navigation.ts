@@ -73,20 +73,14 @@ export const footerData = {
       ],
     },
   ],
+  // Only real, working links. Dead "#" social icons were removed — broken links on
+  // your own site hurt trust (especially for a web agency). Add a platform back here
+  // ONLY once you have a live profile URL for it, and make ariaLabel match the icon.
   socialLinks: [
     { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: 'https://www.linkedin.com/company/uxhm/' },
-    { ariaLabel: 'LinkedIn', icon: 'tabler:brand-whatsapp', href: '#' },
-    { ariaLabel: 'Facebook', icon: 'tabler:brand-facebook', href: '#' },
-    { ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: '#' },
-    { ariaLabel: 'TikTok', icon: 'tabler:brand-tiktok', href: '#' },
-    { ariaLabel: 'TikTok', icon: 'tabler:brand-x', href: '#' },
-    { ariaLabel: 'Google', icon: 'tabler:brand-google-maps', href: '#' },
-    { ariaLabel: 'Behance', icon: 'tabler:brand-behance', href: '#' },
-
-
-
+    { ariaLabel: 'Email', icon: 'tabler:mail', href: 'mailto:hello@uxhm.co.uk' },
   ],
   footNote: `
-    <span class="font-bold text-gray-800 dark:text-gray-200">uxhm.co.uk</span> · © 2025 UXHM.&nbsp; All rights reserved.&nbsp; <span class="font-bold text-gray-800 dark:text-gray-200">UXHM</span> is a trading name of <span class="font-bold text-gray-800 dark:text-gray-200">Hira Saeed</span> .
+    <span class="font-bold text-gray-800 dark:text-gray-200">uxhm.co.uk</span> · © ${new Date().getFullYear()} UXHM.&nbsp; All rights reserved.&nbsp; <span class="font-bold text-gray-800 dark:text-gray-200">UXHM</span> is a trading name of <span class="font-bold text-gray-800 dark:text-gray-200">Hira Saeed</span>.
   `,
 };

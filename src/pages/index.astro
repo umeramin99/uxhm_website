@@ -34,9 +34,35 @@ const metadata = {
 
     <Fragment slot="subtitle">
       Fast, fixed-price websites for UK small businesses. Live in 7 working days. <strong>From £249.</strong>
-      No tech jargon. No timeline nightmares.
+      No tech jargon. No timeline nightmares. <strong>You only pay when you love it.</strong>
     </Fragment>
   </Hero>
+
+  <Features
+    columns={4}
+    items={[
+      {
+        title: 'UK-Based',
+        description: 'A real person you can reach — based in the UK, not a faceless template factory.',
+        icon: 'tabler:flag',
+      },
+      {
+        title: 'Live in 7 Working Days',
+        description: 'Fixed timeline. Your site goes live within a week of getting started.',
+        icon: 'tabler:calendar',
+      },
+      {
+        title: 'Fixed Price — No Surprises',
+        description: 'You know the full cost before we start. From £249, no hidden extras.',
+        icon: 'tabler:tag',
+      },
+      {
+        title: 'You Only Pay If You Love It',
+        description: "No risk. You only pay once you're happy with the design.",
+        icon: 'tabler:heart',
+      },
+    ]}
+  />
 
   <Features
     id="industries"
@@ -188,8 +214,8 @@ const metadata = {
     </Fragment>
 
     <Fragment slot="subtitle">
-      Reply with your business name and we'll send you a fixed-price quote within 24 hours. No phone calls
-      unless you want one.
+      Reply with your business name and we'll send you a fixed-price quote within 24 hours.
+      No phone calls unless you want one — and you only pay once you're happy with the design.
     </Fragment>
   </CallToAction>
 </Layout>
