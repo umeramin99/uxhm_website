@@ -167,7 +167,7 @@ import { UI } from 'astrowind:config';
   /* Inspired by: https://github.com/heidkaemper/tailwindcss-intersect */
   const Observer = {
     observer: null,
-    delayBetweenAnimations: 100,
+    delayBetweenAnimations: 50,
     animationCounter: 0,
     elements: null,
 
@@ -256,9 +256,9 @@ import { UI } from 'astrowind:config';
       });
     },
 
-    /* SAFETY NET 1: if IntersectionObserver hasn't revealed in-viewport elements
-       within 700ms (background tab throttling, slow first paint, etc.), reveal
-       them anyway so users never see a blank above-the-fold. */
+    /* SAFETY NET 1: reveal every element currently in the viewport without waiting
+       on the async IntersectionObserver callback or the stagger queue. Called
+       immediately on load so above-the-fold text paints as fast as the images. */
     revealInViewportFallback() {
       if (!this.elements) return;
       const vh = window.innerHeight || 0;
@@ -276,7 +276,7 @@ import { UI } from 'astrowind:config';
       });
     },
 
-    /* SAFETY NET 2: at 1.5s, reveal EVERY remaining stuck element regardless of
+    /* SAFETY NET 2: at 1.2s, reveal EVERY remaining stuck element regardless of
        viewport position. Trades off the scroll-to-fade aesthetic for guaranteed
        content visibility. Critical for users who think the page is broken when
        below-the-fold sections don't appear. */
@@ -294,8 +294,18 @@ import { UI } from 'astrowind:config';
   };
 
   Observer.start();
-  setTimeout(() => Observer.revealInViewportFallback(), 700);
-  setTimeout(() => Observer.revealAllFallback(), 500);
+
+  // Reveal above-the-fold content immediately so text paints as fast as the
+  // images — no waiting on the async IntersectionObserver callback or the stagger
+  // queue. Runs now, then again next frame once layout has settled.
+  Observer.revealInViewportFallback();
+  requestAnimationFrame(() => Observer.revealInViewportFallback());
+
+  // Safety nets for elements the observer never fired on (anchor jumps,
+  // background-tab throttling): re-check the viewport early, then reveal anything
+  // still hidden so no section can stay blank.
+  setTimeout(() => Observer.revealInViewportFallback(), 300);
+  setTimeout(() => Observer.revealAllFallback(), 1200);
 
   document.addEventListener('astro:after-swap', () => {
     Observer.start();

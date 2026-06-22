@@ -2,7 +2,6 @@
 import { Icon } from 'astro-icon/components';
 import { SITE } from 'astrowind:config';
 import { getHomePermalink } from '~/utils/permalinks';
-import Image from '~/components/common/Image.astro';
 
 // Import the Logo Files
 import logoLight from '~/assets/images/logo-light.png';
@@ -129,9 +128,6 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
           <Fragment set:html={footNote} />
         </span>
       </div>
-    </div>
-  </div>
-</footer>
     </div>
   </div>
 </footer>
