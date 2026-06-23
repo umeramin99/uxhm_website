@@ -60,7 +60,7 @@
     script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
     document.head.appendChild(script);
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+    function gtag(...args) { dataLayer.push(args); }
     gtag('js', new Date());
     gtag('config', GA_MEASUREMENT_ID, { anonymize_ip: true });
   }
@@ -80,7 +80,7 @@
             window.zaraz.consent.sendQueuedEvents();
           }
         }
-      } catch (_) { /* never block UX on Zaraz errors */ }
+      } catch { /* never block UX on Zaraz errors */ }
     }
     if (window.zaraz && window.zaraz.consent) {
       apply();
@@ -112,7 +112,7 @@
 
   /* --- Initial state --- */
   let consent = null;
-  try { consent = localStorage.getItem(STORAGE_KEY); } catch (_) { /* SSR / private mode */ }
+  try { consent = localStorage.getItem(STORAGE_KEY); } catch { /* SSR / private mode */ }
 
   if (consent === 'true') {
     loadGoogleAnalytics();
@@ -128,7 +128,7 @@
   /* --- Button handlers --- */
   if (acceptBtn) {
     acceptBtn.addEventListener('click', () => {
-      try { localStorage.setItem(STORAGE_KEY, 'true'); } catch (_) {}
+      try { localStorage.setItem(STORAGE_KEY, 'true'); } catch { /* ignore */ }
       hideBanner();
       loadGoogleAnalytics();
       setZarazConsent(true);
@@ -137,7 +137,7 @@
 
   if (rejectBtn) {
     rejectBtn.addEventListener('click', () => {
-      try { localStorage.setItem(STORAGE_KEY, 'false'); } catch (_) {}
+      try { localStorage.setItem(STORAGE_KEY, 'false'); } catch { /* ignore */ }
       hideBanner();
       setZarazConsent(false);
     });

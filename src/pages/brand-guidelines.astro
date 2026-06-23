@@ -194,7 +194,6 @@ const colors = [
         if (!hex) return;
         try {
           await copy(hex);
-          const prev = btn.getAttribute('data-copied-prev') || '';
           btn.setAttribute('data-copied-prev', btn.innerText);
           // Small, non-intrusive feedback
           btn.querySelectorAll('.font-mono').forEach((el) => (el.textContent = `${hex} ✓ copied`));
