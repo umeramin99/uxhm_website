@@ -167,7 +167,7 @@ const metadata = {
 
         alert('Thanks — your audit request was received. We’ll email you within 24–48 hours.');
         form.reset();
-      } catch (err) {
+      } catch {
         // fallback: open mailto if API submission fails
         const subject = `Free audit request — ${business || 'Nottingham plumber'}`;
         const lines = [
