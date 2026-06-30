@@ -10,7 +10,7 @@ tags:
   - Mobile Optimization
   - Business Strategy
 metadata:
-  canonical: https://www.uxhm.co.uk/5-signs-website-losing-money
+  canonical: https://uxhm.co.uk/5-signs-website-losing-money
   description: Learn the hidden technical red flags that kill conversions. UXHM explains why speed and mobile optimization are crucial for UK sole traders in 2026.
 ---
 

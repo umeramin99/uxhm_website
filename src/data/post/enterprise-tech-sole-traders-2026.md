@@ -10,7 +10,7 @@ tags:
   - 2026 Trends
   - Web Performance
 metadata:
-  canonical: https://www.uxhm.co.uk/enterprise-tech-sole-traders-2026
+  canonical: https://uxhm.co.uk/enterprise-tech-sole-traders-2026
   description: Local UK businesses need more than just a website in 2026. Discover how UXHM brings enterprise-level web tech to sole traders at affordable prices.
 ---
 
