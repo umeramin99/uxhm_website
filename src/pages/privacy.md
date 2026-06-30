@@ -17,7 +17,7 @@ For the purposes of data protection laws, the Data Controller is **UXHM**.
 
 * **Location:** Nottingham, United Kingdom
 * **Email:** hello@uxhm.co.uk
-* **Website:** www.uxhm.co.uk
+* **Website:** uxhm.co.uk
 
 ## 3. The Data We Collect
 

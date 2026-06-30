@@ -10,7 +10,7 @@ tags:
   - Risk Management
   - Web Strategy
 metadata:
-  canonical: https://www.uxhm.co.uk/social-media-trap-2026
+  canonical: https://uxhm.co.uk/rented-land-trap-social-media
   description: Relying solely on Facebook or Instagram is dangerous in 2026. UXHM explains why owning your platform is the only way to secure your business future.
 ---
 

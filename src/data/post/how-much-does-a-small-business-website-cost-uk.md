@@ -11,7 +11,7 @@ tags:
   - Fixed Price
   - Website
 metadata:
-  canonical: https://www.uxhm.co.uk/how-much-does-a-small-business-website-cost-uk
+  canonical: https://uxhm.co.uk/how-much-does-a-small-business-website-cost-uk
   description: An honest UK guide to small business website costs. Real price ranges for DIY builders, freelancers and agencies, what actually drives the price, hidden ongoing costs, and how fixed-price quotes work.
 ---
 
