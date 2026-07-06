@@ -1,5 +1,6 @@
 ---
 title: 'Privacy Policy'
+description: 'How UXHM collects, uses, and protects your personal data under UK GDPR and the Data Protection Act 2018.'
 layout: '~/layouts/MarkdownLayout.astro'
 ---
 
