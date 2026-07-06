@@ -1,5 +1,6 @@
 ---
 title: 'TERMS AND CONDITIONS OF BUSINESS'
+description: 'The terms and conditions governing UXHM web design, development, and maintenance services for UK small businesses.'
 layout: '~/layouts/MarkdownLayout.astro'
 ---
 

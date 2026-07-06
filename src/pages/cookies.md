@@ -1,5 +1,6 @@
 ---
 title: Cookie Policy
+description: 'How UXHM uses cookies on our website, the types we use, and how you can manage your cookie preferences.'
 layout: '~/layouts/MarkdownLayout.astro'
 ---
 
