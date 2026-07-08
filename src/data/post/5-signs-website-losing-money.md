@@ -82,4 +82,4 @@ Don't let a slow website be the reason you lose a job.
 
 ### Book a Performance Audit with UXHM
 
-Let's identify what's costing you money and fix it.
+Let's identify what's costing you money and fix it. [Get a fixed-price quote](/contact) and we'll show you exactly where your website is leaking work — and how to plug the gaps.
