@@ -80,4 +80,8 @@ At UXHM, we build "Hubs" that are designed to capture the traffic you generate o
 
 ### Ready to own your land?
 
-Start Building Your Digital Fortress today and stop relying on algorithms you can't control.
+Start building your digital fortress today and stop relying on algorithms you can't control.
+
+**[Get a fixed-price quote →](/contact)**
+
+Tell us about your business and we’ll give you a clear, fixed price for a fast website you actually own.
