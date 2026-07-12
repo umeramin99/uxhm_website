@@ -85,3 +85,7 @@ Ready to stop playing catch-up?
 ### Ready for a Change?
 
 Get a free strategy call with UXHM and discover how enterprise-level web technology can transform your business in 2026.
+
+**[Get a fixed-price quote →](/contact)**
+
+Tell us about your business and we’ll give you a clear, fixed price — no monthly lock-ins, no surprises.
