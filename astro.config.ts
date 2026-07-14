@@ -30,7 +30,13 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false,
     }),
-    sitemap(),
+    sitemap({
+      // Keep noindex URLs out of the sitemap so we don't send Google mixed
+      // signals ("index this" in the sitemap vs. `noindex` in the page head).
+      // Tag archives are noindex (see config.yaml apps.blog.tag.robots), and
+      // only page 1 of the blog list is indexed — /blog/2, /blog/3, ... are not.
+      filter: (page) => !page.includes('/tag/') && !/\/blog\/\d+\/?$/.test(page),
+    }),
     mdx(),
     icon({
       include: {
