@@ -25,6 +25,8 @@ const currentPage = page.currentPage ?? 1;
 
 const metadata = {
   title: `Blog${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
+  description:
+    'Practical, jargon-free web advice for UK small businesses — what a website really costs, local SEO, and how to win more customers from Google.',
   robots: {
     index: blogListRobots?.index && currentPage === 1,
     follow: blogListRobots?.follow,
