@@ -33,7 +33,7 @@ You can control and manage cookies in various ways. Please keep in mind that rem
 
 Or use this link:
 
-<a href="#" onclick="if (window.zaraz && typeof window.zaraz.showConsent === 'function') { window.zaraz.showConsent(); } return false;">Update Cookie Preferences</a>
+<button type="button" class="text-primary underline cursor-pointer" onclick="if (window.zaraz && typeof window.zaraz.showConsent === 'function') { window.zaraz.showConsent(); }">Update Cookie Preferences</button>
 
 ## 4. Contact Us
 
