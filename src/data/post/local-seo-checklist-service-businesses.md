@@ -188,6 +188,13 @@ If you want, we can send you a **free 1‑page Quick Wins Audit (PDF)** showing 
 
 Request it here:
 
-**https://uxhm.co.uk/nottingham-plumber-website-audit**
+**[Request your free Quick Wins Audit →](/nottingham-plumber-website-audit)**
 
 (If you’re not a plumber, reply to the email and tell us your industry — we’ll adapt the audit.)
+
+---
+
+## Get a fixed-price quote
+Want the fixes done for you instead? Tell us about your business and we’ll give you a **clear, fixed price** for a fast, professional website — no monthly lock-ins, no surprises.
+
+**[Get a fixed-price quote →](/contact)**
