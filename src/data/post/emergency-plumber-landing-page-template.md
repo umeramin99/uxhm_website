@@ -148,6 +148,13 @@ If you want, we’ll send you a **free 1‑page Quick Wins Audit (PDF)**.
 
 Request it here:
 
-**https://uxhm.co.uk/nottingham-plumber-website-audit**
+**[Request your free Quick Wins Audit →](/nottingham-plumber-website-audit)**
 
 If you want us to implement the improvements, we can build a new plumber website in **7 days**.
+
+---
+
+## Get a fixed-price quote
+Ready to turn your website into a phone that keeps ringing? Tell us about your business and we’ll give you a **clear, fixed price** — no monthly lock-ins, no surprises.
+
+**[Get a fixed-price quote →](/contact)**
