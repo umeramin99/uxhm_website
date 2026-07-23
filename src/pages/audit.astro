@@ -25,27 +25,35 @@ const metadata = {
 
       <form id="auditForm" class="mt-6 grid gap-4">
         <div>
-          <label class="mb-2 block text-sm font-semibold text-gray-900 dark:text-slate-100">Website URL</label>
+          <label for="audit-url" class="mb-2 block text-sm font-semibold text-gray-900 dark:text-slate-100"
+            >Website URL</label
+          >
           <input
             class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--aw-color-primary)] dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+            id="audit-url"
             type="url"
             name="url"
             placeholder="https://example.com"
+            aria-describedby="audit-url-hint"
             required
           />
-          <div class="mt-2 text-xs text-muted">Tip: include https://</div>
+          <div id="audit-url-hint" class="mt-2 text-xs text-muted">Tip: include https://</div>
         </div>
 
         <div>
-          <label class="mb-2 block text-sm font-semibold text-gray-900 dark:text-slate-100">Email (to send PDF report)</label>
+          <label for="audit-email" class="mb-2 block text-sm font-semibold text-gray-900 dark:text-slate-100"
+            >Email (to send PDF report)</label
+          >
           <input
             class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--aw-color-primary)] dark:border-slate-700 dark:bg-slate-950 dark:text-white"
+            id="audit-email"
             type="email"
             name="email"
             placeholder="you@business.co.uk"
+            aria-describedby="audit-email-hint"
             required
           />
-          <div class="mt-2 text-xs text-muted">We only use this to send the report. No spam.</div>
+          <div id="audit-email-hint" class="mt-2 text-xs text-muted">We only use this to send the report. No spam.</div>
         </div>
 
         <button type="submit" class="btn btn-primary w-full">Get Free Audit</button>
